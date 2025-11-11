@@ -72,7 +72,6 @@ with left:
             )
             
 # ---------- Answer box & submit ----------
-ans = st.text_area("Your answer", key="answer_box", placeholder="Type and press Submit…")
 submit = st.button("Submit answer")
 bonus = st.button("Bonus (optional)", disabled=not state.bonus_ok())
 
