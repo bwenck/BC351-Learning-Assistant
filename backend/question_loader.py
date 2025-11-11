@@ -218,16 +218,16 @@ def next_pointer(bundle: ModuleBundle, ptr: QuestionPointer) -> Optional[Questio
         return QuestionPointer(qi, 0 if first_count > 0 else 0)
     return None
 
-# ---------- Empty bundle helper for initial state ----------
-
-@staticmethod
-def empty() -> "ModuleBundle":
-    """Return a placeholder module bundle with no questions yet."""
+# ✅ Provide empty bundle for TutorState startup
+def _empty_bundle() -> ModuleBundle:
     return ModuleBundle(
         module_id="none",
         title="No module loaded",
-        questions=[{"q": "(no questions loaded)", "parts": []}],
+        questions=[{"q": "(session not started yet)", "parts": []}],
         answers=[[]],
         notes=[],
         diagrams={}
     )
+
+# ✅ Attach to ModuleBundle class so existing code works
+ModuleBundle.empty = staticmethod(_empty_bundle)
