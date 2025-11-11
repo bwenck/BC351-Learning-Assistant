@@ -127,17 +127,23 @@ with left:
 if submit and ans.strip():
     st.session_state.messages.append(("student", ans.strip()))
 
-    # Socratic follow-up — using your backend signature (5 args)
-    follow = socratic_followup(
-        state.bundle.title,        # module context name (like before)
-        state.ptr.qi,              # question index
-        state.bundle.question_text(state.ptr),  # question stem/subpart
-        ans.strip(),               # student answer
-        state.bundle.context_snips_for(state.ptr)  # safe context
-    )
+    q_text = state.bundle.question_text(state.ptr)
+    context = state.bundle.context_snips_for(state.ptr)
 
-    st.session_state.messages.append(("tutor", follow or "Interesting — tell me more about that?"))
+    # Correct call order: (question, answer, context)
+    try:
+        follow = socratic_followup(
+            q_text,        # actual question text
+            ans.strip(),   # student answer
+            context        # safe context snippets
+        )
+    except Exception as e:
+        follow = None
 
+    if not follow or follow.strip() == "":
+        follow = "What normally keeps this process controlled in healthy cells?"
+
+    st.session_state.messages.append(("tutor", follow))
     st.session_state.clear_box = True
     st.rerun()
 
