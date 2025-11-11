@@ -1,60 +1,95 @@
+from dataclasses import dataclass
 from pathlib import Path
-import json
-
-#############################################
-# Utility: read file lines safely
-#############################################
-def _read_lines(path: Path):
-    if not path.exists():
-        return []
-    with open(path, "r", encoding="utf-8") as f:
-        return [ln.strip() for ln in f if ln.strip()]
+from functools import lru_cache
+from typing import List, Optional, Dict, Any
 
 
-#############################################
-# Load all module content
-#############################################
-def load_module(module_id: str):
-    """
-    Load questions, answers, notes, diagrams for a module folder.
-    Module must contain:
-      <module_id>_questions.txt
-      <module_id>_answers.txt
-      <module_id>_notes.txt       (optional)
-      <module_id>_diagrams.json   (optional)
-    """
-    mdir = Path("modules") / module_id
+##########################################
+# Data structures the app expects
+##########################################
 
-    # File paths based on module_id naming convention
+@dataclass
+class QuestionPointer:
+    q_index: int       # 0-based question index
+    sub_index: int     # 0-based part index (-1 = main question only)
+
+
+@dataclass
+class ModuleBundle:
+    module_id: str
+    questions: List[Dict[str, Any]]     # parsed Q structure
+    answers: List[str]
+    notes: str
+
+
+##########################################
+# Question Parser — supports a/b/c subparts
+##########################################
+
+def parse_questions(raw: str) -> List[Dict[str, Any]]:
+    questions = []
+    current_q = None
+
+    for line in raw.splitlines():
+        line = line.strip()
+        if not line:
+            continue
+
+        # Detect "1." or "2)" question format
+        if line[0].isdigit() and ("." in line[:3] or ")" in line[:3]):
+            if current_q:
+                questions.append(current_q)
+            current_q = {"q": line, "parts": []}
+            continue
+
+        # Detect subparts like "a)" or "b."
+        if current_q and (
+            line.lower().startswith("a)") or line.lower().startswith("b)") or
+            line.lower().startswith("c)") or line.lower().startswith("d)")
+        ):
+            current_q["parts"].append(line)
+        else:
+            # Append continuation text
+            if current_q:
+                if current_q["parts"]:
+                    current_q["parts"][-1] += " " + line
+                else:
+                    current_q["q"] += " " + line
+
+    if current_q:
+        questions.append(current_q)
+
+    return questions
+
+
+##########################################
+# File loader for module questions/answers
+##########################################
+
+@lru_cache(maxsize=8)
+def load_module_bundle(module_id: str) -> ModuleBundle:
+    """Loads a module's question, answer and notes files."""
+    mdir = Path(f"modules/{module_id}")
+
     q_file = mdir / f"{module_id}_questions.txt"
     a_file = mdir / f"{module_id}_answers.txt"
     n_file = mdir / f"{module_id}_notes.txt"
-    d_file = mdir / f"{module_id}_diagrams.json"
 
-    # Load content
-    q_lines = _read_lines(q_file)
-    a_lines = _read_lines(a_file)
-    notes = _read_lines(n_file) if n_file.exists() else []
-    diagrams = {}
+    if not q_file.exists():
+        raise FileNotFoundError(f"❌ Missing question file: {q_file}")
 
-    if d_file.exists():
-        with open(d_file, "r", encoding="utf-8") as f:
-            diagrams = json.load(f)
+    raw_q = q_file.read_text()
+    questions = parse_questions(raw_q)
 
-    # Safety checks
-    if not q_lines:
-        print(f"❌ ERROR: No questions found in {q_file}")
-        return None
+    if not questions:
+        raise ValueError(f"❌ No questions parsed in {q_file}")
 
-    if not a_lines:
-        print(f"⚠️ WARNING: No answers found in {a_file} — tutor will not have solution reference")
+    raw_answers = a_file.read_text() if a_file.exists() else ""
+    notes = n_file.read_text() if n_file.exists() else ""
 
-    # Package module data
-    return {
-        "id": module_id,
-        "questions": q_lines,
-        "answers": a_lines,
-        "notes": notes,
-        "diagrams": diagrams,
-        "path": mdir,
-    }
+    return ModuleBundle(
+        module_id=module_id,
+        questions=questions,
+        answers=raw_answers.splitlines(),
+        notes=notes
+    )
