@@ -56,17 +56,21 @@ if "clear_box" in st.session_state and st.session_state.clear_box:
     st.session_state.answer_box = ""
     st.session_state.clear_box = False
 
-# ---------- Chat window ----------
-chat = st.container()
-with chat:
-    for role, msg in st.session_state.messages:
-        cls = "bubble-tutor" if role=="tutor" else "bubble-student"
-        who = "🧠 Tutor" if role=="tutor" else f"🟢 {state.student}"
-        st.markdown(
-            f"<div class='chat-bubble {cls}'><b>{who}</b><br>{msg}</div>",
-            unsafe_allow_html=True
-        )
+# ✅ define layout columns (left = chat, right = diagrams)
+left, right = st.columns([2,1])
 
+# ---------- Chat window ----------
+with left:
+    chat = st.container()
+    with chat:
+        for role, msg in st.session_state.messages:
+            cls = "bubble-tutor" if role=="tutor" else "bubble-student"
+            who = "🧠 Tutor" if role=="tutor" else f"🟢 {state.student}"
+            st.markdown(
+                f"<div class='chat-bubble {cls}'><b>{who}</b><br>{msg}</div>",
+                unsafe_allow_html=True
+            )
+            
 # ---------- Answer box & submit ----------
 ans = st.text_area("Your answer", key="answer_box", placeholder="Type and press Submit…")
 submit = st.button("Submit answer")
