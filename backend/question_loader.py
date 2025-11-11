@@ -1,95 +1,219 @@
+# backend/question_loader.py
 from dataclasses import dataclass
 from pathlib import Path
 from functools import lru_cache
 from typing import List, Optional, Dict, Any
+import json
 
 
-##########################################
-# Data structures the app expects
-##########################################
+# ---------- Data structures expected by the app ----------
 
 @dataclass
 class QuestionPointer:
-    q_index: int       # 0-based question index
-    sub_index: int     # 0-based part index (-1 = main question only)
+    """Pointer to a specific subpart of a question (0-based)."""
+    qi: int          # question index
+    si: int          # subpart index (0 = first subpart). If a question has no subparts, si is always 0.
 
 
 @dataclass
 class ModuleBundle:
+    """All content for a module, plus helper methods used by the UI."""
     module_id: str
-    questions: List[Dict[str, Any]]     # parsed Q structure
-    answers: List[str]
-    notes: str
+    title: str
+    questions: List[Dict[str, Any]]   # [{"q": str, "parts": [str, ...]}, ...]
+    answers: List[List[str]]          # parallel to questions (optional)
+    notes: List[str]                  # extra context or metadata
+    diagrams: Dict[str, Any]          # optional diagrams.json contents
+
+    # --- Helpers the UI calls ---
+
+    def question_text(self, ptr: QuestionPointer) -> str:
+        """Return the display text for the current subpart (or the main stem if no subparts)."""
+        q = self.questions[ptr.qi]
+        parts: List[str] = q.get("parts", [])
+        if parts:
+            # subparts exist; clamp si
+            si = max(0, min(ptr.si, len(parts) - 1))
+            body = parts[si].strip()
+            # strip leading "a)"/"b)" if present for cleaner UI
+            if len(body) > 2 and body[1] == ')' and body[0].isalpha():
+                body = body[2:].strip()
+            label = f"{ptr.qi+1}{chr(97+si)}) "
+            return label + body
+        else:
+            stem = q["q"].strip()
+            # strip "1." / "2)" etc from the stem
+            while stem and (stem[0].isdigit() or stem[0] in ")."):
+                stem = stem[1:].lstrip()
+            return f"{ptr.qi+1}) " + (stem or "(empty)")
+
+    def subparts_count(self, qi: int) -> int:
+        """Return number of subparts for question qi (0 if none). For UI we use max(1, count)."""
+        if qi < 0 or qi >= len(self.questions):
+            return 1
+        parts = self.questions[qi].get("parts", [])
+        return max(1, len(parts))  # ensure at least 1 step per question
+
+    def context_snips_for(self, ptr: QuestionPointer, k: int = 3) -> List[str]:
+        """Short, safe snippets from nearby questions (never answers)."""
+        snips: List[str] = []
+        for off in range(-1, 2):
+            idx = ptr.qi + off
+            if 0 <= idx < len(self.questions):
+                q = self.questions[idx]
+                # combine stem + first subpart if present
+                stem = q.get("q", "")
+                part0 = (q.get("parts") or [""])[0]
+                snippet = (stem + " " + part0).strip()[:160]
+                if snippet:
+                    snips.append(snippet)
+        return snips
+
+    def bonus_question(self) -> Optional[str]:
+        """Look for a bonus question in diagrams.json or notes (line starting with 'BONUS:')."""
+        b = self.diagrams.get("bonus_question") if isinstance(self.diagrams, dict) else None
+        if isinstance(b, str) and b.strip():
+            return b.strip()
+        for line in reversed(self.notes or []):
+            if line.strip().lower().startswith("bonus:"):
+                return line.split(":", 1)[1].strip()
+        return None
 
 
-##########################################
-# Question Parser — supports a/b/c subparts
-##########################################
+# ---------- Parsing & loading ----------
 
-def parse_questions(raw: str) -> List[Dict[str, Any]]:
-    questions = []
-    current_q = None
+def _read_lines(path: Path) -> List[str]:
+    if not path.exists():
+        return []
+    return [ln.strip() for ln in path.read_text(encoding="utf-8").splitlines() if ln.strip()]
 
-    for line in raw.splitlines():
-        line = line.strip()
+def _parse_qa_lines(lines: List[str]) -> List[Dict[str, Any]]:
+    """
+    Parse text into a list of {"q": stem, "parts": [subparts]}.
+    Stem line starts with "1."/"2)" etc. Subparts start with "a)"/"b)"/"c)".
+    Continuation lines are appended to the last segment.
+    """
+    out: List[Dict[str, Any]] = []
+    current: Optional[Dict[str, Any]] = None
+
+    def is_q(line: str) -> bool:
+        return bool(line and line[0].isdigit() and (("." in line[:3]) or (")" in line[:3])))
+
+    def is_sub(line: str) -> bool:
+        if len(line) < 2:
+            return False
+        a = line[:2].lower()
+        return a in ("a)", "b)", "c)", "d)", "e)", "f)")
+
+    for raw in lines:
+        line = raw.strip()
         if not line:
             continue
-
-        # Detect "1." or "2)" question format
-        if line[0].isdigit() and ("." in line[:3] or ")" in line[:3]):
-            if current_q:
-                questions.append(current_q)
-            current_q = {"q": line, "parts": []}
-            continue
-
-        # Detect subparts like "a)" or "b."
-        if current_q and (
-            line.lower().startswith("a)") or line.lower().startswith("b)") or
-            line.lower().startswith("c)") or line.lower().startswith("d)")
-        ):
-            current_q["parts"].append(line)
+        if is_q(line):
+            if current:
+                out.append(current)
+            current = {"q": line, "parts": []}
+        elif current and is_sub(line):
+            current["parts"].append(line)
+        elif current:
+            # continuation
+            if current["parts"]:
+                current["parts"][-1] = (current["parts"][-1] + " " + line).strip()
+            else:
+                current["q"] = (current["q"] + " " + line).strip()
         else:
-            # Append continuation text
-            if current_q:
-                if current_q["parts"]:
-                    current_q["parts"][-1] += " " + line
-                else:
-                    current_q["q"] += " " + line
+            # orphan line before first question — start a synthetic question
+            current = {"q": line, "parts": []}
 
-    if current_q:
-        questions.append(current_q)
-
-    return questions
+    if current:
+        out.append(current)
+    return out
 
 
-##########################################
-# File loader for module questions/answers
-##########################################
-
-@lru_cache(maxsize=8)
+@lru_cache(maxsize=16)
 def load_module_bundle(module_id: str) -> ModuleBundle:
-    """Loads a module's question, answer and notes files."""
-    mdir = Path(f"modules/{module_id}")
+    """
+    Load module content using your naming convention:
+      modules/<module_id>/<module_id>_questions.txt
+      modules/<module_id>/<module_id>_answers.txt
+      modules/<module_id>/<module_id>_notes.txt       (optional)
+      modules/<module_id>/<module_id>_diagrams.json   (optional)
+      modules/<module_id>/images/                     (optional)
+    """
+    mdir = Path("modules") / module_id
+    if not mdir.exists():
+        raise FileNotFoundError(f"Module folder not found: {mdir}")
 
     q_file = mdir / f"{module_id}_questions.txt"
     a_file = mdir / f"{module_id}_answers.txt"
     n_file = mdir / f"{module_id}_notes.txt"
+    d_file = mdir / f"{module_id}_diagrams.json"
+    t_file = mdir / "title.txt"  # optional human-friendly title
 
-    if not q_file.exists():
-        raise FileNotFoundError(f"❌ Missing question file: {q_file}")
+    q_lines = _read_lines(q_file)
+    if not q_lines:
+        raise ValueError(f"❌ No questions found for module '{module_id}'. Check {q_file.name}")
 
-    raw_q = q_file.read_text()
-    questions = parse_questions(raw_q)
+    questions = _parse_qa_lines(q_lines)
 
-    if not questions:
-        raise ValueError(f"❌ No questions parsed in {q_file}")
+    # answers parallel format is optional; if not structured, keep simple lists
+    a_lines = _read_lines(a_file)
+    # group answers in the same number of questions (best effort)
+    answers_grouped: List[List[str]] = []
+    if a_lines:
+        # simple grouping: split by blank lines (or "1.", "2.)" headings if present)
+        current: List[str] = []
+        for ln in a_lines:
+            if ln and ln[0].isdigit() and (("." in ln[:3]) or (")" in ln[:3])):
+                if current:
+                    answers_grouped.append(current)
+                    current = []
+                current = [ln]
+            else:
+                current.append(ln)
+        if current:
+            answers_grouped.append(current)
+        # pad or trim to match question count
+        while len(answers_grouped) < len(questions):
+            answers_grouped.append([])
+        if len(answers_grouped) > len(questions):
+            answers_grouped = answers_grouped[:len(questions)]
+    else:
+        answers_grouped = [[] for _ in questions]
 
-    raw_answers = a_file.read_text() if a_file.exists() else ""
-    notes = n_file.read_text() if n_file.exists() else ""
+    notes = _read_lines(n_file)
+    diagrams: Dict[str, Any] = {}
+    if d_file.exists():
+        try:
+            diagrams = json.loads(d_file.read_text(encoding="utf-8"))
+        except Exception:
+            diagrams = {}
+
+    title = t_file.read_text(encoding="utf-8").strip() if t_file.exists() else module_id
 
     return ModuleBundle(
         module_id=module_id,
+        title=title,
         questions=questions,
-        answers=raw_answers.splitlines(),
-        notes=notes
+        answers=answers_grouped,
+        notes=notes,
+        diagrams=diagrams,
     )
+
+
+# ---------- Navigation helper the UI imports ----------
+
+def next_pointer(bundle: ModuleBundle, ptr: QuestionPointer) -> Optional[QuestionPointer]:
+    """Advance to next subpart; if none, move to next question; return None at end."""
+    qi, si = ptr.qi, ptr.si
+    count = bundle.subparts_count(qi)
+    si += 1
+    if si < count:
+        return QuestionPointer(qi, si)
+    # next question
+    qi += 1
+    if qi < len(bundle.questions):
+        # start at first subpart if any; else 0
+        first_count = bundle.subparts_count(qi)
+        return QuestionPointer(qi, 0 if first_count > 0 else 0)
+    return None
