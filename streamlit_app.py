@@ -150,7 +150,7 @@ if do_submit and ans.strip():
     # append student answer
     st.session_state.messages.append(("student", ans.strip()))
     # clear input (Streamlit trick)
-    st.session_state.answer_box = ""
+    st.session_state.pop("answer_box", None)
     # generate Socratic question
     ask_socratic(ans.strip())
 
