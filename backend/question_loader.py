@@ -110,25 +110,35 @@ def _parse_qa_lines(lines: List[str]) -> List[Dict[str, Any]]:
     def is_sub(line: str) -> bool:
         return bool(_SUB_LINE.match(line))
 
+    # Skip header lines until first question
+    started = False
+
     for raw in lines:
         line = raw.strip()
         if not line:
             continue
+
         if is_q(line):
-            if cur:
-                out.append(cur)
-            cur = {"q": line, "parts": []}
-        elif cur and is_sub(line):
-            cur["parts"].append(line)
-        elif cur:
-            # continuation
-            if cur["parts"]:
-                cur["parts"][-1] = (cur["parts"][-1] + " " + line).strip()
+            started = True
+            if current:
+                out.append(current)
+            current = {"q": line, "parts": []}
+            continue
+
+        # ignore lines before first real question
+        if not started:
+            continue
+
+        if current and is_sub(line):
+            current["parts"].append(line)
+        elif current:
+            # continuation of last part or question text
+            if current["parts"]:
+                current["parts"][-1] = (current["parts"][-1] + " " + line).strip()
             else:
-                cur["q"] = (cur["q"] + " " + line).strip()
+                current["q"] = (current["q"] + " " + line).strip()
         else:
-            # orphan before first question
-            cur = {"q": line, "parts": []}
+            current = {"q": line, "parts": []}
 
     if cur:
         out.append(cur)
