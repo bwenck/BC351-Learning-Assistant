@@ -21,6 +21,8 @@ st.set_page_config(
     layout="wide"
 )
 
+st.warning("🚧 Development Build — features may change")
+
 # -------------------------------------------------------
 # Safe reset of the answer box BEFORE rendering widgets
 # -------------------------------------------------------
