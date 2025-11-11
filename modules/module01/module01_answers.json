@@ -1,0 +1,58 @@
+{
+  "1": {
+    "key_concepts": [
+      "Cancer is uncontrolled cell proliferation",
+      "Normal growth regulation is lost",
+      "Changes arise from mutations",
+      "Leads to formation of tumors or cell masses"
+    ],
+    "followups": [
+      "What normally controls cell growth in healthy tissues?",
+      "How do mutations influence cell proliferation?",
+      "Why do cells divide uncontrollably in cancer?",
+      "How do tumors form from a single altered cell?"
+    ],
+    "encouragement": [
+      "Nice start — think about what keeps cell division regulated.",
+      "You're on the right track — what role do mutations play?",
+      "Good thinking — consider how one altered cell can expand.",
+      "Doing great — try connecting mutations to loss of control."
+    ]
+  },
+
+  "2": {
+    "key_concepts": [
+      "Histological and tissue-origin classification",
+      "Cancers classified by cell or tissue type",
+      "Examples include epithelial, connective, nervous tissue origins"
+    ],
+    "followups": [
+      "What is one way cancers can be grouped by the tissue they come from?",
+      "How does origin of tissue influence cancer classification?",
+      "What is an example of a cancer classified by cell type?"
+    ],
+    "encouragement": [
+      "Think about what type of tissue the cancer started in.",
+      "You're close — try naming a tissue origin.",
+      "Good progress — how does the starting tissue matter?"
+    ]
+  },
+
+  "3": {
+    "key_concepts": [
+      "Benign tumors do not invade surrounding tissue",
+      "Malignant tumors invade and can metastasize",
+      "Malignant tumors spread to distant sites"
+    ],
+    "followups": [
+      "How do benign and malignant tumors differ in behavior?",
+      "What does metastasis mean?",
+      "Why is invasion important in distinguishing tumor types?"
+    ],
+    "encouragement": [
+      "That's a good start — consider tissue invasion.",
+      "You're close — think about spreading to other tissues.",
+      "Good effort — what makes malignant tumors dangerous?"
+    ]
+  }
+}
