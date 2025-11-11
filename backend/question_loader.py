@@ -122,9 +122,15 @@ def _parse_qa_lines(lines: List[str]) -> List[Dict[str, Any]]:
             else:
                 current["q"] = (current["q"] + " " + line).strip()
         else:
-            # orphan line before first question — start a synthetic question
-            current = {"q": line, "parts": []}
-
+            # Skip header text before the first numbered question
+            if current is None:
+                continue
+            # continuation
+            if current["parts"]:
+                current["parts"][-1] = (current["parts"][-1] + " " + line).strip()
+            else:
+                current["q"] = (current["q"] + " " + line).strip()
+                
     if current:
         out.append(current)
     return out
