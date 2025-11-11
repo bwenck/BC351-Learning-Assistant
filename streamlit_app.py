@@ -115,7 +115,12 @@ with left:
     submit = st.button("Submit answer ✅")
     skip = st.button("Skip / Next Question ⏭️")
     bonus = st.button("Bonus (optional)")
-
+    # --- Skip Question Logic ---
+    if skip:
+        state.ptr = next_pointer(state.bundle, state.ptr)
+        st.session_state.messages.append(("tutor", "No worries — let's keep going! 🚀"))
+        st.session_state.clear_box = True
+        st.rerun()
 
     # ---------- CHAT DISPLAY ----------
     for role, msg in st.session_state.messages:
