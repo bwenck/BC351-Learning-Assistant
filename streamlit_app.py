@@ -16,6 +16,15 @@ st.set_page_config(
     layout="wide"
 )
 
+# -------------------------------------------------------
+# Safe reset of the answer box BEFORE rendering widgets
+# -------------------------------------------------------
+if "clear_box" not in st.session_state:
+    st.session_state.clear_box = False
+
+if st.session_state.clear_box:
+    st.session_state.answer_box = ""
+    st.session_state.clear_box = False
 
 # minimalist CSS
 st.markdown("""
@@ -89,9 +98,7 @@ if "state" not in st.session_state or start_clicked:
     st.session_state.clear_box = True
     st.rerun()
 
-
 state: TutorState = st.session_state.state
-
 
 # ---------- LAYOUT ----------
 left, right = st.columns([2,1])
@@ -99,9 +106,6 @@ left, right = st.columns([2,1])
 with left:
 
     # ---------- Answer Input Box ----------
-    if "answer_box" not in st.session_state:
-        st.session_state.answer_box = ""
-
     ans = st.text_area(
         "Your answer",
         key="answer_box",
@@ -136,6 +140,7 @@ with left:
     if submit and ans.strip():
 
         st.session_state.messages.append(("student", ans.strip()))
+        st.session_state.clear_box = True
 
         # ✅ If student expresses uncertainty
         if is_uncertain(ans):
@@ -165,13 +170,6 @@ with left:
 
         st.session_state.clear_box = True
         st.rerun()
-
-    # reset input box AFTER render
-    if st.session_state.get("clear_box", False):
-        st.session_state.answer_box = ""
-        st.session_state.clear_box = False
-        st.rerun()
-
 
 # ---------- RIGHT PANEL ----------
 with right:
