@@ -50,29 +50,27 @@ if "state" not in st.session_state or start_clicked:
 state: TutorState = st.session_state.state
 init_hf()  # free HF inference
 
-# ---------- Chat Window ----------
-left, right = st.columns([7,5])
-with left:
-    st.subheader("Session")
+# ---------- Answer input (goes BEFORE displaying chat) ----------
+# Clear text on submit — must happen before the widget is created
+if "clear_box" in st.session_state and st.session_state.clear_box:
+    st.session_state.answer_box = ""
+    st.session_state.clear_box = False
 
-    if not st.session_state.messages:
-        st.session_state.messages.append(("tutor",
-            f"Welcome, {state.student}! 👋 You selected **{state.bundle.title}**.\n\n"
-            f"**First question:** {state.current_question_text()}"
-        ))
+# ---------- Chat window ----------
+chat = st.container()
+with chat:
+    for role, msg in st.session_state.messages:
+        cls = "bubble-tutor" if role=="tutor" else "bubble-student"
+        who = "🧠 Tutor" if role=="tutor" else f"🟢 {state.student}"
+        st.markdown(
+            f"<div class='chat-bubble {cls}'><b>{who}</b><br>{msg}</div>",
+            unsafe_allow_html=True
+        )
 
-    chat = st.container()
-    with chat:
-        for role, msg in st.session_state.messages:
-            cls = "bubble-tutor" if role=="tutor" else "bubble-student"
-            who = "🧠 Tutor" if role=="tutor" else f"🟢 {state.student}"
-            st.markdown(f"<div class='chat-bubble {cls}'><b>{who}</b><br>{msg}</div>",
-                        unsafe_allow_html=True)
-
-    # --- Answer input ---
-    ans = st.text_area("Your answer", key="answer_box", placeholder="Type and press Submit…")
-    submit = st.button("Submit answer")
-    bonus = st.button("Bonus (optional)", disabled=not state.bonus_ok())
+# ---------- Answer box & submit ----------
+ans = st.text_area("Your answer", key="answer_box", placeholder="Type and press Submit…")
+submit = st.button("Submit answer")
+bonus = st.button("Bonus (optional)", disabled=not state.bonus_ok())
 
 # ---------- Right Panel ----------
 with right:
