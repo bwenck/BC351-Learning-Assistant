@@ -217,3 +217,17 @@ def next_pointer(bundle: ModuleBundle, ptr: QuestionPointer) -> Optional[Questio
         first_count = bundle.subparts_count(qi)
         return QuestionPointer(qi, 0 if first_count > 0 else 0)
     return None
+
+# ---------- Empty bundle helper for initial state ----------
+
+@staticmethod
+def empty() -> "ModuleBundle":
+    """Return a placeholder module bundle with no questions yet."""
+    return ModuleBundle(
+        module_id="none",
+        title="No module loaded",
+        questions=[{"q": "(no questions loaded)", "parts": []}],
+        answers=[[]],
+        notes=[],
+        diagrams={}
+    )
