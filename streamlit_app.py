@@ -12,6 +12,20 @@ from backend.diagram_loader import diagram_for_pointer
 from backend.socratic_engine import socratic_followup
 from backend.hf_model import init_hf, hf_socratic
 
+st.set_page_config(
+    page_title="BC351 Learning Assistant",
+    page_icon="🧬",
+    layout="wide"
+)
+
+# Add top padding fix
+st.markdown("""
+<style>
+#root > div:first-child { padding-top: 1rem !important; }
+</style>
+""", unsafe_allow_html=True)
+
+
 APP_TITLE = "🧬 BC351 Learning Assistant"
 
 # --------- App setup ---------
