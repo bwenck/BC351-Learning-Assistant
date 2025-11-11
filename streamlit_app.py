@@ -65,6 +65,9 @@ with st.sidebar:
     start_clicked = st.button("Start / Restart", type="primary")
     st.markdown("---")
     st.caption("Tip: your answers aren’t graded here. The tutor only asks thoughtful follow-ups.")
+    # DEBUG: print module folder contents
+    st.write("DEBUG — modules folder contents:", list(Path("modules").glob("*")))
+    st.write(f"DEBUG — {module_id} files:", list(Path(f"modules/{module_id}").glob("*")))
 
 # --------- Session state boot ---------
 if "state" not in st.session_state or start_clicked:
