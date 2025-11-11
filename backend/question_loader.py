@@ -110,7 +110,6 @@ def _parse_qa_lines(lines: List[str]) -> List[Dict[str, Any]]:
     def is_sub(line: str) -> bool:
         return bool(_SUB_LINE.match(line))
 
-    # Skip header lines until first question
     started = False
 
     for raw in lines:
@@ -120,28 +119,28 @@ def _parse_qa_lines(lines: List[str]) -> List[Dict[str, Any]]:
 
         if is_q(line):
             started = True
-            if current:
-                out.append(current)
-            current = {"q": line, "parts": []}
+            if cur:
+                out.append(cur)
+            cur = {"q": line, "parts": []}
             continue
 
-        # ignore lines before first real question
         if not started:
             continue
 
-        if current and is_sub(line):
-            current["parts"].append(line)
-        elif current:
-            # continuation of last part or question text
-            if current["parts"]:
-                current["parts"][-1] = (current["parts"][-1] + " " + line).strip()
+        if cur and is_sub(line):
+            cur["parts"].append(line)
+        elif cur:
+            # continuation
+            if cur["parts"]:
+                cur["parts"][-1] = (cur["parts"][-1] + " " + line).strip()
             else:
-                current["q"] = (current["q"] + " " + line).strip()
+                cur["q"] = (cur["q"] + " " + line).strip()
         else:
-            current = {"q": line, "parts": []}
+            cur = {"q": line, "parts": []}
 
     if cur:
         out.append(cur)
+
     return out
 
 def _group_answers(answer_lines: List[str], q_count: int) -> List[List[str]]:
