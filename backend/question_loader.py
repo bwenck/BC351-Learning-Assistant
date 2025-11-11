@@ -219,7 +219,7 @@ def next_pointer(bundle: ModuleBundle, ptr: QuestionPointer) -> Optional[Questio
     return None
 
 # ✅ Provide empty bundle for TutorState startup
-def _empty_bundle() -> ModuleBundle:
+def _empty_bundle(*args, **kwargs) -> ModuleBundle:
     return ModuleBundle(
         module_id="none",
         title="No module loaded",
