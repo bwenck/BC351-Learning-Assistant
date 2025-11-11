@@ -1,0 +1,175 @@
+BC 351: Principles of Biochemistry 
+
+Module 2: Study Guide Questions 
+
+1. Given the reaction A+B→C+D and using ∆Go=-RTlnKeq: (Useful calculations: ln1=0, 
+ln<1=negative, ln>1=positive.) 
+(A) if, at equilibrium, the products concentrations equaled 2M and the reactants 
+concentrations equaled 1M, would ∆Go be positive or negative and would this reaction be 
+favorable or unfavorable as written?  
+(B) if, at equilibrium, the products concentrations equaled 1M and the reactants 
+concentrations equaled 2M, would ∆Go be positive or negative and would this reaction be 
+favorable or unfavorable as written?  
+(C) What does ∆Go tell you about the reactants, A and B and the products, C and D? 
+(D) What else do you need to know to determine if this reaction is favorable in a cell? 
+
+2. Draw free energy change diagrams (G vs. Reaction plot) for the following: ΔG < 0, ΔG > 0, 
+ΔG = 0 for reaction X→Y.   
+
+3.  Describe an experiment to determine how and if cells obey the second law of 
+thermodynamics.  Include  
+(A) what the second law of thermodynamics states,  
+(B) a description of the experiment, and  
+(C) the results and how they indicate whether cells obey this law. 
+
+4.  Consider the reaction equation for hydrolysis of ATP:   ATP + H20        ADP + Pi + H+. 
+What determines whether this reaction is favorable in a cell?  Your description should be in 
+terms of  
+(A) Greaction = G˚ + RTlnK   
+(B) intrinsic properties, and  
+(C) system properties. 
+
+5.  ∆Go of a chemical reaction is dependent on the enthalpy and entropy of the products and 
+the reactants. 
+(A)  Describe the thermodynamic laws that pertain to enthalpy and entropy. 
+(B)  Using the jumping bean analogy, describe how enthalpy and entropy determine if a 
+reaction is favorable or unfavorable as written. 
+(C)  Using the equation ∆Go = ∆H - T∆S and bar graphs (described in class) to describe their 
+role in determining if a reaction is spontaneous as written. 
+
+6.  Given that Greaction = G˚ + RTlnK and using the jumping bean analogy,  
+(A)  describe the role of Keq and K in determining if a reaction is spontaneous as written. 
+(B)  What is the relative (<. >, = 1) ratio of products to reactants at equilibrium and under 
+cellular conditions for ATP hydrolysis? 
+(C)  Using the table in the slides for lecture 5, what would be the G˚ and Greaction for 
+reactions with [B]/[A] ratios at equilibrium and starting conditions, respectively, of 103, 101, 1, 10-
+1 and 10-3? 
+
+Page 1 of 3 
+
+BC 351: Principles of Biochemistry 
+
+7.  Many reactions that a cell must have occur to live and grow are thermodynamically 
+unfavorable. 
+(A)  What is meant by thermodynamically unfavorable? 
+(B)  How do cells “drive” these reactions to occur? 
+(C)  How is glutamine synthesis from glutamate and NH4
+thermodynamically and mechanistically? 
+
++ (G˚ = 4 kcal/mole) driven in cells 
+
+8.  Instant cold packs get cold when the contents, usually solid urea and liquid water, are 
+mixed, producing an aqueous solution of urea.  Although this process is clearly spontaneous, 
+the products are colder than the reactants.  Explain how this is possible in terms of the 
+difference between G and H. 
+
+9.  Rank the following bonds or interactions in order of strength: hydrogen bond, covalent 
+bond, ionic bond, and van der Waals interaction.  What typical strengths (G˚) of these 
+bonds/interactions in kcal/mole?  How does the environment (e.g. water vs. vacuum) affect 
+each type of bond/interaction? 
+
+10.  True or false: All single, non-covalent bonds or interactions are too weak to withstand the 
+thermal motions (~1 kcal/mole) that tend to pull interacting molecules apart. 
+
+11.  Which type of non-covalent interaction is favored by (in fact, dependent on) an aqueous 
+environment and strengthened by the presence of added ions? 
+
+12.  Briefly describe that key attributes of the four types of non-covalent 
+bonds/interactions/forces. 
+
+13.  Explain the fact that ethanol (CH3CH2OH) is more soluble in water than is ethane (CH3CH3).  
+
+14.  For each of the pairs below, which is the conjugate base. 
+
+1a. RCOOH  1b. RCOO– 
+
+2a. RNH2 
+
+2b. RNH3
+
++ 
+
+3a. H2PO4– 
+
+3b. H3PO4 
+
+4a. H2CO3 
+
+4b. HCO3
+
+– 
+
+15.  Phosphoric acid (H3PO4) has three dissociable protons, with the pKa’s shown below.  Which 
+form of phosphoric acid predominates in a solution at pH 4?  Explain your answer. 
+
+Acid 
+
+H3PO4   
+
+H2PO4–  
+
+HPO4
+
+2–  
+
+pKa 
+
+2.14 
+
+6.86 
+
+12.4 
+
+Page 2 of 3 
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+BC 351: Principles of Biochemistry 
+
+16.  Define pKa for a weak acid in the following two ways:  (1) in relation to its acid dissociation 
+constant, Ka, and (2) by reference to a titration curve for the weak acid.  
+
+17.  Describe the key aspects of the shared common structure between the 20 common 
+amino acids. 
+
+18.  What are the three main classifications of amino acids as described in class?  Describe 
+any sub-classifications of these three main classifications.  What portion of each amino acid 
+determines how it is classified?  Provide an example for each class of amino acid. 
+
+19.  Why are most amino acids soluble in water?  Are amino acids weak or strong acids and 
+bases?  At what pH does glycine have a net charge of -1?  What is the net charge of glycine 
+at its pI? Is the pKa of the amino and carboxyl groups of all amino acids the same? 
+
+20.  Draw the structures of the amino acids phenylalanine and aspartate in the ionization state 
+you would expect at pH 7.0. Why is aspartate very soluble in water, whereas phenylalanine is 
+much less soluble?  
+
+21. The amino acid histidine has three ionizable groups, with pKa values of 1.8, 6.0, and 9.2.   
+
+a. Which pKa corresponds to the histidine side chain?  
+
+b. Which functional groups are the other pKas for?  
+
+c. In a solution at pH 5.4, will more than half, less than half, or exactly 
+half of the histidine side chains carry a positive charge?  
+
+d. What will be the overall net charge of the histidine molecules after addition of 2 OH- 
+equivalents?   
+
+e. Which of the three diagrams represents the titration curve on a pH vs. NaOH equivalents 
+plot?   
+
+f. Which of the four diagrams represents the protonation state of the histidine functional groups 
+at this net charge? 
+
+Page 3 of 3 
+
+ 
+

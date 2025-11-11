@@ -1,0 +1,304 @@
+BC 351: Principles of Biochemistry 
+
+Module 2: Study Guide Question 
+Answers 
+
+1. (A) [P]/[R] = 2 (>1), so G˚ = -RTln>1 = neg. number and favorable 
+(B) [P]/[R] = 0.5 (<1), so G˚ = -RTln<1 = pos. number and unfavorable 
+(C) the intrinsic difference between their relative free energies (Gs), if they are increasing or 
+decreasing as the reactants become the products.  If they are increasing the reaction as 
+written is unfavorable and requires coupling to another reaction that has a greater decrease 
+in free energy to proceed as written.  If decreasing the reaction is favorable as written.  
+Unfavorable reactions can potentially be driven by a high [P]/[R] concentration ratio. 
+(D) You must also know the actual concentration of the reactants and products in the cell to 
+determine the G of the reaction in the cell. 
+
+2. 
+
+3. (A) The second law of thermodynamics states that the universe tends toward randomness or 
+disorder. 
+(B) A small amount of cells is added to nutrient containing medium in a flask and grown in a 
+calorimeter (box to measure change in heat, temperature) until there is a large amount of 
+cells.   
+(C) Nutrients (small molecules, less order) are taken up and used to synthesize the cells (larger 
+molecules, whole cells, more order) while releasing heat into their surroundings (creating a 
+large amount of disorder).  Thus, the cells create order to produce cell parts and more cells, 
+but offset this increased order with greater disorder in their system (their universe). 
+
+4. The hydrolysis of ATP to ADP, Pi and H+ (H2O is ignored since the concentration stays near 56 
+M) is favorable  
+(A) due to the G˚’ and RTlnK being negative values. 
+(B) G˚’, an intrinsic property of this reaction, is quite negative due to the neutral pH inside the 
+cell (so stays 10-7 M, pulling the reaction to the right). 
+
+Page 1 of 6 
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+  
+ 
+BC 351: Principles of Biochemistry 
+
+(C) the concentration of ATP, a system property, is kept much higher than the concentration 
+of ADP and Pi in the cell, so RTlnK (K = [ADP][Pi]/[ATP] = < 1, ln < 1 is a negative number.  We will 
+get back to this later. 
+
+5. (A) The first law of thermodynamics, energy is conserved in the universe, relates to enthalpy 
+or H.  The second law of thermodynamics, the universe tends toward randomness or disorder 
+relates to entropy or S. 
+(B)  
+(C)  
+6. (A) G˚ = - RTlnKeq; Keq is the ratio of product (chamber B) to reactant (chamber A) at 
+equilibrium (when the ratio stops changing).  As described above in the jumping bean 
+analogy, this is a function of both enthalpy H, and entropy S.  A decrease in H and increase in 
+S lead to more product than reactant at equilibrium, a decrease in G and a favorable 
+reaction.  K is the actual ratio of product to reactant in the cell.  When the concentration of 
+reactant (chamber A) is greater than the concentration of product (chamber B) then this 
+system property contributes to a decrease in the free energy of the overall reaction. 
+(B) the [products]/[reactants] or [ADP][Pi]/[ATP] in cells is << 1; at equilibrium it is >>1. 
+
+(C)  
+
+Page 2 of 6 
+
+ 
+  
+BC 351: Principles of Biochemistry 
+
+K or Keq 
+
+G˚ (Grxn = 0) 
+
+Grxn (G˚ = 0) 
+
+103 
+101 
+1 
+10-1 
+10-3 
+
+-4.3 kcal/mole 
+-1.4 kcal/mole 
+0 
+1.4 kcal/mole 
+4.3 kcal/mole 
+
+4.3 kcal/mole 
+1.4 kcal/mole 
+0 
+-1.4 kcal/mole 
+-4.3 kcal/mole 
+
+7. (A) Thermodynamically unfavorable reactions have a positive Grxn, and so require energy 
+input.  
+(B) Cells usually “drive” an unfavorable reaction through coupling with a reaction, like ATP 
+hydrolysis, that is energetically favorable (Grxn negative) enough to off-set or the positive 
+Grxn of that reaction. 
+(C) Synthesis of glutamine from glutamate and NH4+ (G˚ = +4 kcal/mole) is driven by coupling 
+the reaction with ATP hydrolysis (G˚ = -7.3 kcal/mole) with a net G˚ = -3.3 kcal/mole, which is 
+quite favorable.  Mechanistically, this is done on an enzyme the transfers the high energy 
+gamma phosphate from ATP to glutamate forming phosphoglutamate.  The P-glutamate + 
+NH4
+
++ → glutamine + Pi reaction is favorable (G˚ is negative). 
+
+8. Since the dissolution reaction is spontaneous, the G must be negative.  Since the reaction 
+absorbs heat, the H must be positive. Given G = H - TS, this is possible if the S is very large 
+and positive, as one would expect for a solid dissolving. 
+
+9.  Covalent bonds (50-250 kcal/mole, unaffected by water); Ionic bond (80 kcal/mole in a 
+vacuum- 3-20 kcal/mole in water); Hydrogen bond (3-7 kcal/mole in vacuum- ≤1-3 kcal/mole 
+in water); van der Waals bond (0.1-0.2 kcal/mole, unaffected by water). 
+
+10. False.  Some single ionic bonds could be strong enough (up to 20 kcal/mole).  However, 
+the answer is generally true.  A single non-covalent van der Waals attraction, many hydrogen 
+bonds, and some ionic bonds (especially in water) are too weak to withstand the thermal 
+motions that tend to knock/pull molecules apart.  Functioning singly, non-covalent bonds 
+would not be sufficient to hold macromolecules together for a significant amount of time.  
+Multiple H-bonds and ionic bonds will withstand the energy of collisions, etc. at room 
+temperature. Therefore, this sort of interaction involves several non-covalent bonds. 
+
+11.  Hydrophobic forces/interactions. Non-polar molecules cluster together to reduce the 
+surface area exposed to the water.  For example, oil forms droplets in water and eventually 
+separates into a separate phase.  Since non-polar (hydrophobic) groups and molecules 
+cannot participate in H-bonding with water molecules, the surrounding water molecules are 
+driven to interact more between themselves. This increased interaction stabilizes the crystal 
+lattice structure of the water immediately surrounding the hydrophobic functional groups or 
+molecules, forming an ice like water crystal lattice or “clathrate cage”.  This increased 
+ordering of many water molecules decreases the entropy (“randomness”) of the system.  
+Bringing together the hydrophobic molecules increases the entropy (+S) by decreasing the 
+hydrophobic surface area, thus decreasing the amount of structured water. 
+
+Page 3 of 6 
+
+ 
+ 
+ 
+ 
+ 
+BC 351: Principles of Biochemistry 
+
+12.  Van der Waals interactions 
+- Weakest, require very close approach of atoms in molecules, no room for competition by 
+H2O molecules, so their strength is unaffected by H2O or ions. 
+- Involve forming induced dipoles in interacting atoms, are strongest at the balance point 
+between repulsion between the electron clouds and attraction between the induced dipoles. 
+Hydrogen bonds 
+- Partly covalent, partly electrostatic due to H+ sharing/transfer between the proton donor and 
+acceptor group (N or O atoms) 
+- Have directionality, are affected by the alignment of the bond, the donor and acceptor 
+groups have the strongest H-bond when at an 180˚ alignment. 
+- Functional groups that form H-bonds are polar, so they H-bond with water, so water 
+competes with and weakens H-bonds. 
+Ionic bonds 
+- Purely charge-charge or electrostatic interactions 
+- Are not directional 
+- Their strength is described quantitatively by Coulombs’s law, which has terms for the strength 
+of the positive or negative charges of the interacting functional groups, their distance from 
+each other and the dielectric constant of the solvent/solution (a measure of its ability to 
+compete with the two groups for interacting). 
+- Are strongly competed for or weakened by water (Dielectric constant of 80). 
+Hydrophobic forces/interactions 
+- Hydrophobic functional groups, for example hydrocarbons, do not interact with water to 
+form hydrogen bonds 
+- The water molecules must interact with each other in the vicinity to satisfy their tendency to 
+form H-bonds forming an ordered crystal lattice, decrease the enthalpy and the free energy 
+of the system.  The association of hydrophobic functional groups minimizes the surface area 
+interacting with the water solvent, decreasing the order (increasing the enthalpy and free 
+energy) of the system. 
+- Hydrophobic forces do not exist in the absence of water, so they are not weakened by 
+water, rather they are dependent on it. 
+
+13.  Ethanol can form hydrogen bonds with water molecules, but ethane cannot.  When 
+ethanol dissolves, the decrease in the system's entropy that results from formation of ordered 
+– group is partly compensated by the favorable interactions 
+arrays of water around the CH3CH2
+(hydrogen bonds) of the hydroxyl group of ethanol with water molecules.  Ethane cannot form 
+such hydrogen bonds. 
+
+14.  For each of the pairs below, the conjugate base (proton acceptor group): 
+
+1b. RCOO– 
+
+2a. RNH2 
+
+3a. H2PO4
+
+– 
+
+Page 4 of 6 
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+BC 351: Principles of Biochemistry 
+
+4b. HCO3
+
+– 
+
+15.  Phosphoric acid (H3PO4) has three dissociable protons, with the pKa’s shown below.  The 
+form of phosphoric acid that predominates in a solution at pH 4 is H2PO4
+phosphoric acid will reach pH 4 after addition of approximately one equivalent of OH- and will 
+be close to half way between the first and second pKa.  At pH 4 essentially all of the first 
+proton on phosphoric acid will have dissociated but nearly none of the second proton will 
+have begun to dissociate.  I suggest you practice plotting this out on a pH versus –OH 
+equivalents graph. 
+Acid 
+H3PO4   
+–  
+H2PO4
+2–  
+HPO4
+
+pKa 
+2.14 
+6.86 
+12.4 
+
+–.  A solution of 
+
+16. (1) pKa = –log Ka;   
+(2) See Fig. 2-17, p. 59; pKa is the value of pH at the inflection point in a plot of pH vs. extent of 
+titration of the weak acid.  At the pKa, the concentration of ionized acid equals the 
+concentration of un-ionized acid. 
+
+17.  1.  All amino acids found in naturally occurring 
+proteins have an  carbon to which are attached a 
+carboxylic acid, an amine, a hydrogen, and a 
+variable side chain. 
+
+18.  The three main classes are polar, nonpolar, and special amino acids.  Since all amino 
+acids have the same structure except for their R-groups, it is the R-group that determines how 
+each amino acid is classified.  Glutamate and lysine are negatively and positively charged 
+polar amino acids, respectively.  Serine is an uncharged polar amino acid.  Leucine is a 
+nonpolar amino acid.  Proline is a special amino acid.  See Lecture 8 PowerPoint slides for 
+details.  In your textbook the amino acids are subdivide further and slightly differently into 
+nonpolar aliphatic and aromatic, polar uncharged, negatively charged and positively 
+charged (page 75 Figure 3-5). 
+
+19.  Most amino acids are soluble in water due to having at least two polar, charged 
+functional groups; the amino group and the carboxyl group.  Amino acids have at least one 
+weak base and one weak acid functional group, the amino group and the carboxyl group.  
+Some amino acids have a third functional group, the R group that is a weak acid or a weak 
+base (see page 75 Figure 3-5, positively and negatively charged R groups).  Glycine has a net 
+charge of – 1 at pH 11 and above (see page 79 Figure 3-10).  The net charge of any amino 
+acid at its pI is 0.  The pKa of the amino and carboxyl groups are similar (~9-10 and ~ 2, 
+
+Page 5 of 6 
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+BC 351: Principles of Biochemistry 
+
+respectively, see page 73 Table 3-1), but do vary due to the effects of electronegative atoms 
+on their R groups (see page 80 Figure 3-11), so no they are not all the same. 
+
+20.  Aspartate has a polar (hydrophilic) side chain, which forms hydrogen bonds with water.  In 
+contrast, phenylalanine has a nonpolar (hydrophobic) side chain. (See Fig. 3-5, p. 79 for 
+structures.) 
+
+21.  The pKa of the histidine side chain is 6.0. 
+
+a. The R group pKa = 6.0 
+
+b. The COOH pKa = 1.8 and the +NH3 pKa = 9.2 
+
+c. More than half 
+
+d. The overall net charge will equal 0.  
+
+e. The correct diagram is mod2_Q21e_B.png 
+
+f. The correct diagram is mod2_Q21f_A.png 
+
+Page 6 of 6 
+
+
