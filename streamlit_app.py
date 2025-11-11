@@ -6,18 +6,13 @@ from typing import Optional, List, Dict, Tuple
 import streamlit as st
 from PIL import Image
 
-from backend.tutor_state import TutorState
-from backend.question_loader import load_module_bundle, QuestionPointer, next_pointer
-from backend.diagram_loader import diagram_for_pointer
-from backend.socratic_engine import socratic_followup
-from backend.hf_model import init_hf, hf_socratic
+APP_TITLE = "🧬 BC351 Learning Assistant"
 
 st.set_page_config(
-    page_title="BC351 Learning Assistant",
+    page_title=APP_TITLE,
     page_icon="🧬",
     layout="wide"
 )
-
 # Add top padding fix
 st.markdown("""
 <style>
@@ -25,15 +20,11 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-
-APP_TITLE = "🧬 BC351 Learning Assistant"
-
-# --------- App setup ---------
-st.set_page_config(
-    page_title=APP_TITLE,
-    page_icon="🧬",
-    layout="wide",
-)
+from backend.tutor_state import TutorState
+from backend.question_loader import load_module_bundle, QuestionPointer, next_pointer
+from backend.diagram_loader import diagram_for_pointer
+from backend.socratic_engine import socratic_followup
+from backend.hf_model import init_hf, hf_socratic
 
 THEME_CSS = """
 <style>
