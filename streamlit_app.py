@@ -1,5 +1,10 @@
 import streamlit as st
 from pathlib import Path
+import sys
+
+# ✅ Ensure backend is importable in Streamlit Cloud
+sys.path.append(str(Path(__file__).parent))
+sys.path.append(str(Path(__file__).parent / "backend"))
 
 # backend imports
 from backend.tutor_state import TutorState
