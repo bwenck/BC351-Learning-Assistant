@@ -76,19 +76,35 @@ ans = st.text_area("Your answer", key="answer_box", placeholder="Type and press 
 submit = st.button("Submit answer")
 bonus = st.button("Bonus (optional)", disabled=not state.bonus_ok())
 
+# ✅ Define layout columns BEFORE UI draws them
+left, right = st.columns([2,1])
+
+# ---------- Left Panel (Chat) ----------
+with left:
+    # clear input first if needed
+    if "clear_box" in st.session_state and st.session_state.clear_box:
+        st.session_state.answer_box = ""
+        st.session_state.clear_box = False
+
+    # answer input
+    ans = st.text_area("Your answer", key="answer_box", placeholder="Type your response…")
+
+    # chat display
+    for role, msg in st.session_state.messages:
+        cls = "bubble-tutor" if role=="tutor" else "bubble-student"
+        who = "🧠 Tutor" if role=="tutor" else f"🟢 {state.student}"
+        st.markdown(
+            f"<div class='chat-bubble {cls}'><b>{who}</b><br>{msg}</div>",
+            unsafe_allow_html=True
+        )
+
 # ---------- Right Panel ----------
 with right:
     st.subheader("Diagram / Info")
     diag = diagram_for_pointer(state.bundle, state.ptr)
     if diag:
-        img_path = Path("modules")/state.bundle.module_id/"images"/diag["image"]
-        if img_path.exists():
-            st.image(str(img_path))
-        if diag.get("choices"):
-            st.write("Choices:", ", ".join(diag["choices"]))
-
-    st.subheader("Progress")
-    st.progress(state.progress_fraction(), text=state.progress_label())
+        st.image(f"modules/{state.bundle.module_id}/diagrams/{diag['image']}")
+        st.write(diag.get("prompt", "Consider this figure"))
 
 # ---------- Follow-up logic ----------
 def tutor_followup(user_text):
