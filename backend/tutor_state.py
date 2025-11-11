@@ -1,28 +1,41 @@
-from dataclasses import dataclass, field
-from typing import Optional, List
+# backend/tutor_state.py
+from dataclasses import dataclass
+from typing import Optional
 from backend.question_loader import ModuleBundle, QuestionPointer
 
 @dataclass
 class TutorState:
     student: str
+    module_id: str
     bundle: ModuleBundle
     ptr: QuestionPointer
-    _bonus_ok: bool = True
 
     @staticmethod
     def empty(student: str, module_id: str):
-        return TutorState(student=student or "Student", bundle=ModuleBundle.empty(module_id), ptr=QuestionPointer(0,0))
+        # start with a harmless placeholder bundle; app will load the real one
+        return TutorState(
+            student=student or "Student",
+            module_id=module_id,
+            bundle=ModuleBundle.empty(),
+            ptr=QuestionPointer(0, 0)
+        )
 
     def current_question_text(self) -> str:
         return self.bundle.question_text(self.ptr)
 
-    def progress_fraction(self) -> float:
-        idx = self.ptr.qi + (self.ptr.si / max(1, self.bundle.subparts_count(self.ptr.qi)))
-        total = len(self.bundle.questions)
-        return min(1.0, idx / max(1, total))
-
-    def progress_label(self) -> str:
-        return f"Q{self.ptr.qi+1} · part {chr(97+self.ptr.si)} of {self.bundle.subparts_count(self.ptr.qi)}"
-
     def bonus_ok(self) -> bool:
-        return self._bonus_ok
+        # allow when a bonus exists (keeps button enabled only if there’s one)
+        return bool(self.bundle.bonus_question())
+
+    # (Optional) helpers for persistence later:
+    def to_dict(self):
+        return {
+            "student": self.student,
+            "module_id": self.module_id,
+            "ptr": {"qi": self.ptr.qi, "si": self.ptr.si},
+        }
+
+    @staticmethod
+    def from_dict(d: dict, bundle: ModuleBundle):
+        ptr = QuestionPointer(d["ptr"]["qi"], d["ptr"]["si"])
+        return TutorState(d["student"], d["module_id"], bundle, ptr)
