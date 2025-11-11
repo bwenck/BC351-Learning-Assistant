@@ -124,30 +124,33 @@ with left:
     bonus = st.button("Bonus (optional)", disabled=not state.bonus_ok())
 
     # --- Submission handling ---
-    if submit and ans.strip():
-        st.session_state.messages.append(("student", ans.strip()))
+if submit and ans.strip():
+    st.session_state.messages.append(("student", ans.strip()))
 
-        # Socratic follow-up
-        follow = socratic_followup(
-            module_id,
-            state.ptr.qi,
-            state.bundle.question_text(state.ptr),
-            ans.strip(),
-            state.bundle,
-            state.bundle.context_snips_for(state.ptr),
-            student_name
-        )
-        st.session_state.messages.append(("tutor", follow))
+    # Socratic follow-up — using your backend signature (5 args)
+    follow = socratic_followup(
+        state.bundle.title,        # module context name (like before)
+        state.ptr.qi,              # question index
+        state.bundle.question_text(state.ptr),  # question stem/subpart
+        ans.strip(),               # student answer
+        state.bundle.context_snips_for(state.ptr)  # safe context
+    )
 
-        st.session_state.clear_box = True
+    st.session_state.messages.append(("tutor", follow or "Interesting — tell me more about that?"))
 
-    # --- Bonus handling ---
-    if bonus:
+    st.session_state.clear_box = True
+    st.rerun()
+
+# --- Bonus handling (guard if state not ready) ---
+if bonus and state:
+    try:
         bq = state.bundle.bonus_question()
         if bq:
             st.session_state.messages.append(("tutor", f"✨ Bonus challenge:\n{bq}"))
         else:
             st.session_state.messages.append(("tutor", "No bonus question available."))
+    except Exception:
+        st.session_state.messages.append(("tutor", "Bonus question unavailable right now."))
 
 with right:
     st.markdown("### Diagram / Info")
