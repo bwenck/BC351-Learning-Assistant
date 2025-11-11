@@ -133,45 +133,44 @@ with left:
         st.markdown(f"<div class='chat-bubble {bubble_class}'>{msg}</div>", unsafe_allow_html=True)
 
 
-    # ---------- Handle SKIP ----------
-    if skip:
-        nxt = next_pointer(state.bundle, state.ptr)
-        if nxt:
-            state.ptr = nxt
-            st.session_state.messages.append(("tutor", "No worries — let's try the next part 😊"))
-            st.session_state.messages.append(("tutor", state.bundle.question_text(state.ptr)))
-        else:
-            st.session_state.messages.append(("tutor", "🎉 You've reached the end of this module!"))
-        st.session_state.clear_box = True
-        st.rerun()
+# ---------- Handle SKIP ----------
+if skip:
+    nxt = next_pointer(state.bundle, state.ptr)
+    if nxt:
+        state.ptr = nxt
+        st.session_state.messages.append(("tutor", "No worries — let's try the next part 😊"))
+        st.session_state.messages.append(("tutor", state.bundle.question_text(state.ptr)))
+    else:
+        st.session_state.messages.append(("tutor", "🎉 You've reached the end of this module!"))
+    st.session_state.clear_box = True
+    st.rerun()
 
-        # ---------- Handle SUBMIT ----------
-        if submit and ans.strip():
 
-            # store student message
-            st.session_state.messages.append(("student", ans.strip()))
-            st.session_state.clear_box = True
+# ---------- Handle SUBMIT ----------
+if submit and ans.strip():
+    # store student message
+    st.session_state.messages.append(("student", ans.strip()))
+    st.session_state.clear_box = True
 
-            # ✅ If student expresses uncertainty
-            if is_uncertain(ans):
-                st.session_state.messages.append(
-                    (
-                        "tutor",
-                        "That's totally okay — this concept can be tricky! 🧠💭\n"
-                        "Think about *cell-cycle control mechanisms and signaling pathways*.\n\n"
-                        "You can take your time — and if you'd like to move on,\n"
-                        "click **Skip / Next Question ⏭️** anytime."
-                    )
-                )
-                # keep going — do NOT stop here (still send structured follow-up!)
-                followup = socratic_followup(module_id, state.ptr.qi, ans.strip())
-                st.session_state.messages.append(("tutor", followup))
-                st.session_state.rerun()
+    # ✅ If student expresses uncertainty
+    if is_uncertain(ans):
+        st.session_state.messages.append(
+            (
+                "tutor",
+                "That's totally okay — this concept can be tricky! 🧠💭\n"
+                "Think about *cell-cycle control mechanisms and signaling pathways*.\n\n"
+                "You can take your time — and if you'd like to move on,\n"
+                "click **Skip / Next Question ⏭️** anytime."
+            )
+        )
+        followup = socratic_followup(module_id, state.ptr.qi, ans.strip())
+        st.session_state.messages.append(("tutor", followup))
+        st.session_state.rerun()
 
-            # ✅ Otherwise — normal structured follow-up
-            followup = socratic_followup(module_id, state.ptr.qi, ans.strip())
-            st.session_state.messages.append(("tutor", followup))
-            st.session_state.rerun()
+    # ✅ Otherwise — normal structured follow-up
+    followup = socratic_followup(module_id, state.ptr.qi, ans.strip())
+    st.session_state.messages.append(("tutor", followup))
+    st.session_state.rerun()
 
 # ---------- RIGHT PANEL ----------
 with right:
