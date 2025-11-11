@@ -44,7 +44,7 @@ with st.sidebar:
     start_clicked = st.button("Start session", type="primary")
 
 # ---------- Load session state only after Start ----------
-if "state" not in st.session_state or start_clicked:
+if "state" not in st.session_state:
     if student_name.strip() and module_id not in ("", "(none found)"):
         st.session_state.state = TutorState.empty(student_name, module_id)
         st.session_state.messages = []
