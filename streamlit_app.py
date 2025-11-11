@@ -29,7 +29,18 @@ with st.sidebar:
     
     modules = sorted([p.name for p in Path("modules").iterdir() if p.is_dir()])
     module_id = st.selectbox("Module", modules or ["(none found)"])
-    
+
+    # --- Require name and module before continuing ---
+    if not student_name.strip() or module_id in ("", "(no modules found)"):
+        st.info("👋 Enter your name and pick a module to begin.")
+        st.stop()
+
+    if start_clicked:
+        # Reset on restart
+        st.session_state.clear()
+        st.session_state.state = None
+        st.rerun()
+
     start_clicked = st.button("Start session", type="primary")
 
 # ---------- Load session state only after Start ----------
