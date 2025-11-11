@@ -145,41 +145,33 @@ with left:
         st.session_state.clear_box = True
         st.rerun()
 
+        # ---------- Handle SUBMIT ----------
+        if submit and ans.strip():
 
-    # ---------- Handle SUBMIT ----------
-    if submit and ans.strip():
-
-        st.session_state.messages.append(("student", ans.strip()))
-        st.session_state.clear_box = True
-
-        # ✅ If student expresses uncertainty
-        if is_uncertain(ans):
-            st.session_state.messages.append(
-                ("tutor",
-                 "That's totally okay — this concept can be tricky. 🧠💭\n"
-                 "Think about the molecular checkpoint or regulator involved.\n\n"
-                 "If you'd like, you can click **Skip / Next Question ⏭️** at any time."
-                 )
-            )
+            # store student message
+            st.session_state.messages.append(("student", ans.strip()))
             st.session_state.clear_box = True
-            st.rerun()
 
-        # ✅ get Socratic follow-up from answer file + model
-        question_index = state.ptr.qi
-        notes_context = "\n".join(state.bundle.notes)
+            # ✅ If student expresses uncertainty
+            if is_uncertain(ans):
+                st.session_state.messages.append(
+                    (
+                        "tutor",
+                        "That's totally okay — this concept can be tricky! 🧠💭\n"
+                        "Think about *cell-cycle control mechanisms and signaling pathways*.\n\n"
+                        "You can take your time — and if you'd like to move on,\n"
+                        "click **Skip / Next Question ⏭️** anytime."
+                    )
+                )
+                # keep going — do NOT stop here (still send structured follow-up!)
+                followup = socratic_followup(module_id, state.ptr.qi, ans.strip())
+                st.session_state.messages.append(("tutor", followup))
+                st.session_state.rerun()
 
-        follow = hf_socratic(
-            st.session_state.llm,
-            module_id,
-            question_index,
-            ans.strip(),
-            notes_context
-        )
-
-        st.session_state.messages.append(("tutor", follow))
-
-        st.session_state.clear_box = True
-        st.rerun()
+            # ✅ Otherwise — normal structured follow-up
+            followup = socratic_followup(module_id, state.ptr.qi, ans.strip())
+            st.session_state.messages.append(("tutor", followup))
+            st.session_state.rerun()
 
 # ---------- RIGHT PANEL ----------
 with right:
