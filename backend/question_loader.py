@@ -84,6 +84,20 @@ class ModuleBundle:
             diagrams={}
         )
 
+# ---- Load structured concept answers ----
+from functools import lru_cache
+import json
+
+@lru_cache(maxsize=16)
+def load_concept_keys(module_id: str):
+    path = Path(f"modules/{module_id}/{module_id}_answers.json")
+    if not path.exists():
+        return {}
+    try:
+        return json.loads(path.read_text())
+    except Exception:
+        return {}
+
 # ---------- Parsing & loading ----------
 
 def _read_lines(path: Path) -> List[str]:
