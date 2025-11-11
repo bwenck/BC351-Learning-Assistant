@@ -1,0 +1,63 @@
+Cancer overview:
+- Cancer develops when normal regulation of cell growth and division breaks down.
+- Mutations provide abnormal growth advantages, leading to clonal expansion and tumor formation.
+- Cancer is widespread; about 40% of people will develop it and ~20% will die from it.
+
+Cancer classification:
+- Cancers are often classified by behavior (benign, malignant, metastatic) and by tissue or cell type of origin.
+- Major categories include epithelial cancers (carcinomas) and non-epithelial cancers (sarcomas, melanomas, etc.).
+- Histological appearance under the microscope remains an important classification tool.
+
+Cancer progression and age:
+- Cancer typically arises through multiple accumulating changes over time.
+- Progression can be seen in changing cellular and tissue morphology, such as in cervical cancer.
+- Cancer incidence increases with age, supporting the idea of multiple mutation events being required.
+
+Environmental and lifestyle factors:
+- Lifestyle, geography, and environment strongly influence cancer types and incidence.
+- When people migrate, their cancer patterns shift to match those of their new location.
+- External factors include chemicals (e.g., tobacco smoke), physical factors (UV, radiation), and lifestyle factors (diet, smoking, reproductive choices).
+- Around 80-90% of cancers may be avoidable, though prevention strategies remain complex.
+
+Cancer treatment progress:
+- Death rates for many cancers have not dramatically declined; improvements often rely on early detection.
+- Pre-1975 treatments targeted rapid cell division; targeted therapies now exist.
+- Targeted therapies exploit cancer-specific vulnerabilities from genetic alterations.
+- Drug resistance is common; modern strategies may combine multiple targeted drugs.
+
+Drug design and screening:
+- Structure-activity relationship studies modify chemical structures to study effects on biological activity.
+- Drug discovery also uses computational modeling of proteins and “combinatorial chemistry” to screen large molecule libraries.
+
+Properties of effective anticancer drugs:
+- Anti-cancer drugs should be small, easy to synthesize, and able to enter cells effectively.
+- Good targets are “druggable” — proteins with defined active sites (e.g., kinases such as Abl).
+- Drugs often target enzymes or signaling pathways essential for cancer cell survival.
+
+Drug testing pipeline:
+- Steps include enzyme inhibition assays, cell-based screens, pharmacodynamic studies, toxicity testing, and phased clinical trials.
+- Early phases evaluate safety; later phases compare against current standard treatments.
+
+Challenges and future directions:
+- Some cancers respond dramatically to targeted drugs but often develop resistance.
+- Likely future involves combination therapies and precision medicine guided by genomic analysis.
+- Cancer may become more controllable than curable, similar to HIV management.
+
+Biochemistry foundations:
+- Four major macromolecule classes: proteins, lipids, carbohydrates, nucleic acids.
+- Elements most common in cells: C, H, O, N, P, S.
+- Chemical properties (valence, electronegativity) influence bonding and molecule behavior.
+
+Water and carbon chemistry:
+- Water is polar, forms hydrogen bonds, and is amphoteric (can act as acid or base).
+- Water’s hydrogen bonding contributes to high specific heat, surface tension, and solvent abilities.
+- Carbon forms diverse stable structures: single, double, triple bonds; rings; polymers; resonance structures.
+- Electronegativity order: O > N > C > H; determines polarity of bonds and functional behavior.
+
+Cellular evolution:
+- Major biochemical pathways and macromolecule types are conserved through evolution.
+- Many biological systems persist due to functional success and evolutionary history rather than optimization.
+
+Functional group concept reminder:
+- Organic acids and bases are determined by structure and electronegativity of their functional groups.
+- One provided diagram (Q18 option C) does not represent a functional acid/base group.

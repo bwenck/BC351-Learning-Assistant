@@ -1,0 +1,95 @@
+Thermodynamics and free energy:
+- Whether a reaction is favorable depends on free energy change (ΔG).
+- ΔG° relates to equilibrium ratio of products to reactants (Keq): ΔG° = –RT ln Keq.
+- ΔG in the cell depends not only on intrinsic free energy (ΔG°) but also actual concentrations of reactants and products (RT ln [P]/[R]).
+- A reaction can be driven forward by having a high reactant concentration or a favorable ΔG°.
+- Unfavorable reactions can be coupled to a highly favorable reaction like ATP hydrolysis.
+
+Free energy and concentration:
+- If Keq > 1 then ΔG° is negative and the reaction favors products at equilibrium.
+- If Keq < 1 then ΔG° is positive and the reaction favors reactants.
+- Cellular ΔG depends on ΔG° and actual metabolite ratios; actual conditions may differ from standard state.
+
+Role of free energy diagrams:
+- Graphing reactant vs. product free energy reveals whether a reaction is intrinsically favorable.
+- Downhill profiles indicate favorable ΔG; uphill reactions require energy input or coupling.
+
+Second law of thermodynamics:
+- The universe tends toward increasing disorder (entropy).
+- Biological systems create order internally but increase total entropy of the universe (release heat to surroundings).
+
+ATP hydrolysis energetics:
+- ATP → ADP + Pi is strongly favorable due to negative ΔG°’ and maintained high ATP:ADP ratio in cells.
+- Cells maintain ATP high relative to ADP and Pi to drive biochemical reactions forward.
+
+Thermodynamic laws:
+- First law: energy is conserved (relates to enthalpy, H).
+- Second law: systems tend toward disorder (relates to entropy, S).
+
+Cellular energetics:
+- Cells grow by converting nutrients (less ordered) into complex biomolecules (more ordered) while releasing heat and increasing disorder in the environment.
+- Biochemical reactions balance order creation with overall entropy increase.
+
+Equilibrium and ΔG relationships:
+- ΔG° = –RT ln Keq.
+- ΔG = ΔG° + RT ln Q, where Q is the product/reactant ratio in the cell.
+- If Q < Keq, reaction proceeds forward; if Q > Keq, reaction goes backward.
+
+Coupled reactions:
+- Unfavorable reactions can proceed when coupled to favorable ones, such as ATP hydrolysis.
+- Example: glutamine synthesis couples ATP hydrolysis to drive formation of glutamine from glutamate and NH4+.
+
+Enthalpy (H) and entropy (S):
+- Favorable reactions often have decreased enthalpy and/or increased entropy.
+- Dissolving certain solids can be endothermic but still spontaneous if entropy increases enough.
+
+Non-covalent interactions overview:
+- Types: ionic, hydrogen bonds, van der Waals, hydrophobic interactions.
+- Relative strengths: covalent > ionic > hydrogen bonds > van der Waals.
+- Water weakens ionic and hydrogen bonds by competing for interactions.
+- Hydrophobic interactions arise from water forming structured cages around nonpolar groups; clustering minimizes ordering of water.
+
+Hydrophobic effect:
+- Nonpolar molecules aggregate to minimize water ordering and increase entropy.
+- Hydrophobic interactions do not exist without water; they depend on aqueous environment.
+
+Molecular interaction summary:
+- Ionic bonds: charge-charge interactions; weakened strongly by water.
+- Hydrogen bonds: directional, strongest at 180° alignment; partly electrostatic, partly covalent.
+- Van der Waals forces: weak, require very close proximity; unaffected by water.
+- Hydrophobic interactions: driven by entropy and water structuring.
+
+Example: ethanol vs ethane solubility:
+- Ethanol can hydrogen bond with water; ethane cannot.
+- Ethanol’s OH group allows solvation; ethane is hydrophobic and forces water ordering.
+
+Acids, bases, and conjugate bases:
+- Conjugate bases identified by removal of a proton from acidic groups (e.g., RCOO–, RNH2, H2PO4–, HCO3–).
+
+Phosphoric acid behavior:
+- Polyprotic acid with three dissociable protons.
+- At pH 4, H2PO4– predominates.
+- pKa values: 2.14, 6.86, 12.4.
+
+pKa and titration:
+- pKa = –log Ka.
+- pKa equals the pH where concentrations of acid and conjugate base are equal.
+- Inflection point on titration curve corresponds to pKa.
+
+Amino acid chemical properties:
+- Amino acids have α-carbon bonded to amine, carboxyl, hydrogen, and side chain.
+- Side chains determine classification: nonpolar, polar, charged, and special cases.
+- Solubility and charge depend on pKa values of amino and carboxyl groups and sometimes side chain groups.
+- Isoelectric point (pI): pH where net charge = 0.
+
+Examples:
+- Glutamate = negatively charged (polar).
+- Lysine = positively charged (polar).
+- Serine = uncharged polar.
+- Leucine = nonpolar.
+- Proline = special structure.
+
+Histidine notes:
+- Histidine side chain pKa = ~6.0, allowing buffering near physiological pH.
+- At pH ~6, roughly half protonated; net charge near zero.
+- Histidine often participates in enzyme acid/base chemistry.
