@@ -165,12 +165,12 @@ if submit and ans.strip():
         )
         followup = socratic_followup(module_id, state.ptr.qi, ans.strip())
         st.session_state.messages.append(("tutor", followup))
-        st.session_state.rerun()
+        st.rerun()
 
     # ✅ Otherwise — normal structured follow-up
     followup = socratic_followup(module_id, state.ptr.qi, ans.strip())
     st.session_state.messages.append(("tutor", followup))
-    st.session_state.rerun()
+    st.rerun()
 
 # ---------- RIGHT PANEL ----------
 with right:
