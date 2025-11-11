@@ -88,6 +88,12 @@ def load_module_bundle(module_id: str) -> ModuleBundle:
     questions = _parse_questions(q_lines)
     answers = _parse_questions(a_lines) if a_lines else [[""] for _ in questions]
 
+    if not questions:
+        raise ValueError(f"❌ No questions found for module '{module_id}'. Check {module_id}_questions.txt")
+
+    if not answers:
+        print(f"⚠️ Warning: no answers found for module '{module_id}'")
+
     diagrams = {}
     dj = mdir / "diagrams.json"
     if dj.exists():
