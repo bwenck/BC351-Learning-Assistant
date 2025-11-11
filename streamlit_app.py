@@ -50,31 +50,6 @@ if "state" not in st.session_state or start_clicked:
 state: TutorState = st.session_state.state
 init_hf()  # free HF inference
 
-# ---------- Answer input (goes BEFORE displaying chat) ----------
-# Clear text on submit — must happen before the widget is created
-if "clear_box" in st.session_state and st.session_state.clear_box:
-    st.session_state.answer_box = ""
-    st.session_state.clear_box = False
-
-# ✅ define layout columns (left = chat, right = diagrams)
-left, right = st.columns([2,1])
-
-# ---------- Chat window ----------
-with left:
-    chat = st.container()
-    with chat:
-        for role, msg in st.session_state.messages:
-            cls = "bubble-tutor" if role=="tutor" else "bubble-student"
-            who = "🧠 Tutor" if role=="tutor" else f"🟢 {state.student}"
-            st.markdown(
-                f"<div class='chat-bubble {cls}'><b>{who}</b><br>{msg}</div>",
-                unsafe_allow_html=True
-            )
-            
-# ---------- Answer box & submit ----------
-submit = st.button("Submit answer")
-bonus = st.button("Bonus (optional)", disabled=not state.bonus_ok())
-
 # ✅ Define layout columns BEFORE UI draws them
 left, right = st.columns([2,1])
 
@@ -87,6 +62,8 @@ with left:
 
     # answer input
     ans = st.text_area("Your answer", key="answer_box", placeholder="Type your response…")
+    submit = st.button("Submit answer")
+    bonus = st.button("Bonus (optional)", disabled=not state.bonus_ok())
 
     # chat display
     for role, msg in st.session_state.messages:
