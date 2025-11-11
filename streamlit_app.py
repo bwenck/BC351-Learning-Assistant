@@ -109,13 +109,11 @@ def tutor_followup(user_text):
 if submit and ans.strip():
     st.session_state.messages.append(("student", ans.strip()))
 
-    # Clear input textbox
-    st.session_state.answer_box = ""
+    # Mark box to clear next run
+    st.session_state.clear_box = True
 
-    # Ask follow-up
     tutor_followup(ans.strip())
 
-    # Auto-advance subpart if no follow-up needed next time
     nxt = next_pointer(state.bundle, state.ptr)
     if nxt:
         state.ptr = nxt
