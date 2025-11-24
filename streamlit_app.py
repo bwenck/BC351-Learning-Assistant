@@ -62,8 +62,8 @@ def is_uncertain(text: str) -> bool:
 
 
 # ✅ global model init (loaded once per session, not each turn)
-if "llm" not in st.session_state:
-    st.session_state.llm = init_hf()
+#if "llm" not in st.session_state:
+    #st.session_state.llm = init_hf()
 
 
 # ---------- SIDEBAR: name + module ----------
