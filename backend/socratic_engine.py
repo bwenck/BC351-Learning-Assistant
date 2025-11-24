@@ -8,22 +8,30 @@ import re
 from backend.question_loader import load_concept_keys
 
 # ---------------------------------------------------------
-# 🔍 NEW: Smarter semantic matching for key concepts
+# 🔍Smart semantic matching for key concepts
 # ---------------------------------------------------------
 def concept_covered(concept: str, student_answer: str) -> bool:
     """
     Returns True if the student's answer semantically matches the concept.
-    Uses keyword stems and loose matching instead of exact text match.
+    Uses loose stem matching with a threshold instead of strict exact matching.
     """
     student = student_answer.lower()
     concept = concept.lower()
 
-    # Extract word stems (mutat, prolifer, regulat, signal, tumor, etc)
-    key_stems = re.findall(r"[a-zA-Z]+", concept)
-    key_stems = [stem[:5] for stem in key_stems if len(stem) > 4]
+    # Extract words and build stems (mutat, prolife, regula, tumor, etc.)
+    words = [w for w in re.findall(r"[a-zA-Z]+", concept) if len(w) > 3]
+    stems = [w[:5] for w in words]  # take first 5 letters as a crude stem
 
-    # Require each stem to match *somewhere in the student's answer*
-    return all(stem in student for stem in key_stems)
+    if not stems:
+        return False
+
+    # Count how many stems appear in the student's answer
+    hits = sum(1 for stem in stems if stem in student)
+
+    # Require at least half the stems (or minimum 2) to call it "covered"
+    needed = max(2, len(stems) // 2)
+
+    return hits >= needed
 
 def socratic_followup(module_id, q_index, student_answer):
     concepts = load_concept_keys(module_id).get(str(q_index+1), {})
