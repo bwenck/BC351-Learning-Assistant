@@ -122,18 +122,11 @@ with left:
     submit = st.button("Submit answer ✅")
     skip = st.button("Skip / Next Question ⏭️")
     bonus = st.button("Bonus (optional)")
-    # --- Skip Question Logic ---
-    if skip:
-        state.ptr = next_pointer(state.bundle, state.ptr)
-        st.session_state.messages.append(("tutor", "No worries — let's keep going! 🚀"))
-        st.session_state.clear_box = True
-        st.rerun()
 
     # ---------- CHAT DISPLAY ----------
     for role, msg in st.session_state.messages:
         bubble_class = "student" if role == "student" else "tutor"
         st.markdown(f"<div class='chat-bubble {bubble_class}'>{msg}</div>", unsafe_allow_html=True)
-
 
 # ---------- Handle SKIP ----------
 if skip:
@@ -154,6 +147,18 @@ if submit and ans.strip():
     st.session_state.messages.append(("student", ans.strip()))
     st.session_state.clear_box = True
 
+    # ---------- Accumulate answer history for concept tracking ----------
+    key = (module_id, state.ptr.qi)
+
+    if "answer_history" not in st.session_state:
+        st.session_state.answer_history = {}
+
+    prev = st.session_state.answer_history.get(key, "")
+    combined = (prev + " " + ans.strip()).strip()
+
+    # Save updated combined answer so later turns build on it
+    st.session_state.answer_history[key] = combined
+
     # ✅ If student expresses uncertainty
     if is_uncertain(ans):
         st.session_state.messages.append(
@@ -165,12 +170,12 @@ if submit and ans.strip():
                 "click **Skip / Next Question ⏭️** anytime."
             )
         )
-        followup = socratic_followup(module_id, state.ptr.qi, ans.strip())
+        followup = socratic_followup(module_id, state.ptr.qi, combined)
         st.session_state.messages.append(("tutor", followup))
         st.rerun()
 
     # ✅ Otherwise — normal structured follow-up
-    followup = socratic_followup(module_id, state.ptr.qi, ans.strip())
+    followup = socratic_followup(module_id, state.ptr.qi, combined)
     st.session_state.messages.append(("tutor", followup))
     st.rerun()
 
