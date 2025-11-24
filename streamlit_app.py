@@ -11,7 +11,7 @@ from backend.tutor_state import TutorState
 from backend.question_loader import load_module_bundle, next_pointer, QuestionPointer
 from backend.diagram_loader import diagram_for_pointer
 from backend.socratic_engine import socratic_followup
-from backend.hf_model import init_hf, hf_socratic
+#from backend.hf_model import init_hf, hf_socratic
 
 
 # ---------- PAGE CONFIG ----------
