@@ -10,6 +10,8 @@ from backend.question_loader import load_concept_keys
 # ---------------------------------------------------------
 # 🔍Smart semantic matching for key concepts
 # ---------------------------------------------------------
+import re
+
 def concept_covered(concept: str, student_answer: str) -> bool:
     """
     Returns True if the student's answer semantically matches the concept.
@@ -18,7 +20,7 @@ def concept_covered(concept: str, student_answer: str) -> bool:
     student = student_answer.lower()
     concept = concept.lower()
 
-    # Extract words and build stems (mutat, prolife, regula, tumor, etc.)
+    # Extract words and build stems (mutat, prolife, regula, tumor, monoc, colon, etc.)
     words = [w for w in re.findall(r"[a-zA-Z]+", concept) if len(w) > 3]
     stems = [w[:5] for w in words]  # take first 5 letters as a crude stem
 
@@ -33,33 +35,54 @@ def concept_covered(concept: str, student_answer: str) -> bool:
 
     return hits >= needed
 
-def socratic_followup(module_id, q_index, student_answer):
-    concepts = load_concept_keys(module_id).get(str(q_index+1), {})
-    keys = concepts.get("key_concepts", [])
-    followups = concepts.get("followups", [])
-    encouragements = concepts.get("encouragement", [])
+def socratic_followup(module_id: str, q_index: int, student_answer: str) -> str:
+    """
+    Pick a single Socratic follow-up based on which key concepts are still missing.
+    Uses key_concepts and followups from <module_id>_answers.json.
+    """
+    spec = load_concept_keys(module_id).get(str(q_index + 1), {})
+    key_concepts = spec.get("key_concepts", [])
+    followups    = spec.get("followups", [])
+    encouragement = spec.get("encouragement", [])
 
-    text = student_answer.lower()
+    text = (student_answer or "").strip()
+    if not text:
+        return "Take a moment to jot down even a rough idea — what comes to mind first for this question?"
 
-    # Detect missing concepts
-    missing = []
-    for concept in keys:
-        if not concept_covered(concept, student_answer):
-            missing.append(concept)
+    lower = text.lower()
 
-    # If student said they don't know or similar
-    if any(p in text for p in ["idk", "don't know", "not sure", "help"]):
+    # 🔹 Handle “I don’t know / not sure”
+    if any(phrase in lower for phrase in ["i don't know", "idk", "not sure", "no idea"]):
+        base = encouragement[0] if encouragement else \
+            "That's totally okay — this concept can be tricky! 🧠💭"
         return (
-            (encouragements or ["Take your time — you're learning! 😊"])[0]
-            + " Want a hint or to move on?"
+            base
+            + "\n\nTry thinking about how growth is normally controlled at the molecular level. "
+            + "If you'd like, you can also click **Skip / Next Question ⏭️** to move on."
         )
 
-    # If none missing, move on
+    # 🔹 Check which concepts are still missing
+    missing = []
+    for idx, concept in enumerate(key_concepts):
+        if not concept_covered(concept, text):
+            missing.append((idx, concept))
+
+    # 🔹 If all concepts are covered → STOP asking new follow-ups
     if not missing:
-        return "Nice thinking — ready for the next question? ✅"
+        msg = (
+            "Nice work — you've hit the key biochemical ideas for this question 💪.\n\n"
+            "If you're ready, click **Skip / Next Question ⏭️** to move on, "
+            "or add anything else you're curious about."
+        )
+        return msg
 
-    # If missing, return the NEXT hint only
-    idx = len(keys) - len(missing)
-    idx = min(idx, len(followups)-1)
+    # 🔹 Pick a follow-up aligned with the first missing concept
+    first_missing_idx = missing[0][0]
+    if followups and first_missing_idx < len(followups):
+        return followups[first_missing_idx]
 
-    return followups[idx]
+    # 🔹 Fallback if followups list is short
+    return (
+        "That's a solid start. Which piece still feels least clear to you — "
+        "what drives the change, how control is lost, or how a mass of cells builds up?"
+    )
