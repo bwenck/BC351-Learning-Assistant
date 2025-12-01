@@ -156,12 +156,25 @@ if submit and ans.strip():
         # we still go on to ask a concept-based follow-up using combined
 
     # 4️⃣ Ask ONE concept-based Socratic follow-up using the combined answer text
-    follow = socratic_followup(
-        module_id,
-        state.ptr.qi,
-        combined,  # ✅ full history for this question
-    )
-    st.session_state.messages.append(("tutor", follow))
+    follow = socratic_followup(module_id, state.ptr.qi, combined)
+
+    # If no follow-up → move to next question
+    if follow is None:
+        nxt = next_pointer(state.bundle, state.ptr)
+        if nxt:
+            state.ptr = nxt
+            st.session_state.messages.append(
+                ("tutor", "Great — let's move forward! 🚀")
+            )
+            st.session_state.messages.append(
+                ("tutor", state.bundle.question_text(state.ptr))
+            )
+        else:
+            st.session_state.messages.append(
+                ("tutor", "🎉 You've completed this module!")
+            )
+    else:
+        st.session_state.messages.append(("tutor", follow))
 
     # 5️⃣ Clear the input box on next rerun
     st.session_state.clear_box = True
