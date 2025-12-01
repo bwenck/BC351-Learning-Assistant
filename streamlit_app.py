@@ -143,7 +143,7 @@ if submit and ans.strip():
     st.session_state.answer_history[key] = combined
 
     # 3️⃣ If the student expresses uncertainty, respond gently
-    from concept_check import is_uncertain  # if not already imported at top
+    from backend.concept_check import is_uncertain  # if not already imported at top
     if is_uncertain(ans):
         st.session_state.messages.append(
             (
