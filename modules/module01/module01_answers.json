@@ -1,10 +1,12 @@
 {
   "1": {
-    "key_concepts": [
-      "Cancer is uncontrolled cell proliferation",
-      "Normal growth regulation is lost",
-      "Changes arise from mutations",
-      "Leads to formation of tumors, monoclonal colonies, or cell masses"
+  "concept_domain": "cancer",
+    "concept_keys": [
+      "uncontrolled cell division",
+      "cell cycle dysregulation",
+      "genetic mutations",
+      "clonal expansion",
+      "tumor formation"
     ],
     "followups": [
       "What normally controls cell growth in healthy tissues?",
