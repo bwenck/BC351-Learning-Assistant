@@ -128,6 +128,45 @@ with left:
         bubble_class = "student" if role == "student" else "tutor"
         st.markdown(f"<div class='chat-bubble {bubble_class}'>{msg}</div>", unsafe_allow_html=True)
 
+# ---------- Handle SUBMIT ----------
+if submit and ans.strip():
+    # 1️⃣ Log this answer in the chat
+    st.session_state.messages.append(("student", ans.strip()))
+
+    # 2️⃣ Accumulate answer history for THIS question
+    key = (module_id, state.ptr.qi)  # (module, question index)
+    if "answer_history" not in st.session_state:
+        st.session_state.answer_history = {}
+
+    prev = st.session_state.answer_history.get(key, "")
+    combined = (prev + " " + ans.strip()).strip()
+    st.session_state.answer_history[key] = combined
+
+    # 3️⃣ If the student expresses uncertainty, respond gently
+    from concept_check import is_uncertain  # if not already imported at top
+    if is_uncertain(ans):
+        st.session_state.messages.append(
+            (
+                "tutor",
+                "That's totally okay — this concept can be tricky! 🧠💭\n"
+                "Think about how normal cell growth is controlled at the molecular level.\n\n"
+                "If you'd like, you can also click **Skip / Next Question ⏭️** to move on."
+            )
+        )
+        # we still go on to ask a concept-based follow-up using combined
+
+    # 4️⃣ Ask ONE concept-based Socratic follow-up using the combined answer text
+    follow = socratic_followup(
+        module_id,
+        state.ptr.qi,
+        combined,  # ✅ full history for this question
+    )
+    st.session_state.messages.append(("tutor", follow))
+
+    # 5️⃣ Clear the input box on next rerun
+    st.session_state.clear_box = True
+    st.rerun()
+
 # ---------- Handle SKIP ----------
 if skip:
     nxt = next_pointer(state.bundle, state.ptr)
@@ -138,45 +177,6 @@ if skip:
     else:
         st.session_state.messages.append(("tutor", "🎉 You've reached the end of this module!"))
     st.session_state.clear_box = True
-    st.rerun()
-
-
-# ---------- Handle SUBMIT ----------
-if submit and ans.strip():
-    # store student message
-    st.session_state.messages.append(("student", ans.strip()))
-    st.session_state.clear_box = True
-
-    # ---------- Accumulate answer history for concept tracking ----------
-    key = (module_id, state.ptr.qi)
-
-    if "answer_history" not in st.session_state:
-        st.session_state.answer_history = {}
-
-    prev = st.session_state.answer_history.get(key, "")
-    combined = (prev + " " + ans.strip()).strip()
-
-    # Save updated combined answer so later turns build on it
-    st.session_state.answer_history[key] = combined
-
-    # ✅ If student expresses uncertainty
-    if is_uncertain(ans):
-        st.session_state.messages.append(
-            (
-                "tutor",
-                "That's totally okay — this concept can be tricky! 🧠💭\n"
-                "Think about *cell-cycle control mechanisms and signaling pathways*.\n\n"
-                "You can take your time — and if you'd like to move on,\n"
-                "click **Skip / Next Question ⏭️** anytime."
-            )
-        )
-        followup = socratic_followup(module_id, state.ptr.qi, combined)
-        st.session_state.messages.append(("tutor", followup))
-        st.rerun()
-
-    # ✅ Otherwise — normal structured follow-up
-    followup = socratic_followup(module_id, state.ptr.qi, combined)
-    st.session_state.messages.append(("tutor", followup))
     st.rerun()
 
 # ---------- RIGHT PANEL ----------
