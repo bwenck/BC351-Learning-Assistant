@@ -1,24 +1,27 @@
 {
   "1": {
   "concept_domain": "cancer",
-    "concept_keys": [
-      "uncontrolled cell division",
-      "cell cycle dysregulation",
-      "genetic mutations",
+    "required_concepts": [
+      "uncontrolled proliferation",
+      "regulation breakdown",
       "clonal expansion",
       "tumor formation"
     ],
-    "followups": [
-      "What normally controls cell growth in healthy tissues?",
-      "How do mutations influence cell proliferation?",
-      "Why do cells divide uncontrollably in cancer?",
-      "How do tumors form from a single altered cell?"
+    "optional_concepts": [
+      "genetic mutations"
     ],
+    "followups": {
+      "uncontrolled proliferation": "Think about what normally controls cell growth in healthy tissues. What might happen if a cell starts growing when it shouldn't?",
+      "regulation breakdown": "What normally limits or slows cell division in healthy tissues?",
+      "clonal expansion": "What do you think 'clonal' means in the context of cancer?",
+      "tumor formation": "How might the accumulation of uncontrolled growth lead to problems for the organism?",
+      "genetic mutations": "How might a mutation change the way a cell responds to growth signals?"
+    },
     "encouragement": [
-      "Nice start — think about what keeps cell division regulated.",
-      "You're on the right track — what role do mutations play?",
-      "Good thinking — consider how one altered cell can expand.",
-      "Doing great — try connecting mutations to loss of control."
+      "Nice start!",
+      "Keep going — you're on the right track.",
+      "Good thinking!",
+      "You're making progress."
     ]
   },
 
