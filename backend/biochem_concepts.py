@@ -6,8 +6,8 @@ Extend freely — app auto-uses updates
 
 BIO_CONCEPTS = {
     "cancer": {
-        # 1️⃣ Uncontrolled cell division
-        "uncontrolled cell division": [
+        # 1️⃣ Uncontrolled proliferation
+        "uncontrolled proliferation": [
             "uncontrolled cell proliferation",
             "uncontrolled proliferation",
             "uncontrolled growth",
@@ -18,8 +18,8 @@ BIO_CONCEPTS = {
             "cells divide uncontrollably",
         ],
 
-        # 2️⃣ Cell cycle dysregulation (loss of control)
-        "cell cycle dysregulation": [
+        # 2️⃣ Regulation breakdown (loss of control)
+        "regulation breakdown": [
             "loss of cell cycle control",
             "loss of growth regulation",
             "growth regulation is lost",

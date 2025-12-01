@@ -1,73 +1,94 @@
 # backend/concept_check.py
 from typing import List
 import re
+import json
+from pathlib import Path
+from functools import lru_cache
+from biochem_concepts import BIO_CONCEPTS
 
-_STOP = {
-    "the","a","an","and","or","but","of","in","on","by","to","for","with","as",
-    "that","this","these","those","from","into","at","is","are","was","were",
-    "be","being","been","it","its","their","there","which","what","when","how",
-    "why","do","does","did","can","could","should","would","about","such"
-}
-_SPLIT = re.compile(r"[.\n;!?]+")
+def normalize(s: str) -> str:
+    return re.sub(r"\s+", " ", (s or "").lower().strip())
 
-def _normalize(s: str) -> str:
-    return re.sub(r"\s+", " ", (s or "").strip().lower())
+def concept_hit(concept: str, student_answer: str, domain: str | None = None) -> bool:
+    """
+    Check whether a concept is covered in the student's answer.
+    Uses:
+      - the concept phrase itself
+      - any synonyms/variants from BIO_CONCEPTS[domain][concept]
+    Matching is done on simple word stems, so:
+      'proliferation' ~ 'proliferative' (proli…)
+      'uncontrolled division' ~ 'cells divide uncontrollably' (uncon…, divid…)
+    """
+    student = student_answer.lower()
 
-def _tokens(s: str) -> List[str]:
-    return [w for w in re.findall(r"[a-z0-9\-]+", s.lower()) if w and w not in _STOP]
+    # Build a list of phrases to check: base concept + synonyms from BIO_CONCEPTS
+    phrases = [concept]
+    if domain and domain in BIO_CONCEPTS:
+        variants = BIO_CONCEPTS[domain].get(concept, [])
+        phrases.extend(variants)
 
-def extract_concepts_from_answer(answer_block: str, max_concepts: int = 6) -> List[str]:
-    seen = set()
-    concepts: List[str] = []
-    for sent in _SPLIT.split(answer_block or ""):
-        s = _normalize(sent)
-        if len(s) < 20:
-            continue
-        toks = [t for t in _tokens(s) if len(t) >= 4]
-        if not toks:
-            continue
-        phrase = " ".join(toks[:5])
-        key = " ".join(toks[:2]) if len(toks) >= 2 else phrase
-        if key and key not in seen:
-            seen.add(key)
-            concepts.append(phrase)
-        if len(concepts) >= max_concepts:
-            break
-    return concepts
+    # If nothing to check, bail
+    phrases = [p for p in phrases if p]
+    if not phrases:
+        return False
 
-def missing_concepts(answer_block: str, student_answer: str) -> List[str]:
-    reply_toks = set(_tokens(_normalize(student_answer)))
-    misses: List[str] = []
-    for concept in extract_concepts_from_answer(answer_block):
-        ctoks = set(_tokens(concept))
-        if not ctoks.issubset(reply_toks):
-            misses.append(concept)
-    return misses
+    # If ANY variant’s key stems are all present in the answer → concept is covered
+    for phrase in phrases:
+        words = [w for w in re.findall(r"[a-z]+", phrase.lower()) if len(w) > 4]
+        stems = [w[:5] for w in words]
+        if stems and all(stem in student for stem in stems):
+            return True
 
-def make_followup(question_text: str, concept_phrase: str) -> str:
-    base = concept_phrase.split()[:4]
-    cue = " ".join(base)
-    return f"What role does {cue} have in your answer to: “{question_text}”?"
+    return False
+
+@lru_cache(maxsize=16)
+def load_answer_spec(module_id: str):
+    path = Path(f"modules/{module_id}/{module_id}_answers.json")
+    if not path.exists():
+        return {}
+    return json.loads(path.read_text())
+
+def evaluate_concepts(module_id: str, qid: int, student_answer: str):
+    """
+    Returns:
+      missing_required: list[str]
+      missing_optional: list[str]
+      spec: full JSON entry for this question
+    """
+    json_path = Path(f"modules/{module_id}/{module_id}_answers.json")
+    data = json.loads(json_path.read_text())
+
+    spec = data[str(qid)]
+    domain = spec.get("concept_domain")  # e.g. "cancer"
+
+    required = spec.get("required_concepts", [])
+    optional = spec.get("optional_concepts", [])
+
+    missing_required = [
+        c for c in required
+        if not concept_hit(c, student_answer, domain)
+    ]
+    missing_optional = [
+        c for c in optional
+        if not concept_hit(c, student_answer, domain)
+    ]
+
+    return missing_required, missing_optional, spec
 
 def is_uncertain(text: str) -> bool:
     """
     Detects when a student expresses uncertainty.
     """
-    if not text:
-        return False
-
-    t = text.lower()
-
-    phrases = [
+    t = text.strip().lower()
+    unsure = [
         "i don't know",
         "idk",
         "not sure",
+        "i am not sure",
         "no idea",
+        "i'm unsure",
         "unsure",
-        "confused",
         "i'm confused",
-        "i do not know",
-        "i'm not sure"
+        "i am confused"
     ]
-
-    return any(p in t for p in phrases)
+    return any(u in t for u in unsure)
