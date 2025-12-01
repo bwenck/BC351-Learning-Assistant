@@ -48,3 +48,26 @@ def make_followup(question_text: str, concept_phrase: str) -> str:
     base = concept_phrase.split()[:4]
     cue = " ".join(base)
     return f"What role does {cue} have in your answer to: “{question_text}”?"
+
+def is_uncertain(text: str) -> bool:
+    """
+    Detects when a student expresses uncertainty.
+    """
+    if not text:
+        return False
+
+    t = text.lower()
+
+    phrases = [
+        "i don't know",
+        "idk",
+        "not sure",
+        "no idea",
+        "unsure",
+        "confused",
+        "i'm confused",
+        "i do not know",
+        "i'm not sure"
+    ]
+
+    return any(p in t for p in phrases)
