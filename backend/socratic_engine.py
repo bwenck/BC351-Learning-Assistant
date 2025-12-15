@@ -23,7 +23,10 @@ def socratic_followup(module_id: str, qid: int, student_answer: str):
       - a single follow-up string, OR
       - None if all required concepts are covered (so the UI knows to advance)
     """
-    # 🚨 NEW: never auto-advance on uncertainty
+    # normalize first
+    text = (student_answer or "").strip()
+
+    # 🚨 never auto-advance on uncertainty
     if is_uncertain(text):
         return {
             "type": "uncertain",
@@ -34,7 +37,6 @@ def socratic_followup(module_id: str, qid: int, student_answer: str):
             )
         }
 
-    text = (student_answer or "").strip()
     if not text:
         return "Take a moment to jot down even a rough idea — what comes to mind first for this question?"
 
