@@ -158,7 +158,7 @@ if submit and ans.strip():
         if nxt:
             state.ptr = nxt
             st.session_state.messages.append(
-                ("tutor", "Great — let's move forward! 🚀")
+                ("tutor", "Nice work — you've hit the key biochemical ideas for this question 💪.")
             )
             st.session_state.messages.append(
                 ("tutor", state.bundle.question_text(state.ptr))
