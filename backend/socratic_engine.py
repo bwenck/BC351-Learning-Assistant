@@ -6,64 +6,60 @@ We DON’T generate new concepts; we only rephrase a focused question if needed.
 from typing import List
 import re
 import random
-from backend.question_loader import load_concept_keys
+from backend.concept_check import evaluate_concepts  # <-- uses BIO_CONCEPTS & JSON
 from biochem_concepts import BIO_CONCEPTS
 
 # ---------------------------------------------------------
 # 🔍Smart semantic matching for key concepts
 # ---------------------------------------------------------
 
-def concept_covered(domain: str, concept_key: str, student_answer: str) -> bool:
-    """
-    Returns True if the student's answer covers the named concept,
-    using BIO_CONCEPTS[domain][concept_key] as a list of variant phrases.
-
-    We treat a concept as 'covered' if at least one meaningful word
-    from the concept or its variants appears in the student's answer.
-    """
-    student = student_answer.lower()
-
-    domain_map = BIO_CONCEPTS.get(domain, {})
-    variants = domain_map.get(concept_key, [])
-
-    # Build list of phrases to search: key itself + any variant strings
-    phrases = [concept_key.lower()] + [
-        v.lower() for v in variants if isinstance(v, str)
-    ]
-
-    for phrase in phrases:
-        # Break into words and keep non-trivial ones
-        words = [w for w in re.findall(r"[a-zA-Z]+", phrase) if len(w) > 3]
-        if not words:
-            continue
-
-        # If at least one of these words appears in the student's answer,
-        # we count this concept as covered.
-        for w in words:
-            if w in student:
-                return True
-
-    return False
-
 def socratic_followup(module_id: str, qid: int, student_answer: str):
     """
-    Returns ONE Socratic follow-up question based on missing concepts.
-    If all required concepts are satisfied → return None (signal to advance).
-    """
+    Decide what to ask next for (module_id, question qid) given the student's
+    combined answer text for that question.
 
+    Returns:
+      - a single follow-up string, OR
+      - None if all required concepts are covered (so the UI knows to advance)
+    """
+    text = (student_answer or "").strip()
+    if not text:
+        return "Take a moment to jot down even a rough idea — what comes to mind first for this question?"
+
+    # 🔍 Ask concept_check to evaluate required/optional concepts
     missing_required, missing_optional, spec = evaluate_concepts(
-        module_id, qid, student_answer
+        module_id,
+        qid,
+        text,
     )
 
-    # If nothing key is missing → no follow-up needed
+    # If we don't have a spec for this question, fall back to a generic nudge
+    if not spec:
+        return "Nice start — can you add a bit more detail about the key idea here?"
+
+    # ✅ If *no required concepts* are missing → all core ideas are present → move on
     if not missing_required:
         return None
 
-    # Pick one missing concept
+    # Pick the *first* missing required concept to focus the follow-up
     concept = missing_required[0]
 
-    # Encouragement + concept-specific follow-up
-    encouragement = choice(spec["encouragement"])
-    followup = spec["followups"][concept]
+    # Encouragement message
+    encouragement_list = spec.get("encouragement", [])
+    encouragement = random.choice(encouragement_list) if encouragement_list else "Good thinking — let's sharpen this a bit."
 
-    return f"{encouragement} {followup}"
+    # Concept-specific follow-up(s)
+    followup_map = spec.get("followups", {})
+    followup_entry = followup_map.get(concept)
+
+    if isinstance(followup_entry, list):
+        follow_text = random.choice(followup_entry) if followup_entry else ""
+    else:
+        # allow simple string as well
+        follow_text = followup_entry or ""
+
+    if not follow_text:
+        # Fallback if no specific followup is defined
+        follow_text = "Can you say a bit more about this idea in molecular terms?"
+
+    return f"{encouragement} {follow_text}"
