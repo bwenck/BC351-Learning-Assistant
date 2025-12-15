@@ -6,8 +6,9 @@ We DON’T generate new concepts; we only rephrase a focused question if needed.
 from typing import List
 import re
 import random
-from backend.concept_check import evaluate_concepts  # <-- uses BIO_CONCEPTS & JSON
+from concept_check import evaluate_concepts  # <-- uses BIO_CONCEPTS & JSON
 from biochem_concepts import BIO_CONCEPTS
+from concept_check import is_uncertain
 
 # ---------------------------------------------------------
 # 🔍Smart semantic matching for key concepts
@@ -22,6 +23,17 @@ def socratic_followup(module_id: str, qid: int, student_answer: str):
       - a single follow-up string, OR
       - None if all required concepts are covered (so the UI knows to advance)
     """
+    # 🚨 NEW: never auto-advance on uncertainty
+    if is_uncertain(text):
+        return {
+            "type": "uncertain",
+            "message": (
+                "That's totally okay — this concept can be tricky! 🧠💭\n"
+                "Take a moment to think it through, or feel free to click "
+                "**Skip / Next Question ⏭️** if you'd like to move on."
+            )
+        }
+
     text = (student_answer or "").strip()
     if not text:
         return "Take a moment to jot down even a rough idea — what comes to mind first for this question?"
