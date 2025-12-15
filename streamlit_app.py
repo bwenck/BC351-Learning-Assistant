@@ -152,21 +152,25 @@ if submit and ans.strip():
     # 4️⃣ Ask ONE concept-based Socratic follow-up using the combined answer text
     follow = socratic_followup(module_id, state.ptr.qi, combined)
 
-    # If no follow-up → move to next question
-    if follow is None:
+    # 🔹 Case 1: uncertainty — encourage, do NOT advance
+    if isinstance(follow, dict) and follow.get("type") == "uncertain":
+        st.session_state.messages.append(("tutor", follow["message"]))
+
+    # 🔹 Case 2: concepts complete — auto-advance
+    elif follow is None:
         nxt = next_pointer(state.bundle, state.ptr)
         if nxt:
             st.session_state.messages.append(
                 ("tutor", "Nice work — you've hit the key biochemical ideas for this question 💪.")
             )
             state.ptr = nxt
-            st.session_state.messages.append(
-                ("tutor", state.bundle.question_text(state.ptr))
-            )
+            st.session_state.messages.append(("tutor", state.bundle.question_text(state.ptr)))
         else:
             st.session_state.messages.append(
                 ("tutor", "🎉 You've completed this module!")
             )
+
+    # 🔹 Case 3: real Socratic follow-up
     else:
         st.session_state.messages.append(("tutor", follow))
 
