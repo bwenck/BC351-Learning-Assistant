@@ -156,10 +156,10 @@ if submit and ans.strip():
     if follow is None:
         nxt = next_pointer(state.bundle, state.ptr)
         if nxt:
-            state.ptr = nxt
             st.session_state.messages.append(
                 ("tutor", "Nice work — you've hit the key biochemical ideas for this question 💪.")
             )
+            state.ptr = nxt
             st.session_state.messages.append(
                 ("tutor", state.bundle.question_text(state.ptr))
             )
