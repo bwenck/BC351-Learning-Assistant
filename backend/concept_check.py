@@ -6,6 +6,8 @@ from pathlib import Path
 from functools import lru_cache
 from biochem_concepts import BIO_CONCEPTS
 
+print("✅ concept_check.py loaded (v2025-11-xx qid+1 fix)")
+
 def normalize(s: str) -> str:
     return re.sub(r"\s+", " ", (s or "").lower().strip())
 
@@ -48,23 +50,19 @@ def evaluate_concepts(module_id: str, qid: int, student_answer: str):
       - the full spec dict for this question
     """
     spec_all = load_concept_spec(module_id)
-    # 🔧 FIX: JSON is 1-based, internal qid is 0-based
-    spec = spec_all.get(str(qid + 1), {})
-    if not spec:
+
+    # JSON keys are "1","2","3"... but internal qid is 0-based.
+    spec = spec_all.get(str(qid + 1))
+    if not isinstance(spec, dict):
         return [], [], {}
+
     domain = spec.get("concept_domain")
 
-    required = spec.get("required_concepts", [])
-    optional = spec.get("optional_concepts", [])
+    required = spec.get("required_concepts", []) or []
+    optional = spec.get("optional_concepts", []) or []
 
-    missing_required = [
-        c for c in required
-        if not concept_hit(c, student_answer, domain)
-    ]
-    missing_optional = [
-        c for c in optional
-        if not concept_hit(c, student_answer, domain)
-    ]
+    missing_required = [c for c in required if not concept_hit(c, student_answer, domain)]
+    missing_optional = [c for c in optional if not concept_hit(c, student_answer, domain)]
 
     return missing_required, missing_optional, spec
 
