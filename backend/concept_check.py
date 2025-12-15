@@ -43,12 +43,6 @@ def load_concept_spec(module_id: str):
     return json.loads(path.read_text(encoding="utf-8"))
 
 def evaluate_concepts(module_id: str, qid: int, student_answer: str):
-    """
-    Uses moduleXX_answers.json + BIO_CONCEPTS to determine:
-      - which required concepts are still missing
-      - which optional concepts are missing
-      - the full spec dict for this question
-    """
     spec_all = load_concept_spec(module_id)
 
     # JSON keys are "1","2","3"... but internal qid is 0-based.
@@ -57,7 +51,6 @@ def evaluate_concepts(module_id: str, qid: int, student_answer: str):
         return [], [], {}
 
     domain = spec.get("concept_domain")
-
     required = spec.get("required_concepts", []) or []
     optional = spec.get("optional_concepts", []) or []
 
