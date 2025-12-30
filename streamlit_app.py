@@ -128,7 +128,7 @@ if submit and ans.strip():
     st.session_state.messages.append(("student", ans.strip()))
 
     # 2️⃣ Accumulate answer history for THIS question
-    key = (module_id, state.ptr.qi)  # (module, question index)
+    key = (module_id, state.ptr.qi)  # (module, 0-based question index)
     if "answer_history" not in st.session_state:
         st.session_state.answer_history = {}
 
@@ -136,43 +136,28 @@ if submit and ans.strip():
     combined = (prev + " " + ans.strip()).strip()
     st.session_state.answer_history[key] = combined
 
-    # 3️⃣ If the student expresses uncertainty, respond gently
-    from backend.concept_check import is_uncertain  # if not already imported at top
-    if is_uncertain(ans):
-        st.session_state.messages.append(
-            (
-                "tutor",
-                "That's totally okay — this concept can be tricky! 🧠💭\n"
-                "Think about how normal cell growth is controlled at the molecular level.\n\n"
-                "If you'd like, you can also click **Skip / Next Question ⏭️** to move on."
-            )
-        )
-        # we still go on to ask a concept-based follow-up using combined
-
-    # 4️⃣ Ask ONE concept-based Socratic follow-up using the combined answer text
+    # 3️⃣ Ask ONE concept-based Socratic follow-up using the combined answer text
     follow = socratic_followup(module_id, state.ptr.qi, combined)
 
-    # 🔹 Case 1: uncertainty — encourage, do NOT advance
-    if isinstance(follow, dict) and follow.get("type") == "uncertain":
-        st.session_state.messages.append(("tutor", follow["message"]))
-
-    # 🔹 Case 2: concepts complete — auto-advance
-    elif follow is None:
+    # 4️⃣ If concepts complete → auto-advance (engine returns None)
+    if follow is None:
+        st.session_state.messages.append(
+            ("tutor", "Nice work — you've hit the key biochemical ideas for this question 💪.")
+        )
         nxt = next_pointer(state.bundle, state.ptr)
         if nxt:
-            st.session_state.messages.append(
-                ("tutor", "Nice work — you've hit the key biochemical ideas for this question 💪.")
-            )
             state.ptr = nxt
             st.session_state.messages.append(("tutor", state.bundle.question_text(state.ptr)))
         else:
-            st.session_state.messages.append(
-                ("tutor", "🎉 You've completed this module!")
-            )
-
-    # 🔹 Case 3: real Socratic follow-up
+            st.session_state.messages.append(("tutor", "🎉 You've completed this module!"))
     else:
-        st.session_state.messages.append(("tutor", follow))
+        # follow can be:
+        #  - dict {"type":"uncertain","message":...}
+        #  - string follow-up question
+        if isinstance(follow, dict) and follow.get("type") == "uncertain":
+            st.session_state.messages.append(("tutor", follow.get("message", "")))
+        else:
+            st.session_state.messages.append(("tutor", follow))
 
     # 5️⃣ Clear the input box on next rerun
     st.session_state.clear_box = True
@@ -183,7 +168,7 @@ if skip:
     nxt = next_pointer(state.bundle, state.ptr)
     if nxt:
         state.ptr = nxt
-        st.session_state.messages.append(("tutor", "No worries — let's try the next part 😊"))
+        st.session_state.messages.append(("tutor", "No problem — we'll move on for now ⏭️"))
         st.session_state.messages.append(("tutor", state.bundle.question_text(state.ptr)))
     else:
         st.session_state.messages.append(("tutor", "🎉 You've reached the end of this module!"))
