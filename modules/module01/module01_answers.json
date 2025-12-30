@@ -11,18 +11,30 @@
       "genetic mutations"
     ],
     "followups": {
-      "uncontrolled proliferation": "Think about what normally controls cell growth in healthy tissues. What might happen if a cell starts growing when it shouldn't?",
-      "regulation breakdown": "What normally limits or slows cell division in healthy tissues?",
-      "clonal expansion": "What do you think 'clonal' means in the context of cancer?",
-      "tumor formation": "How might the accumulation of uncontrolled growth lead to problems for the organism?",
-      "genetic mutations": "How might a mutation change the way a cell responds to growth signals?"
+      "uncontrolled proliferation": [
+        "Think about what normally controls cell growth in healthy tissues. What might happen if a cell starts growing when it shouldn't?"
+      ],
+      "regulation breakdown": [
+        "What normally limits or slows cell division in healthy tissues?"
+      ],
+      "clonal expansion": [
+        "What do you think 'clonal' means in the context of cancer?"
+      ],
+      "tumor formation": [
+        "How might the accumulation of uncontrolled growth lead to problems for the organism?"
+      ],
+      "genetic mutations": [
+        "How might a mutation change the way a cell responds to growth signals?"
+      ]
     },
     "encouragement": [
       "Nice start!",
       "Keep going — you're on the right track.",
       "Good thinking!",
       "You're making progress."
-    ]
+    ],
+    "uncertainty_followup":
+      "Take a moment to jot down even a rough idea — what comes to mind about regulation in the context of cancer?"
   },
 
   "2": {
@@ -40,7 +52,9 @@
       "Think about what type of tissue the cancer started in.",
       "You're close — try naming a tissue origin.",
       "Good progress — how does the starting tissue matter?"
-    ]
+    ],
+    "uncertainty_followup":
+      "Take a moment to jot down even a rough idea — what comes to mind about the hierarchy of cancer classification?"
   },
 
   "3": {
