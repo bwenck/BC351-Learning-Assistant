@@ -153,13 +153,7 @@ if submit and ans.strip():
     # 3️⃣ Ask ONE concept-based Socratic follow-up using the combined answer text
     uncertain_now = is_uncertain(ans)
 
-    follow = socratic_followup(
-        module_id,
-        state.ptr.qi,
-        combined,
-        uncertain_now=uncertain_now,
-        uncertain_count=count
-    )
+    follow = socratic_followup(module_id, state.ptr.qi, combined)
 
     # 4️⃣ If concepts complete → auto-advance (engine returns None)
     if follow is None:
