@@ -1,6 +1,6 @@
 {
   "1": {
-  "concept_domain": "cancer",
+    "concept_domain": "cancer",
     "required_concepts": [
       "uncontrolled proliferation",
       "regulation breakdown",
@@ -13,19 +13,19 @@
     "followups": {
       "uncontrolled proliferation": [
         "Think about what normally controls cell growth in healthy tissues. What might happen if a cell starts growing when it shouldn't?"
-      ],
+        ],
       "regulation breakdown": [
         "What normally limits or slows cell division in healthy tissues?"
-      ],
+        ],
       "clonal expansion": [
         "What do you think 'clonal' means in the context of cancer?"
-      ],
+        ],
       "tumor formation": [
         "How might the accumulation of uncontrolled growth lead to problems for the organism?"
-      ],
+        ],
       "genetic mutations": [
         "How might a mutation change the way a cell responds to growth signals?"
-      ]
+        ]
     },
     "encouragement": [
       "Nice start!",
@@ -33,45 +33,77 @@
       "Good thinking!",
       "You're making progress."
     ],
-    "uncertainty_followup":
-      "Take a moment to jot down even a rough idea — what comes to mind about regulation in the context of cancer?"
+    "uncertainty_followup": "Take a moment to jot down even a rough idea — what comes to mind about regulation in the context of cancer?"
   },
 
   "2": {
-    "key_concepts": [
-      "Histological and tissue-origin classification",
-      "Cancers classified by cell or tissue type",
-      "Examples include epithelial, connective, nervous tissue origins"
+    "concept_domain": "cancer",
+    "required_concepts": [
+      "histological classification",
+      "benign",
+      "malignant",
+      "tissue origin",
+      "carcinomas",
+      "sarcomas"
     ],
-    "followups": [
-      "What is one way cancers can be grouped by the tissue they come from?",
-      "How does origin of tissue influence cancer classification?",
-      "What is an example of a cancer classified by cell type?"
-    ],
+    "followups": {
+      "histological classification": [
+        "What approach might a scientist use to organize different types of cancer?"
+      ],
+      "benign": [
+        "Think about how scientists might organize different types of cancer. What characteristics could they use?"
+      ],
+      "malignant": [
+        "Consider how a pathologist looks at cancer cells under a microscope. What might they be looking for?"
+      ],
+      "tissue origin": [
+        "What’s one way cancers can be grouped based on where they start?"
+      ],
+      "carcinomas": [
+        "How might cancer from the tissue of body surfaces or linings be classified?"
+      ],
+      "sarcomas": [
+        "How might cancer originating in connective tissues be classified?"
+      ]
+    },
     "encouragement": [
-      "Think about what type of tissue the cancer started in.",
-      "You're close — try naming a tissue origin.",
-      "Good progress — how does the starting tissue matter?"
+      "Nice start.",
+      "You’re on the right track.",
+      "Good thinking.",
+      "Keep going — you’ve got this."
     ],
-    "uncertainty_followup":
-      "Take a moment to jot down even a rough idea — what comes to mind about the hierarchy of cancer classification?"
+    "uncertainty_followup": "Take a moment to jot down even a rough idea — what comes to mind about the hierarchy of cancer classification?"
   },
 
   "3": {
-    "key_concepts": [
-      "Benign tumors do not invade surrounding tissue",
-      "Malignant tumors invade and can metastasize",
-      "Malignant tumors spread to distant sites"
+    "concept_domain": "cancer",
+    "required_concepts": [
+      "clonal origin",
+      "progressive changes",
+      "morphological progression",
+      "age correlation"
     ],
-    "followups": [
-      "How do benign and malignant tumors differ in behavior?",
-      "What does metastasis mean?",
-      "Why is invasion important in distinguishing tumor types?"
-    ],
+    "followups": {
+      "clonal origin": [
+        "Think about what kind of evidence scientists would need to prove something came from a single cell. What would they look for?"
+      ],
+      "progressive changes": [
+        "Consider how cancer develops over time. What patterns might you observe?"
+      ],
+      "morphological progression": [
+        "How might tumor appearance change as it becomes more advanced?"
+      ],
+      "age correlation": [
+        "Why might cancer risk increase with age?"
+      ]
+    },
     "encouragement": [
-      "That's a good start — consider tissue invasion.",
-      "You're close — think about spreading to other tissues.",
-      "Good effort — what makes malignant tumors dangerous?"
-    ]
+      "That’s a good start.",
+      "You’re close — keep going.",
+      "Good progress.",
+      "Nice work — keep thinking it through."
+    ],
+    "uncertainty_followup": "Take a moment to jot down even a rough idea — think about the evidence for single-cell origin and progression."
   }
 }
+
