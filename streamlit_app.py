@@ -129,6 +129,7 @@ if submit and ans.strip():
 
     # 2️⃣ Accumulate answer history for THIS question
     key = (module_id, state.ptr.qi)  # (module, 0-based question index)
+
     if "answer_history" not in st.session_state:
         st.session_state.answer_history = {}
 
@@ -136,8 +137,29 @@ if submit and ans.strip():
     combined = (prev + " " + ans.strip()).strip()
     st.session_state.answer_history[key] = combined
 
+    # 2.5️⃣ Track uncertainty count (per module+question)
+    # We count uncertainty based on THIS submission (ans), not the whole combined text.
+    qnum = state.ptr.qi + 1  # your JSON uses "1","2","3"... (1-based)
+    ukey = (module_id, qnum)
+
+    if "uncertain_count" not in st.session_state:
+        st.session_state.uncertain_count = {}
+
+    if is_uncertain(ans):
+        st.session_state.uncertain_count[ukey] = st.session_state.uncertain_count.get(ukey, 0) + 1
+
+    count = st.session_state.uncertain_count.get(ukey, 0)
+
     # 3️⃣ Ask ONE concept-based Socratic follow-up using the combined answer text
-    follow = socratic_followup(module_id, state.ptr.qi, combined)
+    uncertain_now = is_uncertain(ans)
+
+    follow = socratic_followup(
+        module_id,
+        state.ptr.qi,
+        combined,
+        uncertain_now=uncertain_now,
+        uncertain_count=count
+    )
 
     # 4️⃣ If concepts complete → auto-advance (engine returns None)
     if follow is None:
@@ -151,13 +173,8 @@ if submit and ans.strip():
         else:
             st.session_state.messages.append(("tutor", "🎉 You've completed this module!"))
     else:
-        # follow can be:
-        #  - dict {"type":"uncertain","message":...}
-        #  - string follow-up question
-        if isinstance(follow, dict) and follow.get("type") == "uncertain":
-            st.session_state.messages.append(("tutor", follow.get("message", "")))
-        else:
-            st.session_state.messages.append(("tutor", follow))
+        # follow is a string (either uncertainty message OR missing-concept followup)
+        st.session_state.messages.append(("tutor", follow))
 
     # 5️⃣ Clear the input box on next rerun
     st.session_state.clear_box = True
