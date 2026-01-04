@@ -263,55 +263,31 @@ if skip:
 with right:
     st.subheader("Diagram / Info")
     diag = diagram_for_pointer(state.bundle, state.ptr)
+
     if isinstance(diag, dict):
-        # If MCQ diagram, show A/B/C
+        # MCQ diagram: show A/B/C images
         if diag.get("type") == "mcq" and isinstance(diag.get("images"), dict):
-            imgs = diag["images"]  # {"A": "...", "B": "...", "C": "..."}
+            imgs = diag["images"]  # {"A":"...", "B":"...", "C":"..."}
             cols = st.columns(len(imgs))
             for i, (label, filename) in enumerate(sorted(imgs.items())):
                 with cols[i]:
                     st.markdown(f"**{label}**")
                     st.image(diagram_image_path(module_id, diag, filename))
-
-                    # Radio + submit controls
-                    options = list(sorted(imgs.keys()))  # ["A","B","C"]
-                    qkey = f"diag_choice_{module_id}_{state.ptr.qi}"
-                    skey = f"diag_submit_{module_id}_{state.ptr.qi}"
-
-                    picked = st.radio("Choose one:", options, key=qkey, horizontal=True)
-
-                    if st.button("Submit diagram answer ✅", key=skey, use_container_width=True):
-                        correct = diag.get("correct")  # e.g. "C"
-                        if correct and picked == correct:
-                            st.session_state.messages.append(("tutor", "✅ Correct — nice. Let’s continue."))
-
-                            nxt = next_pointer(state.bundle, state.ptr)
-                            if nxt:
-                                state.ptr = nxt
-                                st.session_state.messages.append(("tutor", state.bundle.question_text(state.ptr)))
-                            else:
-                                st.session_state.messages.append(("tutor", "🎉 You've completed this module!"))
-                            st.rerun()
-                        else:
-                            st.session_state.messages.append(
-                                ("tutor",
-                                 "Not quite — try comparing which group can donate/accept H⁺ in an organic context.")
-                            )
-                            st.rerun()
-
         else:
-            # legacy single-image support (optional)
+            # single-image legacy support
             img = diag.get("image")
             if img:
                 st.image(diagram_image_path(module_id, diag, img))
 
-        prompt = diag.get("prompt")
+        prompt = (diag.get("prompt") or "").strip()
         if prompt:
             st.caption(prompt)
 
     st.markdown("---")
     st.subheader("Progress")
-    st.write(f"Q{state.ptr.qi+1} · part {state.ptr.si+1} of {state.bundle.subparts_count(state.ptr.qi)}")
+    st.write(
+        f"Q{state.ptr.qi+1} · part {state.ptr.si+1} of {state.bundle.subparts_count(state.ptr.qi)}"
+    )
 
     if bonus:
         bq = state.bundle.bonus_question()
