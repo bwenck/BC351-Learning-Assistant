@@ -33,10 +33,10 @@ def uncertainty_message(spec: dict) -> str:
 def socratic_followup(
     module_id: str,
     qid: int,                 # 0-based
-    student_answer: str,      # combined text so far for this question
+    student_answer: str,      # combined history (excluding uncertainty answers)
     *,
     uncertain_now: bool = False,
-    uncertain_count: int = 0
+    uncertain_count: int = 0   # count BEFORE this submission
 ):
     text = (student_answer or "").strip()
 
