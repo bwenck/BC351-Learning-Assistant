@@ -12,7 +12,7 @@ from typing import List
 import re
 import random
 import streamlit as st
-from backend.concept_check import evaluate_concepts, is_uncertain
+from concept_check import evaluate_concepts, is_uncertain
 from biochem_concepts import BIO_CONCEPTS
 
 # ---------------------------------------------------------

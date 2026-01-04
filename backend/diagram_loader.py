@@ -1,21 +1,44 @@
 # backend/diagram_loader.py
+from __future__ import annotations
+from pathlib import Path
 from typing import Optional, Dict, Any
-from backend.question_loader import ModuleBundle, QuestionPointer
 
-def _diagram_key(qi: int, si: int) -> str:
-    # support several possible keys in diagrams.json:
-    # "1", "1a", "1-0", "Q1", "Q1a"
-    base = str(qi + 1)
-    letter = chr(97 + si)  # a, b, c...
-    return base, f"{base}{letter}", f"{base}-{si}", f"Q{base}", f"Q{base}{letter}"
+from question_loader import ModuleBundle, QuestionPointer
+
 
 def diagram_for_pointer(bundle: ModuleBundle, ptr: QuestionPointer) -> Optional[Dict[str, Any]]:
-    d = bundle.diagrams or {}
-    for key in _diagram_key(ptr.qi, ptr.si):
-        if key in d and isinstance(d[key], dict):
-            return d[key]
-    # fallback: per-question diagram without subparts
-    key = str(ptr.qi + 1)
-    if key in d and isinstance(d[key], dict):
-        return d[key]
-    return None
+    """
+    Returns a diagram spec for the current question, or None.
+
+    bundle.diagrams is loaded from modules/<module_id>/<module_id>_diagrams.json
+
+    We key diagrams by *question number* (1-based) to match the student's question numbering.
+    ptr.qi is 0-based, so qnum = ptr.qi + 1.
+    """
+    if not getattr(bundle, "diagrams", None):
+        return None
+
+    qnum = str(ptr.qi + 1)
+    spec = bundle.diagrams.get(qnum)
+    if not isinstance(spec, dict):
+        return None
+
+    # default folder (your repo uses /images)
+    spec = dict(spec)  # shallow copy so we can enrich safely
+    spec.setdefault("folder", "images")
+
+    # normalize images map if present
+    imgs = spec.get("images")
+    if isinstance(imgs, dict):
+        # ensure keys are "A","B","C" etc
+        spec["images"] = {str(k).upper(): v for k, v in imgs.items()}
+
+    return spec
+
+
+def diagram_image_path(module_id: str, spec: Dict[str, Any], filename: str) -> str:
+    """
+    Build a relative path usable by st.image.
+    """
+    folder = spec.get("folder", "images")
+    return str(Path("modules") / module_id / folder / filename)
