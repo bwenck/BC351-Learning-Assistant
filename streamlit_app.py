@@ -103,57 +103,64 @@ if "state" not in st.session_state or start_clicked:
 state: TutorState = st.session_state.state
 
 # ---------- LAYOUT ----------
-left, right = st.columns([2,1])
+left, right = st.columns([2, 1])
+
+# ----- get diagram spec for this question (if any) -----
+diag = diagram_for_pointer(state.bundle, state.ptr)
+is_diag_mcq = isinstance(diag, dict) and diag.get("type") == "mcq"
 
 with left:
-    # ----- get diagram spec for this question (if any) -----
-    diag = diagram_for_pointer(state.bundle, state.ptr)
-    is_diag_mcq = isinstance(diag, dict) and diag.get("type") == "mcq"
+    st.subheader("Session")
 
-    with left:
-        # ---------- Answer Input ----------
-        if is_diag_mcq:
-            st.markdown("**Diagram question**")
-            prompt = diag.get("prompt", "").strip()
-            if prompt:
-                st.write(prompt)
+    # ---------- Answer Input ----------
+    if is_diag_mcq:
+        st.markdown("**Diagram question**")
 
-            # radio choice (unique per question)
-            qnum = state.ptr.qi + 1
-            choice_key = f"diag_choice_{module_id}_{qnum}"
-            options = list((diag.get("images") or {}).keys())  # ["A","B","C"]
-            if options:
-                choice = st.radio("Choose one:", options, key=choice_key, horizontal=True)
-            else:
-                choice = None
-                st.error("Diagram spec has no images/options.")
+        prompt = (diag.get("prompt") or "").strip()
+        if prompt:
+            st.write(prompt)
 
-            col_submit, col_skip, col_bonus = st.columns([1, 1, 1])
-            with col_submit:
-                submit_diag = st.button("Submit diagram answer ✅", use_container_width=True)
-            with col_skip:
-                skip = st.button("Skip / Next Question ⏭️", use_container_width=True)
-            with col_bonus:
-                bonus = st.button("Bonus (optional)", use_container_width=True)
+        # options should be dict keys: ["A","B","C"]
+        imgs = diag.get("images") or {}
+        options = list(imgs.keys())
 
-            # (no text box in diagram mode)
-            submit = False
-            ans = ""
+        # unique per module + question + subpart
+        choice_key = f"diag_choice_{module_id}_{state.ptr.qi}_{state.ptr.si}"
+        if options:
+            choice = st.radio("Choose one:", options, key=choice_key, horizontal=True)
         else:
-            ans = st.text_area(
-                "Your answer",
-                key="answer_box",
-                placeholder="Type and press Submit…"
-            )
-            col_submit, col_skip, col_bonus = st.columns([1, 1, 1])
-            with col_submit:
-                submit = st.button("Submit answer ✅", use_container_width=True)
-            with col_skip:
-                skip = st.button("Skip / Next Question ⏭️", use_container_width=True)
-            with col_bonus:
-                bonus = st.button("Bonus (optional)", use_container_width=True)
+            choice = None
+            st.error("Diagram spec has no images/options.")
 
-            submit_diag = False
+        col_submit, col_skip, col_bonus = st.columns([1, 1, 1])
+        with col_submit:
+            submit_diag = st.button("Submit diagram answer ✅", use_container_width=True)
+        with col_skip:
+            skip = st.button("Skip / Next Question ⏭️", use_container_width=True)
+        with col_bonus:
+            bonus = st.button("Bonus (optional)", use_container_width=True)
+
+        # disable text-submit path in diagram mode
+        submit = False
+        ans = ""
+
+    else:
+        ans = st.text_area(
+            "Your answer",
+            key="answer_box",
+            placeholder="Type and press Submit…"
+        )
+
+        col_submit, col_skip, col_bonus = st.columns([1, 1, 1])
+        with col_submit:
+            submit = st.button("Submit answer ✅", use_container_width=True)
+        with col_skip:
+            skip = st.button("Skip / Next Question ⏭️", use_container_width=True)
+        with col_bonus:
+            bonus = st.button("Bonus (optional)", use_container_width=True)
+
+        submit_diag = False
+        choice = None
 
     # ---------- CHAT DISPLAY ----------
     for role, msg in st.session_state.messages:
