@@ -9,7 +9,8 @@ sys.path.append(str(Path(__file__).parent / "backend"))
 # backend imports
 from backend.tutor_state import TutorState
 from backend.question_loader import load_module_bundle, next_pointer, QuestionPointer
-from backend.diagram_loader import diagram_for_pointer
+from backend.diagram_loader import diagram_for_pointer, diagram_image_path
+
 from backend.socratic_engine import socratic_followup
 from backend.concept_check import is_uncertain
 
@@ -105,22 +106,82 @@ state: TutorState = st.session_state.state
 left, right = st.columns([2,1])
 
 with left:
+    # ----- get diagram spec for this question (if any) -----
+    diag = diagram_for_pointer(state.bundle, state.ptr)
+    is_diag_mcq = isinstance(diag, dict) and diag.get("type") == "mcq"
 
-    # ---------- Answer Input Box ----------
-    ans = st.text_area(
-        "Your answer",
-        key="answer_box",
-        placeholder="Type and press Submit…"
-    )
+    with left:
+        # ---------- Answer Input ----------
+        if is_diag_mcq:
+            st.markdown("**Diagram question**")
+            prompt = diag.get("prompt", "").strip()
+            if prompt:
+                st.write(prompt)
 
-    submit = st.button("Submit answer ✅")
-    skip = st.button("Skip / Next Question ⏭️")
-    bonus = st.button("Bonus (optional)")
+            # radio choice (unique per question)
+            qnum = state.ptr.qi + 1
+            choice_key = f"diag_choice_{module_id}_{qnum}"
+            options = list((diag.get("images") or {}).keys())  # ["A","B","C"]
+            if options:
+                choice = st.radio("Choose one:", options, key=choice_key, horizontal=True)
+            else:
+                choice = None
+                st.error("Diagram spec has no images/options.")
+
+            col_submit, col_skip, col_bonus = st.columns([1, 1, 1])
+            with col_submit:
+                submit_diag = st.button("Submit diagram answer ✅", use_container_width=True)
+            with col_skip:
+                skip = st.button("Skip / Next Question ⏭️", use_container_width=True)
+            with col_bonus:
+                bonus = st.button("Bonus (optional)", use_container_width=True)
+
+            # (no text box in diagram mode)
+            submit = False
+            ans = ""
+        else:
+            ans = st.text_area(
+                "Your answer",
+                key="answer_box",
+                placeholder="Type and press Submit…"
+            )
+            col_submit, col_skip, col_bonus = st.columns([1, 1, 1])
+            with col_submit:
+                submit = st.button("Submit answer ✅", use_container_width=True)
+            with col_skip:
+                skip = st.button("Skip / Next Question ⏭️", use_container_width=True)
+            with col_bonus:
+                bonus = st.button("Bonus (optional)", use_container_width=True)
+
+            submit_diag = False
 
     # ---------- CHAT DISPLAY ----------
     for role, msg in st.session_state.messages:
         bubble_class = "student" if role == "student" else "tutor"
         st.markdown(f"<div class='chat-bubble {bubble_class}'>{msg}</div>", unsafe_allow_html=True)
+
+# ---------- Handle DIAGRAM SUBMIT ----------
+if is_diag_mcq and submit_diag:
+    qnum = state.ptr.qi + 1
+    chosen = st.session_state.get(f"diag_choice_{module_id}_{qnum}")
+    correct = (diag.get("correct") or "").strip().upper()
+
+    if chosen and correct and chosen.upper() == correct:
+        st.session_state.messages.append(("student", f"[Diagram choice: {chosen}]"))
+        st.session_state.messages.append(("tutor", diag.get("correct_msg", "✅ Correct!")))
+
+        # auto-advance
+        nxt = next_pointer(state.bundle, state.ptr)
+        if nxt:
+            state.ptr = nxt
+            st.session_state.messages.append(("tutor", state.bundle.question_text(state.ptr)))
+        else:
+            st.session_state.messages.append(("tutor", "🎉 You've completed this module!"))
+    else:
+        st.session_state.messages.append(("student", f"[Diagram choice: {chosen}]"))
+        st.session_state.messages.append(("tutor", diag.get("incorrect_msg", "Not quite — try again.")))
+
+    st.rerun()
 
 # ---------- Handle SUBMIT ----------
 if submit and ans.strip():
@@ -195,11 +256,22 @@ if skip:
 with right:
     st.subheader("Diagram / Info")
     diag = diagram_for_pointer(state.bundle, state.ptr)
-    if diag:
-        img = diag.get("image")
+    if isinstance(diag, dict):
+        # If MCQ diagram, show A/B/C
+        if diag.get("type") == "mcq" and isinstance(diag.get("images"), dict):
+            imgs = diag["images"]  # {"A": "...", "B": "...", "C": "..."}
+            cols = st.columns(len(imgs))
+            for i, (label, filename) in enumerate(sorted(imgs.items())):
+                with cols[i]:
+                    st.markdown(f"**{label}**")
+                    st.image(diagram_image_path(module_id, diag, filename))
+        else:
+            # legacy single-image support (optional)
+            img = diag.get("image")
+            if img:
+                st.image(diagram_image_path(module_id, diag, img))
+
         prompt = diag.get("prompt")
-        if img:
-            st.image(f"modules/{module_id}/diagrams/{img}")
         if prompt:
             st.caption(prompt)
 
@@ -207,7 +279,6 @@ with right:
     st.subheader("Progress")
     st.write(f"Q{state.ptr.qi+1} · part {state.ptr.si+1} of {state.bundle.subparts_count(state.ptr.qi)}")
 
-    # Bonus question
     if bonus:
         bq = state.bundle.bonus_question()
         if bq:
@@ -215,6 +286,5 @@ with right:
         else:
             st.session_state.messages.append(("tutor", "No bonus question found."))
         st.rerun()
-
 
 st.write("You can end the session anytime. Switching modules restarts.")
