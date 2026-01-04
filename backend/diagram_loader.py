@@ -1,8 +1,8 @@
 # backend/diagram_loader.py
-import re
 from __future__ import annotations
 from pathlib import Path
 from typing import Optional, Dict, Any
+import re
 from question_loader import ModuleBundle, QuestionPointer
 
 def _extract_question_number(stem: str) -> Optional[int]:
