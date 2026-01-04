@@ -127,34 +127,38 @@ if submit and ans.strip():
     # 1️⃣ Log this answer in the chat
     st.session_state.messages.append(("student", ans.strip()))
 
-    # 2️⃣ Accumulate answer history for THIS question
+    # 2️⃣ Uncertainty tracking should use ONLY the latest submission
+    uncertain_now = is_uncertain(ans.strip())
+
+    # Track uncertainty count per (module, question)
+    ukey = (module_id, state.ptr.qi)  # qid is 0-based
+    if "uncertain_counts" not in st.session_state:
+        st.session_state.uncertain_counts = {}
+
+    prior_uncertain_count = st.session_state.uncertain_counts.get(ukey, 0)
+    if uncertain_now:
+        st.session_state.uncertain_counts[ukey] = prior_uncertain_count + 1
+
+    # 3️⃣ Accumulate answer history for THIS question (but DO NOT store uncertainty answers)
     key = (module_id, state.ptr.qi)
     if "answer_history" not in st.session_state:
         st.session_state.answer_history = {}
 
     prev = st.session_state.answer_history.get(key, "")
-    combined = (prev + " " + ans.strip()).strip()
-    st.session_state.answer_history[key] = combined
-
-    # ✅ 3️⃣ Uncertainty tracking (LATEST answer only)
-    uncertain_now = is_uncertain(ans.strip())
-
-    ukey = (module_id, state.ptr.qi)
-    if "uncertain_counts" not in st.session_state:
-        st.session_state.uncertain_counts = {}
-
-    uncertain_count = st.session_state.uncertain_counts.get(ukey, 0)
 
     if uncertain_now:
-        st.session_state.uncertain_counts[ukey] = uncertain_count + 1
+        combined = prev  # keep prior real content only
+    else:
+        combined = (prev + " " + ans.strip()).strip()
+        st.session_state.answer_history[key] = combined
 
-    # 4️⃣ Ask ONE concept-based Socratic follow-up using COMBINED text
+    # 4️⃣ Ask ONE concept-based Socratic follow-up using combined history
     follow = socratic_followup(
         module_id,
-        state.ptr.qi,      # 0-based
-        combined,          # combined history for concept coverage
+        state.ptr.qi,
+        combined,
         uncertain_now=uncertain_now,
-        uncertain_count=uncertain_count,
+        uncertain_count=prior_uncertain_count,  # count BEFORE this submission
     )
 
     # 5️⃣ If concepts complete → auto-advance
