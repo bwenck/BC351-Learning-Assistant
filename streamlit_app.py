@@ -265,6 +265,33 @@ with right:
                 with cols[i]:
                     st.markdown(f"**{label}**")
                     st.image(diagram_image_path(module_id, diag, filename))
+
+                    # Radio + submit controls
+                    options = list(sorted(imgs.keys()))  # ["A","B","C"]
+                    qkey = f"diag_choice_{module_id}_{state.ptr.qi}"
+                    skey = f"diag_submit_{module_id}_{state.ptr.qi}"
+
+                    picked = st.radio("Choose one:", options, key=qkey, horizontal=True)
+
+                    if st.button("Submit diagram answer ✅", key=skey, use_container_width=True):
+                        correct = diag.get("correct")  # e.g. "C"
+                        if correct and picked == correct:
+                            st.session_state.messages.append(("tutor", "✅ Correct — nice. Let’s continue."))
+
+                            nxt = next_pointer(state.bundle, state.ptr)
+                            if nxt:
+                                state.ptr = nxt
+                                st.session_state.messages.append(("tutor", state.bundle.question_text(state.ptr)))
+                            else:
+                                st.session_state.messages.append(("tutor", "🎉 You've completed this module!"))
+                            st.rerun()
+                        else:
+                            st.session_state.messages.append(
+                                ("tutor",
+                                 "Not quite — try comparing which group can donate/accept H⁺ in an organic context.")
+                            )
+                            st.rerun()
+
         else:
             # legacy single-image support (optional)
             img = diag.get("image")
