@@ -2,38 +2,55 @@
 from __future__ import annotations
 from pathlib import Path
 from typing import Optional, Dict, Any
-
 from question_loader import ModuleBundle, QuestionPointer
+
+def _extract_question_number(stem: str) -> Optional[int]:
+    """
+    Extract the leading question number from a question stem like:
+      '18) Which ...' or '18. Which ...'
+    """
+    m = re.match(r"\s*(\d+)\s*[\.\)]", stem or "")
+    return int(m.group(1)) if m else None
 
 
 def diagram_for_pointer(bundle: ModuleBundle, ptr: QuestionPointer) -> Optional[Dict[str, Any]]:
     """
-    Returns a diagram spec for the current question, or None.
-
-    bundle.diagrams is loaded from modules/<module_id>/<module_id>_diagrams.json
-
-    We key diagrams by *question number* (1-based) to match the student's question numbering.
-    ptr.qi is 0-based, so qnum = ptr.qi + 1.
+    Returns diagram spec for the CURRENT question using the *printed* question number.
+    Your module01_diagrams.json is keyed by "18", not by 0-based index.
     """
-    if not getattr(bundle, "diagrams", None):
+    if not bundle or not bundle.diagrams:
         return None
 
-    qnum = str(ptr.qi + 1)
-    spec = bundle.diagrams.get(qnum)
-    if not isinstance(spec, dict):
+    q = bundle.questions[ptr.qi]
+    stem = q.get("q", "")
+    qnum = _extract_question_number(stem) or (ptr.qi + 1)  # fallback
+
+    spec = bundle.diagrams.get(str(qnum))
+    if not spec:
         return None
 
-    # default folder (your repo uses /images)
-    spec = dict(spec)  # shallow copy so we can enrich safely
-    spec.setdefault("folder", "images")
+    module_dir = Path("modules") / bundle.module_id
+    folder = spec.get("folder", "images")
+    choices = spec.get("choices", [])
+    correct = spec.get("correct")
 
-    # normalize images map if present
-    imgs = spec.get("images")
-    if isinstance(imgs, dict):
-        # ensure keys are "A","B","C" etc
-        spec["images"] = {str(k).upper(): v for k, v in imgs.items()}
+    images = []
+    for item in spec.get("images", []):
+        label = item.get("label")
+        filename = item.get("file")
+        if not filename:
+            continue
+        path = str(module_dir / folder / filename)
+        images.append({"label": label, "file": filename, "path": path})
 
-    return spec
+    return {
+        "qnum": qnum,  # ✅ important for stable widget keys
+        "prompt": spec.get("prompt", ""),
+        "choices": choices,
+        "correct": correct,
+        "folder": folder,
+        "images": images,
+    }
 
 
 def diagram_image_path(module_id: str, spec: Dict[str, Any], filename: str) -> str:
