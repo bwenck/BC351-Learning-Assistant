@@ -1,11 +1,15 @@
 {
-   "18": {
-    "question": "Which diagram does NOT correctly represent a functional group that forms an organic acid and base?",
-    "options": { "A": "images//mod01_Q18_A.png",
-      "B": "images/mod01_Q18_B.png",
-      "C": "images/mod01_Q18_C_correct.png"
+  "18": {
+    "type": "mcq",
+    "prompt": "Which of the three diagrams does NOT represent a functional group that forms an organic acid and base?",
+    "images": {
+      "A": "mod1_Q18_A.png",
+      "B": "mod1_Q18_B.png",
+      "C": "mod1_Q18_C_correct.png"
     },
-    "correct": "C"
+    "correct": "C",
+    "correct_msg": "✅ Correct — that functional group does not act as an organic acid/base in the same way.",
+    "incorrect_msg": "Not quite — try comparing which groups can donate/accept a proton under biological conditions."
   }
 }
 
