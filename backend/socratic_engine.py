@@ -34,26 +34,22 @@ def socratic_followup(
     module_id: str,
     qid: int,                 # 0-based
     student_answer: str,      # combined text so far for this question
+    *,
+    uncertain_now: bool = False,
+    uncertain_count: int = 0
 ):
     text = (student_answer or "").strip()
 
     # 1) Pull concept spec + missing concepts
     missing_required, _missing_optional, spec = evaluate_concepts(module_id, qid, text)
 
-    # 2) Uncertainty handling: only once per question
-    if is_uncertain(text):
-        key = (module_id, qid)
-
-        if "uncertain_seen" not in st.session_state:
-            st.session_state.uncertain_seen = set()
-
-        if key in st.session_state.uncertain_seen:
+    # 2) ✅ Only trigger uncertainty when the *latest* submission was uncertain
+    if uncertain_now:
+        if uncertain_count >= 1:
             return (
-                "That's totally okay — sometimes it's best to keep moving.\n"
+                "That's totally okay — sometimes it's best to keep moving. "
                 "If you'd like, click **Skip / Next Question ⏭️** when you're ready."
             )
-
-        st.session_state.uncertain_seen.add(key)
         return uncertainty_message(spec)
 
     # 3) If we don't have spec, fall back
