@@ -274,20 +274,15 @@ with right:
     diag = diagram_for_pointer(state.bundle, state.ptr)
 
     if isinstance(diag, dict):
-        # MCQ diagram: show A/B/C images
         if diag.get("type") == "mcq" and isinstance(diag.get("images"), dict):
             imgs = diag["images"]  # {"A":"...", "B":"...", "C":"..."}
-            cols = st.columns([1, 1, 1], gap="small")  # force equal widths
-            for i, label in enumerate(["A", "B", "C"]):
-                filename = imgs.get(label)
-                if not filename:
-                    continue
-                with cols[i]:
-                    st.markdown(f"**{label}**")
-                    st.image(
-                        diagram_image_path(module_id, diag, filename),
-                        use_container_width=True
-                    )
+
+            for label, filename in sorted(imgs.items()):
+                st.markdown(f"**{label}**")
+                st.image(
+                    diagram_image_path(module_id, diag, filename),
+                    use_column_width=True
+                )
         else:
             # single-image legacy support
             img = diag.get("image")
