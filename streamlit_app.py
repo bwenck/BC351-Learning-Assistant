@@ -103,7 +103,7 @@ if "state" not in st.session_state or start_clicked:
 state: TutorState = st.session_state.state
 
 # ---------- LAYOUT ----------
-left, right = st.columns([2, 1])
+left, right = st.columns([1.5, 1])
 
 # ----- get diagram spec for this question (if any) -----
 diag = diagram_for_pointer(state.bundle, state.ptr)
@@ -115,30 +115,32 @@ with left:
     # ---------- Answer Input ----------
     if is_diag_mcq:
         st.markdown("**Diagram question**")
-
         prompt = (diag.get("prompt") or "").strip()
         if prompt:
             st.write(prompt)
 
-        # options should be dict keys: ["A","B","C"]
-        imgs = diag.get("images") or {}
-        options = list(imgs.keys())
+        # unique per question
+        qnum = state.ptr.qi + 1
+        choice_key = f"diag_choice_{module_id}_{qnum}"
+        form_key = f"diag_form_{module_id}_{qnum}"
 
-        # unique per module + question + subpart
-        choice_key = f"diag_choice_{module_id}_{state.ptr.qi}_{state.ptr.si}"
-        if options:
-            choice = st.radio("Choose one:", options, key=choice_key, horizontal=True)
-        else:
-            choice = None
-            st.error("Diagram spec has no images/options.")
+        images_dict = diag.get("images") or {}
+        options = list(images_dict.keys())  # ["A","B","C"]
 
-        col_submit, col_skip, col_bonus = st.columns([1, 1, 1])
-        with col_submit:
-            submit_diag = st.button("Submit diagram answer ✅", use_container_width=True)
-        with col_skip:
-            skip = st.button("Skip / Next Question ⏭️", use_container_width=True)
-        with col_bonus:
-            bonus = st.button("Bonus (optional)", use_container_width=True)
+        with st.form(key=form_key):
+            choice = st.radio(
+                "Choose one:",
+                options,
+                key=choice_key,
+                horizontal=True
+            )
+            col_submit, col_skip, col_bonus = st.columns([1, 1, 1])
+            with col_submit:
+                submit_diag = st.form_submit_button("Submit diagram answer ✅", use_container_width=True)
+            with col_skip:
+                skip = st.form_submit_button("Skip / Next Question ⏭️", use_container_width=True)
+            with col_bonus:
+                bonus = st.form_submit_button("Bonus (optional)", use_container_width=True)
 
         # disable text-submit path in diagram mode
         submit = False
@@ -168,25 +170,32 @@ with left:
         st.markdown(f"<div class='chat-bubble {bubble_class}'>{msg}</div>", unsafe_allow_html=True)
 
 # ---------- Handle DIAGRAM SUBMIT ----------
-if is_diag_mcq and submit_diag:
+if submit_diag:
     qnum = state.ptr.qi + 1
-    chosen = st.session_state.get(f"diag_choice_{module_id}_{qnum}")
+    choice_key = f"diag_choice_{module_id}_{qnum}"
+    picked = st.session_state.get(choice_key)
+
+    st.session_state.messages.append(("student", f"[Diagram choice: {picked}]"))
+
     correct = (diag.get("correct") or "").strip().upper()
 
-    if chosen and correct and chosen.upper() == correct:
-        st.session_state.messages.append(("student", f"[Diagram choice: {chosen}]"))
-        st.session_state.messages.append(("tutor", diag.get("correct_msg", "✅ Correct!")))
-
-        # auto-advance
+    if picked and correct and picked.upper() == correct:
+        st.session_state.messages.append(("tutor", "✅ Correct! Nice work."))
         nxt = next_pointer(state.bundle, state.ptr)
         if nxt:
             state.ptr = nxt
             st.session_state.messages.append(("tutor", state.bundle.question_text(state.ptr)))
         else:
             st.session_state.messages.append(("tutor", "🎉 You've completed this module!"))
+
+        # optional: clear the choice so it doesn't carry into reruns
+        st.session_state.pop(choice_key, None)
+
     else:
-        st.session_state.messages.append(("student", f"[Diagram choice: {chosen}]"))
-        st.session_state.messages.append(("tutor", diag.get("incorrect_msg", "Not quite — try again.")))
+        st.session_state.messages.append(
+            ("tutor",
+             "Not quite — try comparing which groups can donate/accept a proton under biological conditions.")
+        )
 
     st.rerun()
 
@@ -268,11 +277,17 @@ with right:
         # MCQ diagram: show A/B/C images
         if diag.get("type") == "mcq" and isinstance(diag.get("images"), dict):
             imgs = diag["images"]  # {"A":"...", "B":"...", "C":"..."}
-            cols = st.columns(len(imgs))
-            for i, (label, filename) in enumerate(sorted(imgs.items())):
+            cols = st.columns([1, 1, 1], gap="small")  # force equal widths
+            for i, label in enumerate(["A", "B", "C"]):
+                filename = imgs.get(label)
+                if not filename:
+                    continue
                 with cols[i]:
                     st.markdown(f"**{label}**")
-                    st.image(diagram_image_path(module_id, diag, filename))
+                    st.image(
+                        diagram_image_path(module_id, diag, filename),
+                        use_container_width=True
+                    )
         else:
             # single-image legacy support
             img = diag.get("image")
