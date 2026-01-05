@@ -76,3 +76,43 @@ def is_uncertain(text: str) -> bool:
         "i am confused"
     ]
     return any(u in t for u in unsure)
+
+_WORD = re.compile(r"[a-zA-Z]{2,}")
+
+def is_gibberish(text: str) -> bool:
+    """
+    Heuristic: catches keyboard mashing / random strings.
+    Returns True for low-signal inputs like 'sljgf;lsdakjfg'.
+    """
+    t = (text or "").strip()
+    if not t:
+        return True
+
+    # very short answers aren't necessarily gibberish ("idk" is uncertainty)
+    if len(t) < 4:
+        return False
+
+    # If it contains "idk"/"don't know" etc, let uncertainty logic handle it
+    if is_uncertain(t):
+        return False
+
+    # Ratio of alphabetic characters
+    letters = sum(ch.isalpha() for ch in t)
+    if letters / max(1, len(t)) < 0.5:
+        return True
+
+    # Tokenize into "words"
+    words = _WORD.findall(t.lower())
+    if len(words) == 0:
+        return True
+
+    # Keyboard mash tends to be 1 long "word" with few vowels
+    vowels = sum(ch in "aeiou" for ch in t.lower())
+    if len(t) >= 10 and vowels / max(1, letters) < 0.25:
+        return True
+
+    # If the average "word" is extremely long and there are very few words
+    if len(words) <= 1 and max(len(w) for w in words) >= 12:
+        return True
+
+    return False
