@@ -12,7 +12,7 @@ from backend.question_loader import load_module_bundle, next_pointer, QuestionPo
 from backend.diagram_loader import diagram_for_pointer, diagram_image_path
 
 from backend.socratic_engine import socratic_followup
-from backend.concept_check import is_uncertain
+from backend.concept_check import is_uncertain, is_gibberish
 
 #from backend.hf_model import init_hf, hf_socratic
 
@@ -206,15 +206,21 @@ if submit and ans.strip():
 
     # 2️⃣ Uncertainty tracking should use ONLY the latest submission
     uncertain_now = is_uncertain(ans.strip())
+    gibberish_now = is_gibberish(ans.strip())
 
     # Track uncertainty count per (module, question)
     ukey = (module_id, state.ptr.qi)  # qid is 0-based
     if "uncertain_counts" not in st.session_state:
         st.session_state.uncertain_counts = {}
+    if "gibberish_counts" not in st.session_state:
+        st.session_state.gibberish_counts = {}
 
     prior_uncertain_count = st.session_state.uncertain_counts.get(ukey, 0)
+    prior_gibberish_count = st.session_state.gibberish_counts.get(ukey, 0)
     if uncertain_now:
         st.session_state.uncertain_counts[ukey] = prior_uncertain_count + 1
+    if gibberish_now:
+        st.session_state.gibberish_counts[ukey] = prior_gibberish_count + 1
 
     # 3️⃣ Accumulate answer history for THIS question (but DO NOT store uncertainty answers)
     key = (module_id, state.ptr.qi)
@@ -236,6 +242,8 @@ if submit and ans.strip():
         combined,
         uncertain_now=uncertain_now,
         uncertain_count=prior_uncertain_count,  # count BEFORE this submission
+        gibberish_now=gibberish_now,
+        gibberish_count=prior_gibberish_count,
     )
 
     # 5️⃣ If concepts complete → auto-advance
