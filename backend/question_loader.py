@@ -105,17 +105,76 @@ def _read_lines(path: Path) -> List[str]:
     return [ln.rstrip() for ln in path.read_text(encoding="utf-8").splitlines()]
 
 _Q_LINE = re.compile(r"^\s*\d+\s*[\.\)]\s*")      # "1. " or "1) "
-_SUB_LINE = re.compile(r"^\s*[a-fA-F]\)\s*")      # "a) "..."f) "
+_SUB_LINE = re.compile(r"^\s*[a-fA-F]\s*[\.\)]\s*") 
+_INLINE_PART_RE = re.compile(r"(?<!\w)([a-z])[\.\)]\s+", re.IGNORECASE)
+
+def _split_inline_parts(text: str):
+    """
+    Split a single line that contains inline parts like:
+      '... a. ... b. ... c. ...'
+    Returns: (stem_text, parts_list) where parts_list is [{"id":"a","text":"..."}, ...]
+    If no inline parts found, returns (text, []).
+    """
+    s = (text or "").strip()
+    matches = list(_INLINE_PART_RE.finditer(s))
+    if not matches:
+        return s, []
+
+    # stem is everything before first 'a.' / 'b.' marker
+    first = matches[0]
+    stem = s[: first.start()].strip()
+
+    parts = []
+    for i, m in enumerate(matches):
+        letter = m.group(1).lower()
+        start = m.end()
+        end = matches[i + 1].start() if i + 1 < len(matches) else len(s)
+        part_text = s[start:end].strip(" \t-:;")
+        if part_text:
+            parts.append({"id": letter, "text": part_text})
+
+    return stem, parts
 
 def _parse_qa_lines(lines: List[str]) -> List[Dict[str, Any]]:
     """
     Convert text into [{"q": stem, "parts": [subparts...]}].
     - New question when line starts with "1." or "1)" etc
-    - Subpart when line starts with "a)"..."f)"
+    - Subpart when line starts with "a)"..."f)" or "a."..."f."
     - Continuation lines are appended to the previous segment
+
+    NEW: If the question stem line contains inline parts like "a. ... b. ... c. ...",
+         we split those into cur["parts"] immediately so parts advance one-at-a-time.
     """
     out: List[Dict[str, Any]] = []
     cur: Optional[Dict[str, Any]] = None
+
+    # Inline-part splitter: finds "a." / "b)" etc *inside* a line
+    _INLINE_PART_RE = re.compile(r"(?<!\w)([a-z])[\.\)]\s+", re.IGNORECASE)
+
+    def _split_inline_parts(text: str):
+        """
+        If text contains inline 'a. ... b. ...', return (stem, [part1, part2, ...])
+        where each part is stored as a normal subpart line like "a) ...".
+        If none found, return (text, []).
+        """
+        s = (text or "").strip()
+        matches = list(_INLINE_PART_RE.finditer(s))
+        if not matches:
+            return s, []
+
+        stem = s[: matches[0].start()].strip()
+
+        parts: List[str] = []
+        for i, m in enumerate(matches):
+            letter = m.group(1).lower()
+            start = m.end()
+            end = matches[i + 1].start() if i + 1 < len(matches) else len(s)
+            body = s[start:end].strip(" \t-:;")
+            if body:
+                # store in the same style your parser already expects for subparts
+                parts.append(f"{letter}) {body}")
+
+        return stem, parts
 
     def is_q(line: str) -> bool:
         return bool(_Q_LINE.match(line))
@@ -134,7 +193,13 @@ def _parse_qa_lines(lines: List[str]) -> List[Dict[str, Any]]:
             started = True
             if cur:
                 out.append(cur)
-            cur = {"q": line, "parts": []}
+
+            # ✅ NEW: split inline a/b/c... if they exist in the question line
+            stem, inline_parts = _split_inline_parts(line)
+            cur = {"q": stem, "parts": []}
+            if inline_parts:
+                cur["parts"].extend(inline_parts)
+
             continue
 
         if not started:
