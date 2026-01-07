@@ -236,11 +236,14 @@ if submit and ans.strip():
         st.session_state.answer_history[key] = combined
 
     # 4️⃣ Ask ONE concept-based Socratic follow-up using combined history
+    stem = (state.bundle.questions[state.ptr.qi].get("q") or "")
     follow = socratic_followup(
         module_id,
         state.ptr.qi,
         combined,
         part_idx=state.ptr.si,
+        stem=state.bundle.questions[state.ptr.qi].get("q", ""),
+        latest_answer=ans.strip(),
         uncertain_now=uncertain_now,
         uncertain_count=prior_uncertain_count,  # count BEFORE this submission
         gibberish_now=gibberish_now,
