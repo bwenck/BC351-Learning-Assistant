@@ -21,8 +21,14 @@ def concept_hit(concept: str, student_answer: str, domain: str | None = None) ->
     # numeric concept support (e.g., "6.0", "9.2", "1.8")
     if any(ch.isdigit() for ch in (concept or "")):
         nums = re.findall(r"\d+(?:\.\d+)?", concept)
-        if nums and not all(n in student for n in nums):
-            return False
+        if nums:
+            # if any required number is missing, fail
+            if not all(n in student for n in nums):
+                return False
+
+            # ✅ if the concept is basically just a number (no letters), accept immediately
+            if not re.search(r"[a-zA-Z]", concept):
+                return True
 
     # collect all phrases to test: main concept + variants
     phrases = [concept]
@@ -63,38 +69,38 @@ def concept_hit(concept: str, student_answer: str, domain: str | None = None) ->
 @lru_cache(maxsize=16)
 def load_concept_spec(module_id: str):
     path = Path(f"modules/{module_id}/{module_id}_answers.json")
+    print("📌 loading answers spec from:", path.resolve(), "exists:", path.exists())
     if not path.exists():
         return {}
     return json.loads(path.read_text(encoding="utf-8"))
 
-def evaluate_concepts(module_id: str, qid: int, student_answer: str, part_idx: int = 0):
+def evaluate_concepts(module_id: str, qid: int, student_answer: str, part_idx: int = 0, stem: str | None = None):
     """
     qid is 0-based question index from pointer (0,1,2,...)
 
-    Supports JSON keys:
-      - "21" for whole-question spec
-      - "21a", "21b", ... for per-subpart spec (where part_idx 0->a, 1->b, ...)
-
-    Returns: missing_required, missing_optional, spec
+    If stem starts with an explicit question number like "21.", we use that number
+    to find JSON keys like "21a", "21b", etc.
+    Otherwise we fall back to qid+1.
     """
     spec_all = load_concept_spec(module_id)
 
-    # Base question number is 1-based string: "1", "2", ...
-    qnum_str = str(qid + 1)
+    # --- Prefer explicit question number from the stem ("21.", "21)", etc.) ---
+    qnum_from_stem = None
+    if stem:
+        m = re.match(r"\s*(\d+)\s*[\.\)]", stem.strip())
+        if m:
+            qnum_from_stem = int(m.group(1))
 
-    # Try subpart key first ONLY if any subpart specs exist for this question
-    # Safely compute part letter: 0->a, 1->b, ...
+    qnum_str = str(qnum_from_stem if qnum_from_stem is not None else (qid + 1))
+
+    # Subpart letter
     pi = int(part_idx or 0)
     if pi < 0:
         pi = 0
-    letter = chr(97 + pi)
+    letter = chr(97 + pi)  # 0->a,1->b,...
+
     part_key = f"{qnum_str}{letter}"
-
-    if any(k.startswith(qnum_str) and len(k) == len(qnum_str) + 1 for k in spec_all.keys()):
-        spec = spec_all.get(part_key)
-    else:
-        spec = None
-
+    spec = spec_all.get(part_key)
     if not isinstance(spec, dict):
         spec = spec_all.get(qnum_str)
 
@@ -107,6 +113,7 @@ def evaluate_concepts(module_id: str, qid: int, student_answer: str, part_idx: i
 
     missing_required = [c for c in required if not concept_hit(c, student_answer, domain)]
     missing_optional = [c for c in optional if not concept_hit(c, student_answer, domain)]
+    print("🔎 looking for keys:", part_key, "or", qnum_str, "available:", list(spec_all.keys())[:15])
 
     return missing_required, missing_optional, spec
 
