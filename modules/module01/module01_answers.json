@@ -170,24 +170,22 @@
     "uncertainty_followup": "How does comparing pH to pKa help predict protonation state?"
   },
   "21d": {
-    "concept_domain": "acid_base",
-    "required_concepts": [
-      "net charge",
-      "deprotonation"
-    ],
-    "followups": {
-      "net charge": [
-        "How do you calculate the net charge from individual group charges?"
-      ],
-      "deprotonation": [
-        "What happens to charge when OH⁻ equivalents are added?"
-      ]
-    },
-    "encouragement": [
-      "Nice reasoning.",
-      "You're close."
-    ],
-    "uncertainty_followup": "Think about which groups lose protons as base is added."
+  "concept_domain": "acid_base",
+  "required_concepts": [
+    "net charge equals 0"
+  ],
+  "optional_concepts": [],
+  "followups": {
+    "net charge equals 0": [
+      "How do the charges of the individual ionizable groups add up after 2 OH⁻ equivalents are added?"
+    ]
+  },
+  "encouragement": [
+    "Nice reasoning.",
+    "You're on the right track.",
+    "Good thinking — keep going."
+  ],
+  "uncertainty_followup": "Take a moment to jot down even a rough idea — think about how adding base changes the charge of each functional group."
   }
 }
 
