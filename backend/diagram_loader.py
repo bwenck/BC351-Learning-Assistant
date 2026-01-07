@@ -35,24 +35,29 @@ def diagram_for_pointer(bundle: ModuleBundle, ptr: QuestionPointer) -> Optional[
     except Exception:
         stem = ""
 
-    m = re.match(r"\s*(\d+)\s*[\.\)]", stem)
+    m = re.match(r"\s*(\d+)\s*[\.\)]", stem or "")
     qnum = str(int(m.group(1))) if m else str(ptr.qi + 1)
 
     spec = bundle.diagrams.get(qnum)
     if not isinstance(spec, dict):
         return None
 
-    spec = dict(spec)  # 👈 copy immediately
-    spec.setdefault("folder", "images")
-
     # --- Support per-subpart diagrams ---
     parts = spec.get("parts")
     if isinstance(parts, dict):
+        si = int(getattr(ptr, "si", 0) or 0)
+        if si < 0:
+            si = 0
         part_letter = chr(97 + getattr(ptr, "si", 0))  # safe default
         part_spec = parts.get(part_letter)
         if isinstance(part_spec, dict):
-            spec.pop("parts", None)
-            spec.update(part_spec)
+            merged = dict(spec)
+            merged.pop("parts", None)
+            merged.update(part_spec)
+            spec = merged
+
+    spec = dict(spec)  # 👈 copy immediately
+    spec.setdefault("folder", "images")
 
     # --- Normalize images into a dict like {"A":"file.png","B":"file.png","C":"file.png"} ---
     imgs = spec.get("images")
