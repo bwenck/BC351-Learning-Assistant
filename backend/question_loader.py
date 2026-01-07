@@ -43,9 +43,7 @@ class ModuleBundle:
         part_text = (parts[si] or "").strip()
         letter = chr(97 + si)  # 0->a, 1->b, ...
 
-        # NOTE: part_text may already start with "a." or "a)" depending on your parser;
-        # we do NOT remove it—we just ensure the stem is visible.
-        return f"{stem}\n\n{ptr.qi + 1}{letter}) {part_text}"
+        return f"{stem}\n\n{part_text}"
 
     def subparts_count(self, qi: int) -> int:
         if qi < 0 or qi >= len(self.questions):
