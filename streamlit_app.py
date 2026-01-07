@@ -12,7 +12,8 @@ from backend.question_loader import load_module_bundle, next_pointer, QuestionPo
 from backend.diagram_loader import diagram_for_pointer, diagram_image_path
 
 from backend.socratic_engine import socratic_followup
-from backend.concept_check import is_uncertain, is_gibberish
+from backend.concept_check import is_uncertain, is_gibberish, load_concept_spec
+load_concept_spec.cache_clear()
 
 #from backend.hf_model import init_hf, hf_socratic
 
