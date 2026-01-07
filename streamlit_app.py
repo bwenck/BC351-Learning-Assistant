@@ -120,10 +120,12 @@ with left:
         if prompt:
             st.write(prompt)
 
-        # unique per question
-        qnum = state.ptr.qi + 1
-        choice_key = f"diag_choice_{module_id}_{qnum}"
-        form_key = f"diag_form_{module_id}_{qnum}"
+        # unique per question *and subpart*
+        # (qi = question index, si = subpart index; si can be None)
+        si = state.ptr.si if state.ptr.si is not None else 0
+        qkey = f"{module_id}_{state.ptr.qi}_{si}"
+        choice_key = f"diag_choice_{qkey}"
+        form_key = f"diag_form_{qkey}"
 
         images_dict = diag.get("images") or {}
         options = list(images_dict.keys())  # ["A","B","C"]
@@ -172,8 +174,9 @@ with left:
 
 # ---------- Handle DIAGRAM SUBMIT ----------
 if submit_diag:
-    qnum = state.ptr.qi + 1
-    choice_key = f"diag_choice_{module_id}_{qnum}"
+    si = state.ptr.si if state.ptr.si is not None else 0
+    qkey = f"{module_id}_{state.ptr.qi}_{si}"
+    choice_key = f"diag_choice_{qkey}"
     picked = st.session_state.get(choice_key)
 
     st.session_state.messages.append(("student", f"[Diagram choice: {picked}]"))
@@ -181,7 +184,10 @@ if submit_diag:
     correct = (diag.get("correct") or "").strip().upper()
 
     if picked and correct and picked.upper() == correct:
-        st.session_state.messages.append(("tutor", "✅ Correct! Nice work."))
+        # ✅ use per-question/per-part correct_msg if provided
+        msg = (diag.get("correct_msg") or "✅ Correct! Nice work.").strip()
+        st.session_state.messages.append(("tutor", msg))
+
         nxt = next_pointer(state.bundle, state.ptr)
         if nxt:
             state.ptr = nxt
@@ -189,14 +195,14 @@ if submit_diag:
         else:
             st.session_state.messages.append(("tutor", "🎉 You've completed this module!"))
 
-        # optional: clear the choice so it doesn't carry into reruns
+        # clear choice so it doesn't persist
         st.session_state.pop(choice_key, None)
 
     else:
-        st.session_state.messages.append(
-            ("tutor",
-             "Not quite — try comparing which groups can donate/accept a proton under biological conditions.")
-        )
+        # ✅ use per-question/per-part incorrect_msg if provided
+        msg = (diag.get("incorrect_msg") or
+               "Not quite — try comparing which groups can donate/accept a proton under biological conditions.").strip()
+        st.session_state.messages.append(("tutor", msg))
 
     st.rerun()
 
