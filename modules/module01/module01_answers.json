@@ -157,7 +157,8 @@
       ],
       "exactly half": [
         "What charge does the histidine side chain carry when protonated?"
-      ],
+      ]
+    },
       "followups": {
         "more than half": [
           "When pH is above pKa, is a group more likely protonated or deprotonated?"
