@@ -240,6 +240,7 @@ if submit and ans.strip():
         module_id,
         state.ptr.qi,
         combined,
+        part_idx=state.ptr.si,
         uncertain_now=uncertain_now,
         uncertain_count=prior_uncertain_count,  # count BEFORE this submission
         gibberish_now=gibberish_now,
