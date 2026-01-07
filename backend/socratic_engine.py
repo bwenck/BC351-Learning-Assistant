@@ -40,17 +40,16 @@ def socratic_followup(
     module_id: str,
     qid: int,                 # 0-based
     student_answer: str,      # combined text so far
-    latest_answer: str = "",
     *,
     part_idx: int = 0,        # 0->a, 1->b, ...
     stem: str = "",
+    latest_answer: str = "",
     uncertain_now: bool = False,
     uncertain_count: int = 0,
     gibberish_now: bool = False,
     gibberish_count: int = 0,
 ):
     text = (student_answer or "").strip()
-    latest = (latest_answer or "").strip()
 
     # 1) Pull concept spec + missing concepts
     # ✅ qid stays 0-based here.
@@ -91,11 +90,22 @@ def socratic_followup(
 
     # If they used a known wrong numeric answer, ask the targeted follow-up.
     # Only run this if we *still* have missing required concepts.
+    latest = (latest_answer or "").lower().strip()
     wrong_triggers = spec.get("wrong_triggers", {}) or {}
     if missing_required and isinstance(wrong_triggers, dict):
         for wrong_val, prompts in wrong_triggers.items():
             wrong_s = str(wrong_val).strip()
-            if wrong_s and re.search(rf"(?<!\d){re.escape(wrong_s)}(?!\d)", latest):
+            if not wrong_s:
+                continue
+
+            # numeric triggers: keep the digit-boundary guard
+            if re.search(r"\d", wrong_s):
+                hit = re.search(rf"(?<!\d){re.escape(wrong_s)}(?!\d)", latest)
+            else:
+                # text triggers: simple substring is best
+                hit = wrong_s.lower() in latest
+
+            if hit:
                 # pick a follow-up prompt tied to that wrong value
                 if isinstance(prompts, list) and prompts:
                     follow_text = random.choice(prompts)

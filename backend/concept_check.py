@@ -30,6 +30,17 @@ def concept_hit(concept: str, student_answer: str, domain: str | None = None) ->
             if not re.search(r"[a-zA-Z]", concept):
                 return True
 
+    # ✅ short-phrase support (e.g., "more than half", "net charge")
+    norm_concept = normalize(concept)
+    norm_student = normalize(student_answer)
+
+    # If the concept is short / has no long words, allow direct phrase match
+    words = re.findall(r"[a-zA-Z]+", norm_concept)
+    long_words = [w for w in words if len(w) > 4]
+
+    if norm_concept and (norm_concept in norm_student) and (len(long_words) == 0):
+        return True
+
     # collect all phrases to test: main concept + variants
     phrases = [concept]
     if domain and domain in BIO_CONCEPTS:
