@@ -104,6 +104,87 @@
       "Nice work — keep thinking it through."
     ],
     "uncertainty_followup": "Take a moment to jot down even a rough idea — think about the evidence for single-cell origin and progression."
+  },
+  "21a": {
+  "concept_domain": "amino_acids",
+  "required_concepts": ["6.0"],
+  "optional_concepts": [],
+  "wrong_triggers": {
+    "1.8": [
+      "What kind of functional group usually has a pKa around ~2 in amino acids?"
+    ],
+    "9.2": [
+      "What group on an amino acid usually has a pKa around ~9–10?"
+    ]
+  },
+  "followups": {
+    "6.0": [
+      "Which ionizable group on histidine has a pKa closest to physiological pH?"
+    ]
+  },
+  "encouragement": [
+    "Keep going."
+  ],
+  "uncertainty_followup": "Take a moment to jot down even a rough idea — what comes to mind about which group has a pKa near neutral pH?"
+},
+  "21b": {
+  "concept_domain": "amino_acids",
+  "required_concepts": [
+    "carboxyl pKa 1.8",
+    "amino pKa 9.2"
+  ],
+  "followups": {
+    "COOH pKa = 1.8": [
+      "Which functional group typically has the lowest pKa in amino acids?"
+    ],
+    "+NH3 pKa = 9.2": [
+      "Which group loses its proton at higher pH values?"
+    ]
+  },
+  "encouragement": [
+    "Keep going."
+  ],
+  "uncertainty_followup": "Take a moment to jot down even a rough idea — think about the ionizable groups common to all amino acids."
+},
+  "21c": {
+    "concept_domain": "acid_base",
+    "required_concepts": [
+      "pH versus pKa",
+      "protonated side chain"
+    ],
+    "followups": {
+      "pH versus pKa": [
+        "When pH is below pKa, is a group more likely protonated or deprotonated?"
+      ],
+      "protonated side chain": [
+        "What charge does the histidine side chain carry when protonated?"
+      ]
+    },
+    "encouragement": [
+      "You're thinking in the right direction.",
+      "Good progress."
+    ],
+    "uncertainty_followup": "How does comparing pH to pKa help predict protonation state?"
+  },
+  "21d": {
+    "concept_domain": "acid_base",
+    "required_concepts": [
+      "net charge",
+      "deprotonation"
+    ],
+    "followups": {
+      "net charge": [
+        "How do you calculate the net charge from individual group charges?"
+      ],
+      "deprotonation": [
+        "What happens to charge when OH⁻ equivalents are added?"
+      ]
+    },
+    "encouragement": [
+      "Nice reasoning.",
+      "You're close."
+    ],
+    "uncertainty_followup": "Think about which groups lose protons as base is added."
   }
 }
 

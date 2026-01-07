@@ -10,6 +10,40 @@
     "correct": "C",
     "correct_msg": "✅ Correct — that functional group does not act as an organic acid/base in the same way.",
     "incorrect_msg": "Not quite — try comparing which groups can donate/accept a proton under biological conditions."
+  },
+
+  "21": {
+    "type": "single",
+    "folder": "images",
+    "image": "histidine.png",
+    "prompt": "Histidine structure (reference for parts a–f).",
+    "parts": {
+      "e": {
+        "type": "mcq",
+        "folder": "images",
+        "images": {
+          "A": "mod2_Q21e_A.png",
+          "B": "mod2_Q21e_B_correct.png",
+          "C": "mod2_Q21e_C.png"
+        },
+        "correct": "B",
+        "correct_msg": "✅ Correct.",
+        "incorrect_msg": "Not quite — compare how many buffering regions (and pKa plateaus) histidine should show."
+      },
+      "f": {
+        "type": "mcq",
+        "folder": "images",
+        "images": {
+          "A": "mod2_Q21f_A_correct.png",
+          "B": "mod2_Q21f_B.png",
+          "C": "mod2_Q21f_C.png",
+          "D": "mod2_Q21f_D.png"
+        },
+        "correct": "A",
+        "correct_msg": "✅ Correct.",
+        "incorrect_msg": "Not quite — check which groups would be deprotonated after 2 OH⁻ equivalents."
+      }
+    }
   }
 }
 

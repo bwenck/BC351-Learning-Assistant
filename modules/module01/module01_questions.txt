@@ -1,13 +1,31 @@
-BC 351: Principles of Biochemistry 
+BC 351: Principles of Biochemistry
 
-Module 1: Study Guide Questions 
+Module 1: Study Guide Questions
 
-1. Provide a very general description of cancer and cancer cells. 
+1. Provide a very general description of cancer and cancer cells.
 
-2. How are cancers typically classified? 
+2. How are cancers typically classified?
 
-3. Describe some of the evidence supporting the idea that cancers arise from a single cell that 
+3. Describe some of the evidence supporting the idea that cancers arise from a single cell that
 has gone through a progression of changes.
 
-18. Which of the three diagrams does not represent a functional group that forms an organic 
-acid and base? 
+18. Which of the three diagrams does not represent a functional group that forms an organic
+acid and base?
+
+21. The amino acid histidine has three ionizable groups, with pKa values of 1.8, 6.0, and 9.2.
+
+a. Which pKa corresponds to the histidine side chain?
+
+b. Which functional groups are the other pKas for?
+
+c. In a solution at pH 5.4, will more than half, less than half, or exactly
+half of the histidine side chains carry a positive charge?
+
+d. What will be the overall net charge of the histidine molecules after addition of 2 OH-
+equivalents?
+
+e. Which of the three diagrams represents the titration curve on a pH vs. NaOH equivalents
+plot?
+
+f. Which of the four diagrams represents the protonation state of the histidine functional groups
+at this net charge?
