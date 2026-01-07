@@ -26,20 +26,26 @@ class ModuleBundle:
     # ---------- UI helpers ----------
     def question_text(self, ptr: QuestionPointer) -> str:
         q = self.questions[ptr.qi]
-        parts: List[str] = q.get("parts", [])
-        if parts:
-            si = max(0, min(ptr.si, len(parts) - 1))
-            body = parts[si].strip()
-            # remove leading "a)"/"b)" if present for display
-            if len(body) > 2 and body[1] == ')' and body[0].isalpha():
-                body = body[2:].strip()
-            label = f"{ptr.qi+1}{chr(97+si)}) "
-            return label + (body or "(empty)")
-        else:
-            stem = q.get("q", "").strip()
-            # strip "1." / "2)" etc
-            stem = re.sub(r"^\s*[\d]+\s*[\.\)]\s*", "", stem)
-            return f"{ptr.qi+1}) " + (stem or "(empty)")
+        stem = (q.get("q") or "").strip()
+        parts = q.get("parts", []) or []
+
+        # If no subparts, just show the stem
+        if not parts:
+            return stem
+
+        # If subparts exist, show stem + current subpart
+        si = ptr.si if ptr.si is not None else 0
+        if si < 0:
+            si = 0
+        if si >= len(parts):
+            si = len(parts) - 1
+
+        part_text = (parts[si] or "").strip()
+        letter = chr(97 + si)  # 0->a, 1->b, ...
+
+        # NOTE: part_text may already start with "a." or "a)" depending on your parser;
+        # we do NOT remove it—we just ensure the stem is visible.
+        return f"{stem}\n\n{ptr.qi + 1}{letter}) {part_text}"
 
     def subparts_count(self, qi: int) -> int:
         if qi < 0 or qi >= len(self.questions):
@@ -105,7 +111,7 @@ def _read_lines(path: Path) -> List[str]:
     return [ln.rstrip() for ln in path.read_text(encoding="utf-8").splitlines()]
 
 _Q_LINE = re.compile(r"^\s*\d+\s*[\.\)]\s*")      # "1. " or "1) "
-_SUB_LINE = re.compile(r"^\s*[a-fA-F]\s*[\.\)]\s*") 
+_SUB_LINE = re.compile(r"^\s*[a-fA-F]\s*[\.\)]\s*")
 _INLINE_PART_RE = re.compile(r"(?<!\w)([a-z])[\.\)]\s+", re.IGNORECASE)
 
 def _split_inline_parts(text: str):
