@@ -130,6 +130,7 @@ BIO_CONCEPTS = {
             "clonal origin",
             "single cell origin",
             "arise from a single cell",
+            "progenitor cell",
             "one cell gives rise",
             "monoclonal origin",
         ],
@@ -145,6 +146,7 @@ BIO_CONCEPTS = {
         "morphological progression": [
             "morphological progression",
             "morphology changes",
+            "morphologically",
             "appearance changes",
             "histologic progression",
             "changes in tumor appearance",
@@ -159,6 +161,50 @@ BIO_CONCEPTS = {
             "age-related increase",
             "older individuals have higher risk",
         ],
+    },
+    "amino_acids": {
+        "carboxyl pKa 1.8": [
+            # long-anchor variants
+            "carboxyl 1.8",
+            "carboxyl group 1.8",
+            "alpha carboxyl 1.8",
+            "alpha carboxyl group 1.8",
+            "alpha carboxyl pKa 1.8",
+            "c terminus carboxyl 1.8",
+            "c terminal carboxyl 1.8",
+            "carboxyl terminus 1.8",
+            "carboxyl is 1.8",
+            "carboxylic acid 1.8",
+            "carboxylic acid group 1.8",
+
+            # chem-token-friendly variants
+            "cooh 1.8",
+            "cooh pka 1.8",
+            "cooh is 1.8",
+        ],
+
+        "amino pKa 9.2": [
+            # long-anchor variants (work with your current stem logic)
+            "amino 9.2",
+            "amino group 9.2",
+            "alpha amino 9.2",
+            "alpha amino group 9.2",
+            "alpha amino pka 9.2",
+            "ammonium 9.2",
+            "ammonium group 9.2",
+            "n terminus amino 9.2",
+            "n terminal amino 9.2",
+            "amino terminus 9.2",
+            "amino is 9.2",
+
+            # chem-token-friendly variants (will fully work once you add CHEM_TOKENS patch)
+            "nh3 9.2",
+            "nh3+ 9.2",
+            "nh3 pka 9.2",
+            "nh3 is 9.2",
+            "nh3+ pka 9.2",
+            "nh3+ is 9.2",
+        ]
     },
 
     "metabolism": {

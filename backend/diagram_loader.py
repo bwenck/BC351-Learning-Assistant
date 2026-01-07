@@ -42,8 +42,17 @@ def diagram_for_pointer(bundle: ModuleBundle, ptr: QuestionPointer) -> Optional[
     if not isinstance(spec, dict):
         return None
 
-    spec = dict(spec)  # shallow copy, safe to mutate
-    spec.setdefault("folder", "images")  # your repo uses modules/<id>/images
+    spec = dict(spec)  # 👈 copy immediately
+    spec.setdefault("folder", "images")
+
+    # --- Support per-subpart diagrams ---
+    parts = spec.get("parts")
+    if isinstance(parts, dict):
+        part_letter = chr(97 + getattr(ptr, "si", 0))  # safe default
+        part_spec = parts.get(part_letter)
+        if isinstance(part_spec, dict):
+            spec.pop("parts", None)
+            spec.update(part_spec)
 
     # --- Normalize images into a dict like {"A":"file.png","B":"file.png","C":"file.png"} ---
     imgs = spec.get("images")

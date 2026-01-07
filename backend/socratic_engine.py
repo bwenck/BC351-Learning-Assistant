@@ -41,6 +41,7 @@ def socratic_followup(
     qid: int,                 # 0-based
     student_answer: str,      # combined text so far
     *,
+    part_idx: int = 0,        # 0->a, 1->b, ...
     uncertain_now: bool = False,
     uncertain_count: int = 0,
     gibberish_now: bool = False,
@@ -49,7 +50,18 @@ def socratic_followup(
     text = (student_answer or "").strip()
 
     # 1) Pull concept spec + missing concepts
-    missing_required, _missing_optional, spec = evaluate_concepts(module_id, qid, text)
+    # ✅ qid stays 0-based here.
+    # ✅ part_idx is passed if concept_check supports it; otherwise we fall back cleanly.
+    try:
+        missing_required, _missing_optional, spec = evaluate_concepts(
+            module_id,
+            qid,
+            text,
+            part_idx=part_idx,
+        )
+    except TypeError:
+        # Older concept_check.evaluate_concepts signature (no part_idx)
+        missing_required, _missing_optional, spec = evaluate_concepts(module_id, qid, text)
 
     # 2) ✅ Gibberish guardrail (ONLY based on latest submission)
     if gibberish_now:
@@ -72,6 +84,29 @@ def socratic_followup(
     # 4) If no spec exists, fall back
     if not spec:
         return "Nice start — can you add one more molecular detail?"
+
+    # If they used a known wrong numeric answer, ask the targeted follow-up.
+    # Only run this if we *still* have missing required concepts.
+    wrong_triggers = spec.get("wrong_triggers", {}) or {}
+    if missing_required and isinstance(wrong_triggers, dict):
+        for wrong_val, prompts in wrong_triggers.items():
+            if wrong_val and wrong_val in text:
+                # pick a follow-up prompt tied to that wrong value
+                if isinstance(prompts, list) and prompts:
+                    follow_text = random.choice(prompts)
+                elif isinstance(prompts, str) and prompts.strip():
+                    follow_text = prompts.strip()
+                else:
+                    follow_text = ""
+
+                if follow_text:
+                    encouragement_list = spec.get("encouragement", []) or []
+                    encouragement = (
+                        random.choice(encouragement_list)
+                        if encouragement_list
+                        else "Keep going — you're on the right track."
+                    )
+                    return f"{encouragement} {follow_text}"
 
     # 5) If all REQUIRED concepts covered → advance
     if not missing_required:

@@ -18,6 +18,12 @@ def concept_hit(concept: str, student_answer: str, domain: str | None = None) ->
     """
     student = student_answer.lower()
 
+    # numeric concept support (e.g., "6.0", "9.2", "1.8")
+    if any(ch.isdigit() for ch in (concept or "")):
+        nums = re.findall(r"\d+(?:\.\d+)?", concept)
+        if nums and not all(n in student for n in nums):
+            return False
+
     # collect all phrases to test: main concept + variants
     phrases = [concept]
     if domain and domain in BIO_CONCEPTS:
@@ -27,10 +33,29 @@ def concept_hit(concept: str, student_answer: str, domain: str | None = None) ->
     if not phrases:
         return False
 
+    CHEM_TOKENS = {"cooh", "nh3", "nh2", "nterm", "cterm", "imidazole"}  # extend as needed
+
     for phrase in phrases:
-        words = [w for w in re.findall(r"[a-z]+", phrase.lower()) if len(w) > 4]
-        stems = [w[:5] for w in words]  # crude stemming
-        if stems and all(stem in student for stem in stems):
+        pl = phrase.lower()
+
+        # 1) Original long-word stem match (unchanged behavior)
+        words = [w for w in re.findall(r"[a-z]+", pl) if len(w) > 4]
+        stems = [w[:5] for w in words]
+        long_ok = stems and all(stem in student for stem in stems)
+
+        # 2) NEW: short chemistry token match (only if present in the phrase)
+        # Normalize student so NH3+ matches as 'nh3'
+        student_norm = re.sub(r"[^a-z0-9]+", "", student)
+        phrase_norm = re.sub(r"[^a-z0-9]+", "", pl)
+
+        token_hits = []
+        for tok in CHEM_TOKENS:
+            if tok in phrase_norm:
+                token_hits.append(tok in student_norm)
+
+        short_ok = (len(token_hits) > 0) and all(token_hits)
+
+        if long_ok or short_ok:
             return True
 
     return False
@@ -42,11 +67,37 @@ def load_concept_spec(module_id: str):
         return {}
     return json.loads(path.read_text(encoding="utf-8"))
 
-def evaluate_concepts(module_id: str, qid: int, student_answer: str):
+def evaluate_concepts(module_id: str, qid: int, student_answer: str, part_idx: int = 0):
+    """
+    qid is 0-based question index from pointer (0,1,2,...)
+
+    Supports JSON keys:
+      - "21" for whole-question spec
+      - "21a", "21b", ... for per-subpart spec (where part_idx 0->a, 1->b, ...)
+
+    Returns: missing_required, missing_optional, spec
+    """
     spec_all = load_concept_spec(module_id)
 
-    # JSON keys are "1","2","3"... but internal qid is 0-based.
-    spec = spec_all.get(str(qid + 1))
+    # Base question number is 1-based string: "1", "2", ...
+    qnum_str = str(qid + 1)
+
+    # Try subpart key first ONLY if any subpart specs exist for this question
+    # Safely compute part letter: 0->a, 1->b, ...
+    pi = int(part_idx or 0)
+    if pi < 0:
+        pi = 0
+    letter = chr(97 + pi)
+    part_key = f"{qnum_str}{letter}"
+
+    if any(k.startswith(qnum_str) and len(k) == len(qnum_str) + 1 for k in spec_all.keys()):
+        spec = spec_all.get(part_key)
+    else:
+        spec = None
+
+    if not isinstance(spec, dict):
+        spec = spec_all.get(qnum_str)
+
     if not isinstance(spec, dict):
         return [], [], {}
 

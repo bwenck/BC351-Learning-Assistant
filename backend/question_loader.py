@@ -11,6 +11,7 @@ class QuestionPointer:
     """Pointer to specific question/subpart (0-based indices)."""
     qi: int  # question index
     si: int  # subpart index (0 if none)
+    part: str | None = None  # NEW: "a", "b", "e", etc.
 
 @dataclass
 class ModuleBundle:
