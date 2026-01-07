@@ -206,6 +206,21 @@ BIO_CONCEPTS = {
             "nh3+ is 9.2",
         ]
     },
+    "acid_base": {
+        "net charge equals 0": [
+            "net charge is 0",
+            "overall net charge is 0",
+            "overall charge is 0",
+            "net charge 0",
+            "neutral net charge",
+            "overall charge is neutral",
+            "net charge is neutral",
+            "no net charge",
+            "uncharged overall",
+            "overall neutral",
+            "zwitterion (net 0)"
+        ]
+    },
 
     "metabolism": {
         "glycolysis": ["embden meyerhof", "glucose breakdown", "pyruvate formation"],
