@@ -117,7 +117,7 @@
       "What group on an amino acid usually has a pKa around ~9–10?"
     ]
   },
-  "followups": {
+    "followups": {
     "6.0": [
       "Which ionizable group on histidine has a pKa closest to physiological pH?"
     ]
@@ -134,10 +134,10 @@
     "amino pKa 9.2"
   ],
   "followups": {
-    "COOH pKa = 1.8": [
+    "carboxyl pKa 1.8": [
       "Which functional group typically has the lowest pKa in amino acids?"
     ],
-    "+NH3 pKa = 9.2": [
+    "amino pKa 9.2": [
       "Which group loses its proton at higher pH values?"
     ]
   },
@@ -148,21 +148,17 @@
 },
   "21c": {
     "concept_domain": "acid_base",
-    "required_concepts": [
-      "pH versus pKa",
-      "protonated side chain"
-    ],
-    "followups": {
-      "pH versus pKa": [
+    "required_concepts": ["more than half"],
+    "wrong_triggers": {
+      "less than half": [
         "When pH is below pKa, is a group more likely protonated or deprotonated?"
       ],
-      "protonated side chain": [
+      "exactly half": [
         "What charge does the histidine side chain carry when protonated?"
       ]
     },
     "encouragement": [
-      "You're thinking in the right direction.",
-      "Good progress."
+      "Keep going"
     ],
     "uncertainty_followup": "How does comparing pH to pKa help predict protonation state?"
   },
