@@ -45,16 +45,17 @@ def diagram_for_pointer(bundle: ModuleBundle, ptr: QuestionPointer) -> Optional[
     # --- Support per-subpart diagrams ---
     parts = spec.get("parts")
     if isinstance(parts, dict):
-        si = int(getattr(ptr, "si", 0) or 0)
-        if si < 0:
-            si = 0
-        part_letter = chr(97 + getattr(ptr, "si", 0))  # safe default
+        part_letter = (getattr(ptr, "part", None) or "").strip().lower()
+        if not part_letter:
+            si = int(getattr(ptr, "si", 0) or 0)
+            if si < 0:
+                si = 0
+            part_letter = chr(97 + si)
+
         part_spec = parts.get(part_letter)
         if isinstance(part_spec, dict):
-            merged = dict(spec)
-            merged.pop("parts", None)
-            merged.update(part_spec)
-            spec = merged
+            spec.pop("parts", None)
+            spec.update(part_spec)
 
     spec = dict(spec)  # 👈 copy immediately
     spec.setdefault("folder", "images")
