@@ -61,7 +61,7 @@
         "How might looking at stained cells under a microscope help categorize a cancer?",
         "What features of the cells or tissue architecture would a pathologist notice?"
       ],
-      "benign vs malignant vs metastatic": [
+      "benign vs malignant": [
         "What behavior makes a tumor 'benign' versus 'malignant'?",
         "What does it mean for a cancer to be 'metastatic' in terms of location?"
       ],
