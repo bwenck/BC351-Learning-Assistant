@@ -47,7 +47,7 @@
     "concept_domain": "cancer",
     "required_concepts": [
       "histological classification",
-      "benign vs malignant vs metastatic",
+      "benign vs malignant",
       "tissue/cell of origin",
       "carcinomas",
       "sarcomas"
