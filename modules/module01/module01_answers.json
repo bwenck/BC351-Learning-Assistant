@@ -8,24 +8,32 @@
       "tumor formation"
     ],
     "optional_concepts": [
-      "genetic mutations"
+      "genetic/epigenetic changes",
+      "hallmarks of cancer (overview)"
     ],
     "followups": {
       "uncontrolled proliferation": [
-        "Think about what normally controls cell growth in healthy tissues. What might happen if a cell starts growing when it shouldn't?"
-        ],
+        "What does 'proliferation' mean at the cellular level, and what would it look like if it becomes excessive?",
+        "What kinds of signals normally tell a cell to divide (or not divide)?"
+      ],
       "regulation breakdown": [
-        "What normally limits or slows cell division in healthy tissues?"
-        ],
+        "In healthy tissue, what checkpoints or controls keep division in balance?",
+        "If those controls fail, what happens to the balance between cell division and cell death?"
+      ],
       "clonal expansion": [
-        "What do you think 'clonal' means in the context of cancer?"
-        ],
+        "If one cell gains a growth advantage, what happens to its descendants over time?",
+        "What does the word 'clone' imply about the genetic relationship among cells in a tumor?"
+      ],
       "tumor formation": [
-        "What changes as a clone gets larger over time?"
-        ],
-      "genetic mutations": [
-        "How might a mutation change the way a cell responds to growth signals?"
-        ]
+        "At what point does a growing clone become a 'tumor'?",
+        "What additional features might distinguish an aggressive tumor from a less dangerous mass?"
+      ],
+      "genetic/epigenetic changes": [
+        "What kinds of changes could make a cell ignore 'stop' signals or produce its own 'go' signals?"
+      ],
+      "hallmarks of cancer (overview)": [
+        "Besides fast division, what other capabilities might cancer cells need to survive and spread?"
+      ]
     },
     "encouragement": [
       "Nice start!",
@@ -33,37 +41,47 @@
       "Good thinking!",
       "You're making progress."
     ],
-    "uncertainty_followup": "Take a moment to jot down even a rough idea — what comes to mind about regulation in the context of cancer?"
+    "uncertainty_followup": "If you're stuck, start with one phrase: what is cancer doing *more* of, or *less* of, compared with normal tissue?"
   },
-
   "2": {
     "concept_domain": "cancer",
     "required_concepts": [
       "histological classification",
-      "benign",
-      "malignant",
-      "tissue origin",
+      "benign vs malignant vs metastatic",
+      "tissue/cell of origin",
       "carcinomas",
       "sarcomas"
     ],
+    "optional_concepts": [
+      "melanoma/other special categories",
+      "grading vs staging (big-picture)"
+    ],
     "followups": {
       "histological classification": [
-        "What approach might a scientist use to organize different types of cancer?"
+        "How might looking at stained cells under a microscope help categorize a cancer?",
+        "What features of the cells or tissue architecture would a pathologist notice?"
       ],
-      "benign": [
-        "Think about how scientists might organize different types of cancer. What characteristics could they use?"
+      "benign vs malignant vs metastatic": [
+        "What behavior makes a tumor 'benign' versus 'malignant'?",
+        "What does it mean for a cancer to be 'metastatic' in terms of location?"
       ],
-      "malignant": [
-        "Consider how a pathologist looks at cancer cells under a microscope. What might they be looking for?"
-      ],
-      "tissue origin": [
-        "What’s one way cancers can be grouped based on where they start?"
+      "tissue/cell of origin": [
+        "Why would the tissue a cancer starts in matter for how we name/classify it?",
+        "What are some examples of tissues that cancers can originate from?"
       ],
       "carcinomas": [
-        "How might cancer from the tissue of body surfaces or linings be classified?"
+        "What type of tissue forms surfaces/linings, and what cancers arise from it?",
+        "If most cancers are carcinomas, what does that suggest about where cancers commonly start?"
       ],
       "sarcomas": [
-        "How might cancer originating in connective tissues be classified?"
+        "What kinds of tissues are considered connective/support tissues?",
+        "How would cancers from these tissues be grouped differently from epithelial cancers?"
+      ],
+      "melanoma/other special categories": [
+        "Can you think of a cell type that isn't neatly epithelial or connective—how might that complicate classification?"
+      ],
+      "grading vs staging (big-picture)": [
+        "How is 'how abnormal the cells look' different from 'how far the cancer has spread'?"
       ]
     },
     "encouragement": [
@@ -72,29 +90,42 @@
       "Good thinking.",
       "Keep going — you’ve got this."
     ],
-    "uncertainty_followup": "Take a moment to jot down even a rough idea — what comes to mind about the hierarchy of cancer classification?"
+    "uncertainty_followup": "Try organizing your answer into two buckets: (1) what the cells look like, and (2) where they came from."
   },
-
   "3": {
     "concept_domain": "cancer",
     "required_concepts": [
       "clonal origin",
-      "progressive changes",
-      "morphological progression",
-      "age correlation"
+      "progressive (multi-step) changes",
+      "morphological progression evidence",
+      "age-incidence relationship"
+    ],
+    "optional_concepts": [
+      "mutation accumulation / selection",
+      "precancerous lesions"
     ],
     "followups": {
       "clonal origin": [
-        "Think about what kind of evidence scientists would need to prove something came from a single cell. What would they look for?"
+        "What kind of evidence would show that many tumor cells share a common starting cell?",
+        "If you sampled different regions of a tumor, what similarities would you expect if it started from one cell?"
       ],
-      "progressive changes": [
-        "Consider how cancer develops over time. What patterns might you observe?"
+      "progressive (multi-step) changes": [
+        "Why would multiple changes be more realistic than a single change causing full cancer?",
+        "How could selection favor additional changes over time?"
       ],
-      "morphological progression": [
-        "How might tumor appearance change as it becomes more advanced?"
+      "morphological progression evidence": [
+        "What does it mean for cell/tissue morphology to change as disease progresses?",
+        "Can you describe a plausible sequence from normal tissue → early abnormal → advanced tumor?"
       ],
-      "age correlation": [
-        "Why might cancer risk increase with age?"
+      "age-incidence relationship": [
+        "If cancer requires multiple steps, what would you predict about cancer frequency as people age?",
+        "Why might carcinomas show a strong age dependence?"
+      ],
+      "mutation accumulation / selection": [
+        "How could random mutations plus selection produce the patterns we see in cancer development?"
+      ],
+      "precancerous lesions": [
+        "What would you call a detectable 'intermediate stage' between normal tissue and cancer?"
       ]
     },
     "encouragement": [
@@ -103,89 +134,758 @@
       "Good progress.",
       "Nice work — keep thinking it through."
     ],
-    "uncertainty_followup": "Take a moment to jot down even a rough idea — think about the evidence for single-cell origin and progression."
+    "uncertainty_followup": "If you’re unsure, focus on one line of evidence (like cervical/colon progression) and explain what it suggests about steps over time."
   },
-  "21a": {
-  "concept_domain": "amino_acids",
-  "required_concepts": ["6.0"],
-  "optional_concepts": [],
-  "wrong_triggers": {
-    "1.8": [
-      "What kind of functional group usually has a pKa around ~2 in amino acids?"
-    ],
-    "9.2": [
-      "What group on an amino acid usually has a pKa around ~9–10?"
-    ]
-  },
-    "followups": {
-    "6.0": [
-      "Which ionizable group on histidine has a pKa closest to physiological pH?"
-    ]
-  },
-  "encouragement": [
-    "Keep going."
-  ],
-  "uncertainty_followup": "Take a moment to jot down even a rough idea — what comes to mind about which group has a pKa near neutral pH?"
-},
-  "21b": {
-  "concept_domain": "amino_acids",
-  "required_concepts": [
-    "carboxyl pKa 1.8",
-    "amino pKa 9.2"
-  ],
-  "followups": {
-    "carboxyl pKa 1.8": [
-      "Which functional group typically has the lowest pKa in amino acids?"
-    ],
-    "amino pKa 9.2": [
-      "Which group loses its proton at higher pH values?"
-    ]
-  },
-  "encouragement": [
-    "Good try."
-  ],
-  "uncertainty_followup": "Take a moment to jot down even a rough idea — think about the ionizable groups common to all amino acids."
-},
-  "21c": {
-    "concept_domain": "acid_base",
+  "4": {
+    "concept_domain": "cancer",
     "required_concepts": [
-      "more than half"
+      "epidemiologic evidence",
+      "environment/lifestyle influence",
+      "geographic variation",
+      "migrant studies",
+      "carcinogen categories (chemical/physical/lifestyle)",
+      "avoidability estimate (80–90%)"
     ],
-    "wrong_triggers": {
-      "less than half": [
-        "When pH is below pKa, is a group more likely protonated or deprotonated?"
+    "optional_concepts": [
+      "protective mechanisms",
+      "limits of identifying exact causes"
+    ],
+    "followups": {
+      "epidemiologic evidence": [
+        "What kind of population-level data would you look at to test whether cancer is mostly hereditary or environmental?",
+        "How could incidence patterns across countries support one idea over the other?"
       ],
-      "exactly half": [
-        "What charge does the histidine side chain carry when protonated?"
-      ]
-    },
-      "followups": {
-        "more than half": [
-          "When pH is above pKa, is a group more likely protonated or deprotonated?"
+      "environment/lifestyle influence": [
+        "If two populations have different cancer rates, what 'external' variables might explain it?",
+        "How might diet, smoking, occupation, or UV exposure change risk?"
+      ],
+      "geographic variation": [
+        "Why is location (where people live) a useful natural experiment for cancer causes?",
+        "What would you predict if environment matters more than genetics?"
+      ],
+      "migrant studies": [
+        "What happens to cancer patterns when people move to a new country and adopt new habits?",
+        "Why are immigrant studies especially persuasive for separating genes from environment?"
+      ],
+      "carcinogen categories (chemical/physical/lifestyle)": [
+        "Can you list examples of each category: chemical, physical, and lifestyle/reproductive factors?",
+        "How is UV light different from cigarette smoke as a carcinogenic agent?"
+      ],
+      "avoidability estimate (80–90%)": [
+        "If risk shifts with environment, what does that imply about prevention?",
+        "What does 'avoidable' mean here—does it mean easy to avoid or that risk is modifiable?"
+      ],
+      "protective mechanisms": [
+        "If we’re exposed to damaging agents, why don’t we all get cancer quickly—what defenses might cells have?"
+      ],
+      "limits of identifying exact causes": [
+        "Why might it be hard to pinpoint a single cause for a person’s cancer?"
       ]
     },
     "encouragement": [
-      "Good try."
+      "Great — keep building on that.",
+      "Good reasoning.",
+      "Yep, that’s pointing the right way.",
+      "Keep going."
     ],
-    "uncertainty_followup": "How does comparing pH to pKa help predict protonation state?"
+    "uncertainty_followup": "Try using one concrete example (like changes in cancer types after immigration) and then generalize what it implies about preventable risk."
   },
-  "21d": {
-  "concept_domain": "acid_base",
-  "required_concepts": [
-    "net charge equals 0"
-  ],
-  "optional_concepts": [],
-  "followups": {
-    "net charge equals 0": [
-      "How do the charges of the individual ionizable groups add up after 2 OH⁻ equivalents are added?"
-    ]
+  "5": {
+    "concept_domain": "cancer",
+    "required_concepts": [
+      "limitations of traditional therapies",
+      "targeting rapid proliferation (historical)",
+      "molecular understanding shift (post-1975)",
+      "targeted therapy example (Gleevec/imatinib)",
+      "omics-guided specificity",
+      "drug resistance",
+      "combination therapy rationale"
+    ],
+    "optional_concepts": [
+      "early detection/prevention impact",
+      "precision medicine"
+    ],
+    "followups": {
+      "limitations of traditional therapies": [
+        "What is a major drawback of treatments that broadly target dividing cells?",
+        "Why might those treatments harm healthy tissues?"
+      ],
+      "targeting rapid proliferation (historical)": [
+        "What’s the logic behind targeting proliferation in cancer cells?",
+        "What normal cell types also divide quickly and therefore get hit by these drugs?"
+      ],
+      "molecular understanding shift (post-1975)": [
+        "How does understanding specific molecular changes in cancer suggest new treatment strategies?",
+        "What does it mean to treat based on a cancer’s 'driver' changes rather than just growth rate?"
+      ],
+      "targeted therapy example (Gleevec/imatinib)": [
+        "What makes a drug 'targeted'—what is it targeting specifically?",
+        "Why is it important that the target is much more crucial in cancer cells than normal cells?"
+      ],
+      "omics-guided specificity": [
+        "What kinds of 'omics' data could identify the key abnormal proteins/pathways in a patient’s tumor?",
+        "How could that information guide drug choice?"
+      ],
+      "drug resistance": [
+        "Why might a tumor that initially responds to a targeted drug later stop responding?",
+        "What does selection predict will happen when you apply a single strong drug pressure?"
+      ],
+      "combination therapy rationale": [
+        "Why would using two or three drugs at once reduce the chance of resistance?",
+        "How does the probability of multiple independent resistance changes compare to one?"
+      ],
+      "early detection/prevention impact": [
+        "How can early detection change outcomes even if treatments aren’t perfect?"
+      ]
+    },
+    "encouragement": [
+      "Nice start!",
+      "Keep going — you're on the right track.",
+      "Good thinking!",
+      "You're making progress."
+    ],
+    "uncertainty_followup": "If you’re stuck, compare two approaches: 'kill fast-dividing cells' versus 'block a specific cancer-causing protein.' What changes about specificity and side effects?"
   },
-  "encouragement": [
-    "Nice reasoning.",
-    "You're on the right track.",
-    "Good thinking — keep going."
-  ],
-  "uncertainty_followup": "Take a moment to jot down even a rough idea — think about how adding base changes the charge of each functional group."
+  "6": {
+    "concept_domain": "drug_design",
+    "required_concepts": [
+      "start with an active compound",
+      "identify key active features (pharmacophore/active moiety)",
+      "systematic structure modification",
+      "test activity of analogs",
+      "interpret structure–activity relationships",
+      "Paul Ehrlich and 'magic bullet'"
+    ],
+    "optional_concepts": [
+      "selectivity vs potency tradeoff"
+    ],
+    "followups": {
+      "start with an active compound": [
+        "Why do SAR studies usually begin with a molecule that already has some activity?",
+        "What information do you get from a 'hit' compound?"
+      ],
+      "identify key active features (pharmacophore/active moiety)": [
+        "What might be the minimal structural features needed for the compound to work?",
+        "How could you test which part of the molecule is doing the critical binding?"
+      ],
+      "systematic structure modification": [
+        "What kinds of changes can chemists make (add/remove/replace functional groups)?",
+        "Why is it important to change one feature at a time when possible?"
+      ],
+      "test activity of analogs": [
+        "What experimental readout would tell you whether a modified compound is better or worse?",
+        "How would you test whether changes improve specificity, not just potency?"
+      ],
+      "interpret structure–activity relationships": [
+        "If removing a group destroys activity, what does that imply?",
+        "If adding a group improves activity, what might that group be doing (binding, solubility, stability)?"
+      ],
+      "Paul Ehrlich and 'magic bullet'": [
+        "What did Ehrlich mean by a 'magic bullet'?",
+        "Why is selectivity (hitting the target without harming the host) such a central idea?"
+      ],
+      "selectivity vs potency tradeoff": [
+        "Can a compound be very potent but still a bad drug? Why?"
+      ]
+    },
+    "encouragement": [
+      "Nice start.",
+      "You’re on the right track.",
+      "Good thinking.",
+      "Keep going — you’ve got this."
+    ],
+    "uncertainty_followup": "Try writing SAR as a cycle: change the structure → test activity → learn what features matter → repeat."
+  },
+  "7": {
+    "concept_domain": "drug_design",
+    "required_concepts": [
+      "in silico / computer-aided drug design",
+      "active-site modeling from structure data",
+      "combinatorial chemistry",
+      "large libraries",
+      "high-throughput screening"
+    ],
+    "optional_concepts": [
+      "lead optimization",
+      "cost/time reduction mechanisms"
+    ],
+    "followups": {
+      "in silico / computer-aided drug design": [
+        "What does it mean to design a drug 'in silico'?",
+        "Why does knowing the 3D structure of a target protein help?"
+      ],
+      "active-site modeling from structure data": [
+        "What experimental method often provides the structure used for modeling?",
+        "What makes an enzyme active site a good place to design a tight-binding molecule?"
+      ],
+      "combinatorial chemistry": [
+        "What is the idea behind making a huge library of related molecules?",
+        "How does combinatorial chemistry differ from making one compound at a time?"
+      ],
+      "large libraries": [
+        "Why might millions of variants increase the chance of finding a strong inhibitor?",
+        "What is the tradeoff of screening huge libraries?"
+      ],
+      "high-throughput screening": [
+        "What does a high-throughput assay need to be able to do?",
+        "What kinds of readouts are common in screening (activity, binding, fluorescence, growth)?"
+      ],
+      "lead optimization": [
+        "After finding a 'hit', what properties still need improvement before it becomes a drug?"
+      ],
+      "cost/time reduction mechanisms": [
+        "How do modeling and high-throughput methods reduce cost compared with older approaches?"
+      ]
+    },
+    "encouragement": [
+      "That’s a good start.",
+      "You’re close — keep going.",
+      "Good progress.",
+      "Nice work — keep thinking it through."
+    ],
+    "uncertainty_followup": "If you’re unsure, describe one approach that starts from protein structure (modeling) and one that starts from huge chemical diversity (libraries)."
+  },
+  "8": {
+    "concept_domain": "drug_design",
+    "required_concepts": [
+      "low molecular weight advantages",
+      "tumor/cell penetration",
+      "synthesis/manufacturing feasibility",
+      "druggable targets",
+      "enzyme active sites as binding clefts",
+      "key target examples (tyrosine kinases, receptors)",
+      "non-druggable example idea (Ras active site)"
+    ],
+    "optional_concepts": [
+      "pharmacokinetics basics",
+      "selectivity/toxicity balance"
+    ],
+    "followups": {
+      "low molecular weight advantages": [
+        "Why might smaller molecules enter tissues and cells more readily than large ones?",
+        "How does molecular size affect how far a drug can diffuse into a tumor?"
+      ],
+      "tumor/cell penetration": [
+        "What barriers does a drug need to cross to reach its target inside a tumor?",
+        "Why is penetration especially important in solid tumors?"
+      ],
+      "synthesis/manufacturing feasibility": [
+        "Why does ease of synthesis matter for real-world drug development?",
+        "How might complex synthesis affect cost or scalability?"
+      ],
+      "druggable targets": [
+        "What makes a protein 'druggable'?",
+        "Why are enzymes often good drug targets?"
+      ],
+      "enzyme active sites as binding clefts": [
+        "What features of an active site allow tight, specific binding?",
+        "How is binding to a defined pocket different from trying to block a flat protein surface?"
+      ],
+      "key target examples (tyrosine kinases, receptors)": [
+        "Why are kinases and receptors common targets in cancer therapy?",
+        "What kind of signal do these targets normally transmit in cells?"
+      ],
+      "non-druggable example idea (Ras active site)": [
+        "What would make a target hard to inhibit with a small molecule?",
+        "How does the shape/chemistry of the binding site affect druggability?"
+      ],
+      "pharmacokinetics basics": [
+        "Even if a drug binds well, what else must be true for it to work in a patient?"
+      ]
+    },
+    "encouragement": [
+      "Great — keep building on that.",
+      "Good reasoning.",
+      "Yep, that’s pointing the right way.",
+      "Keep going."
+    ],
+    "uncertainty_followup": "Try separating your answer into: (1) properties of a good drug molecule and (2) properties of a good target."
+  },
+  "9": {
+    "concept_domain": "drug_development",
+    "required_concepts": [
+      "target inhibition assays",
+      "cell-based efficacy/specificity testing",
+      "in vivo models (optional)",
+      "pharmacodynamics/pharmacokinetics and side effects",
+      "clinical trial phases (I/II/III)",
+      "comparison to standard of care"
+    ],
+    "optional_concepts": [
+      "nude mouse xenografts",
+      "toxicity vs efficacy tradeoff"
+    ],
+    "followups": {
+      "target inhibition assays": [
+        "What’s the first question to ask about a candidate drug at the molecular level?",
+        "How would you measure whether it inhibits the target enzyme?"
+      ],
+      "cell-based efficacy/specificity testing": [
+        "Why test in cultured cells after biochemical assays?",
+        "How would you check that the drug affects cancer cells more than normal cells?"
+      ],
+      "in vivo models (optional)": [
+        "What extra information can animal models provide that cell culture can’t?",
+        "When might a 'human tumor in mice' model be useful?"
+      ],
+      "pharmacodynamics/pharmacokinetics and side effects": [
+        "What does it mean for a drug to stay at the right concentration over time?",
+        "Why are side effects an inseparable part of evaluating a therapy?"
+      ],
+      "clinical trial phases (I/II/III)": [
+        "What is the main goal of Phase I?",
+        "How do Phase II and Phase III differ in what they test and compare?"
+      ],
+      "comparison to standard of care": [
+        "Why is it not enough to show a drug works—why compare it to current treatments?"
+      ],
+      "toxicity vs efficacy tradeoff": [
+        "How do researchers balance killing cancer cells with protecting patients?"
+      ]
+    },
+    "encouragement": [
+      "Nice start!",
+      "Keep going — you're on the right track.",
+      "Good thinking!",
+      "You're making progress."
+    ],
+    "uncertainty_followup": "If you’re stuck, outline the pipeline in order: molecule-level test → cell test → organism-level test → human trials."
+  },
+  "10": {
+    "concept_domain": "cancer",
+    "required_concepts": [
+      "targeted response in a subset of patients",
+      "initial efficacy vs acquired resistance",
+      "oncogene addiction concept",
+      "tumor heterogeneity",
+      "hope vs concern balance"
+    ],
+    "optional_concepts": [
+      "biomarker-driven treatment selection",
+      "combination strategies"
+    ],
+    "followups": {
+      "targeted response in a subset of patients": [
+        "Why might a drug work extremely well for some tumors but not others?",
+        "What does that suggest about differences among patients’ cancers?"
+      ],
+      "initial efficacy vs acquired resistance": [
+        "What does it mean when a response lasts months/years and then fades?",
+        "What evolutionary process might explain resistance emerging under treatment?"
+      ],
+      "oncogene addiction concept": [
+        "What would it mean for a cancer cell to be 'dependent' on one pathway or protein?",
+        "Why would blocking that single protein be especially effective in those tumors?"
+      ],
+      "tumor heterogeneity": [
+        "Are all cells in a tumor identical? What might vary among them?",
+        "How could that variation affect treatment outcomes?"
+      ],
+      "hope vs concern balance": [
+        "What is the hopeful takeaway from a strong targeted response?",
+        "What is the concerning takeaway when resistance develops?"
+      ],
+      "biomarker-driven treatment selection": [
+        "What kind of test could help decide whether a patient is likely to respond to this drug?"
+      ],
+      "combination strategies": [
+        "How might combination therapy address the resistance problem?"
+      ]
+    },
+    "encouragement": [
+      "Nice start.",
+      "You’re on the right track.",
+      "Good thinking.",
+      "Keep going — you’ve got this."
+    ],
+    "uncertainty_followup": "Try answering in two sentences: one for why the results are hopeful, and one for why they’re concerning."
+  },
+  "11": {
+    "concept_domain": "cancer",
+    "required_concepts": [
+      "cure vs control framing",
+      "complexity and number of cancer-related genes",
+      "promise of targeted therapies",
+      "multi-drug therapy rationale",
+      "omics/personalized medicine",
+      "realistic cautious optimism"
+    ],
+    "optional_concepts": [
+      "historical perspective on progress",
+      "future research directions"
+    ],
+    "followups": {
+      "cure vs control framing": [
+        "What’s the difference between eliminating a disease and managing it long-term?",
+        "Can you name another disease that is often controlled rather than 'cured'?"
+      ],
+      "complexity and number of cancer-related genes": [
+        "If many different genes/pathways can contribute, what does that imply about a single universal cure?",
+        "How does this complexity change how we think about treatment?"
+      ],
+      "promise of targeted therapies": [
+        "What is the advantage of targeting specific molecular vulnerabilities in cancer cells?",
+        "How could targeted therapies reduce harm to normal cells?"
+      ],
+      "multi-drug therapy rationale": [
+        "Why might multiple drugs be more effective than one?",
+        "How does using multiple targets reduce resistance risk?"
+      ],
+      "omics/personalized medicine": [
+        "What kinds of information would you want from a tumor to tailor therapy?",
+        "How is personalized therapy different from one-size-fits-all chemotherapy?"
+      ],
+      "realistic cautious optimism": [
+        "What evidence supports optimism (progress and success stories)?",
+        "What evidence supports caution (resistance, heterogeneity, complexity)?"
+      ],
+      "historical perspective on progress": [
+        "Why might predictions about 'soon' curing cancer have been overly optimistic in the past?"
+      ]
+    },
+    "encouragement": [
+      "That’s a good start.",
+      "You’re close — keep going.",
+      "Good progress.",
+      "Nice work — keep thinking it through."
+    ],
+    "uncertainty_followup": "If you’re unsure, take a stance (cure vs control) and support it with 2–3 reasons tied to complexity and treatment advances."
+  },
+  "12": {
+    "concept_domain": "biochem_basics",
+    "required_concepts": [
+      "four macromolecule classes (proteins, lipids, saccharides, nucleic acids)",
+      "monomer building blocks (amino acids, fatty acids, monosaccharides, nucleotides)",
+      "polymer/macromolecule relationships"
+    ],
+    "optional_concepts": [
+      "examples of each class in cells"
+    ],
+    "followups": {
+      "four macromolecule classes (proteins, lipids, saccharides, nucleic acids)": [
+        "How would you define each class in one sentence (what it’s made of or does)?",
+        "Which classes are true polymers, and which are not always polymers?"
+      ],
+      "monomer building blocks (amino acids, fatty acids, monosaccharides, nucleotides)": [
+        "What is the repeating unit for proteins? For nucleic acids?",
+        "What are lipids built from, and how is that different from a repeating polymer unit?"
+      ],
+      "polymer/macromolecule relationships": [
+        "How do monomers link together to form macromolecules?",
+        "Can you give an example of a polymer name and its monomer (e.g., protein ↔ amino acids)?"
+      ],
+      "examples of each class in cells": [
+        "Can you name one example molecule from each class (e.g., glycogen, DNA, phospholipid, enzyme)?"
+      ]
+    },
+    "encouragement": [
+      "Great — keep building on that.",
+      "Good reasoning.",
+      "Yep, that’s pointing the right way.",
+      "Keep going."
+    ],
+    "uncertainty_followup": "If you’re stuck, make a 2-column mapping: class → building block."
+  },
+  "13": {
+    "concept_domain": "biochem_basics",
+    "required_concepts": [
+      "major elements in cells (C, H, O, N)",
+      "water abundance",
+      "organic vs inorganic components",
+      "valence",
+      "electronegativity",
+      "covalent bonding dominance",
+      "polar vs nonpolar covalent bonds"
+    ],
+    "optional_concepts": [
+      "Earth crust vs cell composition idea",
+      "phosphate chemistry (P in PO4)"
+    ],
+    "followups": {
+      "major elements in cells (C, H, O, N)": [
+        "Why might life be built mostly from light elements rather than heavy metals?",
+        "What does it mean that these elements are common in organic molecules?"
+      ],
+      "water abundance": [
+        "Roughly what fraction of a typical cell is water, and why does that matter for chemistry?",
+        "How does water content influence what kinds of interactions dominate in cells?"
+      ],
+      "organic vs inorganic components": [
+        "What counts as an 'organic compound' in biochemistry?",
+        "What are examples of inorganic ions or salts in cells?"
+      ],
+      "valence": [
+        "What is valence, and how does it limit the number of bonds an atom can form?",
+        "How does carbon’s valence relate to its ability to form diverse structures?"
+      ],
+      "electronegativity": [
+        "What does electronegativity measure in a bond?",
+        "How does electronegativity difference relate to bond polarity?"
+      ],
+      "covalent bonding dominance": [
+        "Why are covalent bonds so central to biological macromolecules?",
+        "What would change if most bonds in biomolecules were ionic instead?"
+      ],
+      "polar vs nonpolar covalent bonds": [
+        "Which common bonds/groups in cells are typically polar (think O or N)?",
+        "Which bonds are typically nonpolar (think C–H), and what does that imply about solubility?"
+      ],
+      "Earth crust vs cell composition idea": [
+        "Why might cell composition differ from Earth’s crust composition?"
+      ],
+      "phosphate chemistry (P in PO4)": [
+        "Why is phosphorus often found as phosphate in biology?"
+      ]
+    },
+    "encouragement": [
+      "Nice start!",
+      "Keep going — you're on the right track.",
+      "Good thinking!",
+      "You're making progress."
+    ],
+    "uncertainty_followup": "If you’re unsure, start with two key ideas: cells are mostly water, and the most common atoms are C/H/O/N—then connect that to bonding."
+  },
+  "14": {
+    "concept_domain": "biochem_basics",
+    "required_concepts": [
+      "water as most abundant molecule",
+      "dipole/polarity",
+      "hydrogen bonding capacity",
+      "amphoteric behavior (acid/base)",
+      "autoionization to hydronium/hydroxide"
+    ],
+    "optional_concepts": [
+      "relationship to solvent properties"
+    ],
+    "followups": {
+      "water as most abundant molecule": [
+        "Why is it helpful that the cellular environment is mostly water?",
+        "What would be harder for life if cells were mostly a nonpolar solvent?"
+      ],
+      "dipole/polarity": [
+        "What makes water a dipole (think electronegativity and geometry)?",
+        "How does polarity influence interactions with ions and polar molecules?"
+      ],
+      "hydrogen bonding capacity": [
+        "What structural features allow water to form hydrogen bonds?",
+        "How many hydrogen bonds can one water molecule typically participate in?"
+      ],
+      "amphoteric behavior (acid/base)": [
+        "What does it mean for a molecule to act as both an acid and a base?",
+        "How can water accept or donate a proton depending on context?"
+      ],
+      "autoionization to hydronium/hydroxide": [
+        "What are the ions produced when water ionizes?",
+        "How does this relate to the concept of pH?"
+      ],
+      "relationship to solvent properties": [
+        "How do polarity and H-bonding make water an effective solvent for many biomolecules?"
+      ]
+    },
+    "encouragement": [
+      "Nice start.",
+      "You’re on the right track.",
+      "Good thinking.",
+      "Keep going — you’ve got this."
+    ],
+    "uncertainty_followup": "If you’re stuck, list two core properties of water (polarity + hydrogen bonding) and then connect them to everything else."
+  },
+  "15": {
+    "concept_domain": "biochem_basics",
+    "required_concepts": [
+      "hydrogen bonding with polar molecules",
+      "water-water hydrogen bonding network",
+      "high specific heat",
+      "high surface tension",
+      "high boiling point / liquid at room temp",
+      "solvent behavior"
+    ],
+    "optional_concepts": [
+      "temperature stability for life"
+    ],
+    "followups": {
+      "hydrogen bonding with polar molecules": [
+        "What kinds of functional groups can hydrogen bond with water?",
+        "How does hydrogen bonding affect solubility of polar molecules?"
+      ],
+      "water-water hydrogen bonding network": [
+        "What happens when many water molecules hydrogen bond to each other in a network?",
+        "How is this network disrupted when solutes dissolve?"
+      ],
+      "high specific heat": [
+        "What does high specific heat mean in terms of temperature change?",
+        "Why might that be important for organisms and ecosystems?"
+      ],
+      "high surface tension": [
+        "What is surface tension, and how does hydrogen bonding contribute to it?",
+        "Can you think of a biological situation where surface tension matters?"
+      ],
+      "high boiling point / liquid at room temp": [
+        "Why is it significant that water is liquid across a wide temperature range on Earth?",
+        "How would biology change if water boiled at much lower temperatures?"
+      ],
+      "solvent behavior": [
+        "Why is water considered a 'good solvent' for many cellular molecules?"
+      ],
+      "temperature stability for life": [
+        "How does water help buffer temperature swings in cells or environments?"
+      ]
+    },
+    "encouragement": [
+      "That’s a good start.",
+      "You’re close — keep going.",
+      "Good progress.",
+      "Nice work — keep thinking it through."
+    ],
+    "uncertainty_followup": "If you’re stuck, pick one property (like high specific heat) and trace it back to hydrogen bonding."
+  },
+  "16": {
+    "concept_domain": "biochem_basics",
+    "required_concepts": [
+      "carbon tetravalence (4 covalent bonds)",
+      "single/double/triple bonds",
+      "tetrahedral geometry & rotation (single bonds)",
+      "planarity & restricted rotation (double/triple bonds)",
+      "polymer formation & stability",
+      "branched structures & functional groups",
+      "rings and resonance"
+    ],
+    "optional_concepts": [
+      "carbon's balance of stability and reactivity in water"
+    ],
+    "followups": {
+      "carbon tetravalence (4 covalent bonds)": [
+        "How does having 4 bonding partners enable diverse carbon skeletons?",
+        "What shapes can carbon-containing molecules take because of this?"
+      ],
+      "single/double/triple bonds": [
+        "How do bond types differ in electron sharing and strength?",
+        "What structural consequences come from double/triple bonds?"
+      ],
+      "tetrahedral geometry & rotation (single bonds)": [
+        "What does tetrahedral geometry mean for the 3D shape of molecules?",
+        "Why does free rotation around single bonds matter for conformations?"
+      ],
+      "planarity & restricted rotation (double/triple bonds)": [
+        "Why do double bonds restrict rotation?",
+        "How can restricted rotation influence biological function (shape-specific binding)?"
+      ],
+      "polymer formation & stability": [
+        "Why is carbon good at forming long chains (polymers)?",
+        "What would be problematic if carbon polymers were too stable or too unstable?"
+      ],
+      "branched structures & functional groups": [
+        "How does branching increase the variety of possible molecules?",
+        "What role do functional groups play in giving molecules specific chemical behavior?"
+      ],
+      "rings and resonance": [
+        "How do rings and resonance (like aromatic systems) add new chemical properties?"
+      ],
+      "carbon's balance of stability and reactivity in water": [
+        "Why is it useful that carbon frameworks are fairly stable in water but still chemically versatile?"
+      ]
+    },
+    "encouragement": [
+      "Great — keep building on that.",
+      "Good reasoning.",
+      "Yep, that’s pointing the right way.",
+      "Keep going."
+    ],
+    "uncertainty_followup": "If you’re stuck, start with one key fact: carbon makes 4 bonds. Then list the structural possibilities that follow (chains, branches, rings, multiple bonds)."
+  },
+  "17": {
+    "concept_domain": "biochem_basics",
+    "required_concepts": [
+      "electronegativity order (O > N > C > H)",
+      "polar covalent bonds",
+      "nonpolar covalent bonds",
+      "functional group polarity",
+      "consequences for solubility and interactions"
+    ],
+    "optional_concepts": [
+      "partial charges and hydrogen bonding"
+    ],
+    "followups": {
+      "electronegativity order (O > N > C > H)": [
+        "What does it mean for one atom to be more electronegative than another?",
+        "How would you predict bond polarity from this ranking?"
+      ],
+      "polar covalent bonds": [
+        "When O or N bonds to C or H, where do electrons spend more time?",
+        "What kinds of partial charges (δ+ / δ−) result?"
+      ],
+      "nonpolar covalent bonds": [
+        "Why is a C–H bond considered relatively nonpolar?",
+        "How does a molecule rich in C–H bonds behave in water?"
+      ],
+      "functional group polarity": [
+        "How do polar functional groups change the behavior of a carbon skeleton?",
+        "Can you name a few polar functional groups common in biomolecules?"
+      ],
+      "consequences for solubility and interactions": [
+        "How does polarity affect whether a molecule dissolves in water?",
+        "Which interactions become possible when a group is polar (H-bonds, ion-dipole, etc.)?"
+      ],
+      "partial charges and hydrogen bonding": [
+        "How do partial charges enable hydrogen bonding?"
+      ]
+    },
+    "encouragement": [
+      "Nice start!",
+      "Keep going — you're on the right track.",
+      "Good thinking!",
+      "You're making progress."
+    ],
+    "uncertainty_followup": "If you’re stuck, pick one bond (like O–H or C–H) and reason from electronegativity to whether it’s polar and what that implies."
+  },
+  "19": {
+    "concept_domain": "biochem_basics",
+    "required_concepts": [
+      "limited set of building blocks",
+      "conservation through evolution",
+      "functional sufficiency (selection for best function)",
+      "historical contingency/path dependence",
+      "energy/chemistry constraints",
+      "modular reuse to build diversity"
+    ],
+    "optional_concepts": [
+      "metabolic cost and robustness"
+    ],
+    "followups": {
+      "limited set of building blocks": [
+        "Why might cells reuse a small toolkit of molecules rather than inventing new ones constantly?",
+        "What advantages come from standard building blocks?"
+      ],
+      "conservation through evolution": [
+        "Once a biochemical system works, what evolutionary pressures favor keeping it?",
+        "What would be the cost/risk of replacing core chemistry with a brand-new system?"
+      ],
+      "functional sufficiency (selection for best function)": [
+        "What does it mean for a set of molecules to be 'good enough' for life’s needs?",
+        "How might selection favor efficient, versatile molecules?"
+      ],
+      "historical contingency/path dependence": [
+        "How can early choices in evolution constrain later options?",
+        "Can you think of other examples where 'history' locks in a solution even if alternatives exist?"
+      ],
+      "energy/chemistry constraints": [
+        "What chemical properties might limit which molecules are stable and useful in water?",
+        "How does availability of elements and energy cost shape which molecules cells use?"
+      ],
+      "modular reuse to build diversity": [
+        "How can combining a small set of monomers generate huge diversity of polymers?",
+        "Why is modularity powerful for evolving new functions?"
+      ],
+      "metabolic cost and robustness": [
+        "How might having a shared set of pathways and building blocks make metabolism more robust?"
+      ]
+    },
+    "encouragement": [
+      "That’s a good start.",
+      "You’re close — keep going.",
+      "Good progress.",
+      "Nice work — keep thinking it through."
+    ],
+    "uncertainty_followup": "If you’re stuck, answer from two angles: (1) selection/efficiency and (2) history/conservation."
   }
 }
-

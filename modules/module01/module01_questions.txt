@@ -1,31 +1,68 @@
-BC 351: Principles of Biochemistry
+BC 351: Principles of Biochemistry 
 
-Module 1: Study Guide Questions
+Module 1: Study Guide Questions 
 
-1. Provide a very general description of cancer and cancer cells.
+1. Provide a very general description of cancer and cancer cells. 
 
-2. How are cancers typically classified?
+2. How are cancers typically classified? 
 
-3. Describe some of the evidence supporting the idea that cancers arise from a single cell that
-has gone through a progression of changes.
+3. Describe some of the evidence supporting the idea that cancers arise from a single cell that 
+has gone through a progression of changes. 
 
-18. Which of the three diagrams does not represent a functional group that forms an organic
-acid and base?
+4. What evidence supports the idea that most cancers (80-90%) appear to be avoidable? 
+Include a description of the factors that determine the frequency of the types of cancer 
+people contract and how these factors are classified. 
 
-21. The amino acid histidine has three ionizable groups, with pKa values of 1.8, 6.0, and 9.2.
+5. What is the current state of cancer treatment and are we close to a cure?  What does the 
+relatively new anticancer drug Gleevic represent for how cancer treatment is changing with 
+the advent of a more detailed understanding of the changes occurring during cancer cell 
+development? 
 
-a. Which pKa corresponds to the histidine side chain?
+6.  Describe the general process of structure-activity relationship studies in drug design.  Who 
+developed this approach and why? 
 
-b. Which functional groups are the other pKas for?
+7.  What are two new approaches to developing drugs that reduced the cost significantly? 
 
-c. In a solution at pH 5.4, will more than half, less than half, or exactly
-half of the histidine side chains carry a positive charge?
+8.  What are key aspects of anti-cancer drugs and their targets? 
 
-d. What will be the overall net charge of the histidine molecules after addition of 2 OH-
-equivalents?
+9.  Describe the main steps and approaches in the analysis of potential anti-cancer drugs. 
 
-e. Which of the three diagrams represents the titration curve on a pH vs. NaOH equivalents
-plot?
+10.  Iressa is a drug with a high affinity for the EGF-R kinase active site.  How do the results of 
+treatment of cancer patients both provide hope and concern for the prospects of curing 
+cancer soon? 
 
-f. Which of the four diagrams represents the protonation state of the histidine functional groups
-at this net charge?
+11.  How would you characterize the prospects for finding a cure for cancer in the near 
+future? 
+
+12. What are the four main classifications of the cellular chemical components? What types of 
+macromolecules do these components serve as the building blocks for? 
+
+13. What are the primary atoms and types of compounds that make up cells? 
+
+14. What is the most abundant molecule in a living cell? What are the key properties of this 
+molecule? 
+
+15. What is the primary type of chemical interaction it enters into with other polar molecules? 
+How is the tendency of this molecule to enter into the same type of interaction with others of 
+the same molecule important for the existence of life? 
+
+16. What makes carbon outstanding among all of the chemical elements? What are the types 
+of chemical bonds carbon can form and how do they affect molecular structure? 
+
+Page 1 of 2 
+
+BC 351: Principles of Biochemistry 
+
+17. How do C, H, O, and N differ with regard to electronegativity? How does this affect the 
+properties of the bonds and functional groups they form? 
+
+18. Which of the three diagrams does not represent a functional group that forms an organic 
+acid and base? 
+
+19. An almost infinite number of organic molecules are possible, but cells contain only a very 
+few types of small organic molecules, a subset of which are used as building blocks to 
+generate a large number of macromolecules. Why do you suppose that this is the case? 
+
+Page 2 of 2 
+
+
