@@ -108,7 +108,12 @@ left, right = st.columns([1.5, 1])
 
 # ----- get diagram spec for this question (if any) -----
 diag = diagram_for_pointer(state.bundle, state.ptr)
-is_diag_mcq = isinstance(diag, dict) and diag.get("type") == "mcq"
+is_diag_mcq = (
+    isinstance(diag, dict)
+    and isinstance(diag.get("images"), dict)
+    and len(diag["images"]) > 0
+    and (diag.get("type") in (None, "mcq"))   # allow missing type
+)
 
 with left:
     st.subheader("Session")
